@@ -1,0 +1,39 @@
+# Byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Node
+node_modules/
+.npm
+
+# Build outputs
+build/
+dist/
+.docusaurus/
+.cache-loader/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Package lock (project uses markdown, not a JS package)
+package-lock.json
+yarn.lock
