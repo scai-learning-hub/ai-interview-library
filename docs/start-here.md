@@ -2,7 +2,30 @@
 
 Welcome to the **SCAI AI Interview OS** — a structured, role-aware, experience-calibrated interview preparation system for AI engineers.
 
-This page helps you find the right entry point based on your background, experience, and goals.
+This page routes you to the right starting point based on your background, experience, and goals.
+
+---
+
+## How to Navigate
+
+```mermaid
+flowchart TD
+    A([Where are you starting from?]) --> B{Background}
+    B -->|"Backend / SWE"| C[Software → AI Engineer]
+    B -->|"ML / Data"| D[Data / ML Engineer]
+    B -->|"CV / DL"| E[Deep Learning / CV Engineer]
+    B -->|"LLM / RAG / Agents"| F[LLM / RAG / Agent Engineer]
+    B -->|"Platform / Infra"| G[MLOps / LLMOps Platform]
+    B -->|"DevOps / SRE"| H[DevOps / SRE → AIOps]
+    B -->|"Research"| I[Research / Applied]
+    B -->|"Staff / Architect"| J[Senior / Architect Lead]
+    C & D & E & F & G & H & I & J --> K([Your Role Page])
+    K --> L{Experience band?}
+    L -->|"0–5 yr"| M[Concept + Applied focus]
+    L -->|"5–10 yr"| N[System + Debugging focus]
+    L -->|"10+ yr"| O[Architect + Cross-module]
+    M & N & O --> P([Question Library])
+```
 
 ---
 

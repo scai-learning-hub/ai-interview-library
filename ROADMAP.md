@@ -4,7 +4,32 @@ Current state and planned expansion for the SCAI AI Interview OS.
 
 ---
 
-## Live Now (v0.1)
+## Status Overview
+
+| Version | Status | Scope |
+|---|---|---|
+| **v0.1** | ✅ Complete | 7 modules · 155+ questions · full infrastructure |
+| **v0.2** | 🔄 Planned | 3 new modules · Batch 02 expansions · 300+ questions |
+| **v0.3+** | 📋 Backlog | 2 more modules · 400–600 questions · platform deployment |
+
+```mermaid
+gantt
+    title Release Roadmap
+    dateFormat YYYY-MM
+    section Live
+    v0.1 Infrastructure     :done, 2025-01, 2025-06
+    v0.1 Question Library   :done, 2025-03, 2025-12
+    section In Progress
+    v0.2 New Modules        :active, 2026-01, 2026-06
+    v0.2 Batch 02 Expansions:active, 2026-02, 2026-07
+    section Planned
+    v0.3 Remaining Modules  :2026-06, 2026-12
+    v0.3 Platform + Search  :2026-09, 2027-03
+```
+
+---
+
+## ✅ Live Now (v0.1)
 
 ### Infrastructure
 - 12 module pages covering foundations through operations
@@ -32,17 +57,20 @@ Current state and planned expansion for the SCAI AI Interview OS.
 
 ---
 
-## Next (v0.2)
+## 🔄 Next (v0.2)
 
 ### Question Library Expansion
-- Batch 02 for all live modules (15–25 additional questions each)
-- **Classical ML** — Batch 01 (new module)
-- **Deep Learning Core** — Batch 01 (new module)
-- **Alignment / Post-training** — Batch 01 (new module)
+
+| Item | Type | Status |
+|---|---|---|
+| Batch 02 for all 7 live modules | Expansion (15–25 Q each) | Not started |
+| **Classical ML** Batch 01 | New module | Not started |
+| **Deep Learning Core** Batch 01 | New module | Not started |
+| **Alignment / Post-training** Batch 01 | New module | Not started |
 
 ### Coverage Targets
-- Reach 300+ questions in the new schema
-- Full level coverage (Concept through Architect) for all live modules
+- Reach **300+ questions** in the new schema
+- Full level coverage (Concept → Architect) for all live modules
 - Difficulty 4–5 questions for senior/architect tracks
 
 ### Infrastructure
@@ -52,17 +80,17 @@ Current state and planned expansion for the SCAI AI Interview OS.
 
 ---
 
-## Later (v0.3+)
+## 📋 Later (v0.3+)
 
 ### Question Library
 - **CV and Generative Architectures** — Batch 01
 - **Multimodal and VLMs** — Batch 01
-- Reach 400–600 questions total
+- Reach **400–600 questions** total
 - Architect-level cross-domain questions
 
 ### Features
 - Searchable question index with tag filtering
-- Role-specific curated question sets (top 50 per role)
+- Role-specific curated sets (top 50 per role)
 - Experience band progression paths (guided study orders)
 - Scenario-based debugging exercises
 - System design interview walkthroughs

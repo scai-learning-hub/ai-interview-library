@@ -44,35 +44,29 @@ Don't know where to start? → **[Start Here](docs/start-here.md)** for a guided
 
 ## Navigation
 
-### By Role
-Enter by job family. Each role page includes strengths, gaps, study order, prep strategy, and failure points.
+```mermaid
+flowchart LR
+    A([You]) --> B{Entry point?}
+    B -->|Know your job| C[Role Index]
+    B -->|Know your level| D[Experience Index]
+    B -->|Know the topic| E[Module Index]
+    B -->|Want questions now| F[Question Library]
+    B -->|Not sure| G[Start Here]
+    C --> F
+    D --> F
+    E --> F
+    G --> C
+```
 
-→ [Role Index](docs/indexes/role-index.md)
-
-### By Experience Band
-Enter by career stage. Each band defines expectations, essential topics, and depth targets.
-
-→ [Experience Index](docs/indexes/experience-index.md)
-
-### By Topic Family
-Dive into a specific technical domain. 12 topic families covering foundations through operations.
-
-→ [Module Index](docs/indexes/module-index.md)
-
-### By Interview Mode
-Choose the prep mode matching your timeline and interview stage.
-
-→ [Interview Modes](interview_modes/README.md)
-
-### By Question Library
-Browse schema-strict questions by module, with full metadata, answers, and follow-ups.
-
-→ [Question Library Index](docs/indexes/question-library-index.md)
-
-### By Tag
-Filter across modules using technical tags for targeted preparation.
-
-→ [Tag Index](docs/indexes/tag-index.md)
+| Entry Point | Best For | Link |
+|---|---|---|
+| **By Role** | Know your job family | [Role Index](docs/indexes/role-index.md) |
+| **By Experience** | Know your career band | [Experience Index](docs/indexes/experience-index.md) |
+| **By Topic** | Know the domain to study | [Module Index](docs/indexes/module-index.md) |
+| **By Questions** | Want to drill directly | [Question Library](docs/indexes/question-library-index.md) |
+| **By Tag** | Cross-module filtering | [Tag Index](docs/indexes/tag-index.md) |
+| **By Mode** | Choose by timeline / stage | [Interview Modes](interview_modes/README.md) |
+| **Guided** | Not sure where to start | [Start Here](docs/start-here.md) |
 
 ---
 
@@ -105,35 +99,41 @@ Filter across modules using technical tags for targeted preparation.
 
 ---
 
-## Topic Families (12 Modules)
+## Module Dependency Graph
 
-### Core Foundations
-| Module | Scope |
-|---|---|
-| [Foundations](docs/modules/foundations.md) | Python, tensor thinking, linear algebra, probability, statistics, metrics, autograd |
-| [Classical ML](docs/modules/classical-ml.md) | Supervised/unsupervised, evaluation, bias/variance, trees, SVM, anomaly detection |
-| [Deep Learning Core](docs/modules/deep-learning-core.md) | Tensors, CUDA, batching, forward/backward, loss, normalization, optimization, training loops |
+Study order matters. Skipping prerequisites produces shallow answers everywhere downstream.
 
-### Model and Architecture Families
-| Module | Scope |
-|---|---|
-| [CV and Generative Architectures](docs/modules/cv-and-generative-architectures.md) | CNN, ResNet, YOLO, U-Net, GANs, RNN/LSTM, ViT, Mamba, diffusion |
-| [Transformer and Modern LLM Internals](docs/modules/transformer-and-modern-llm-internals.md) | Tokenization, embeddings, RoPE, attention, MHA/GQA, KV cache, MoE, scaling |
-| [Multimodal and VLMs](docs/modules/multimodal-and-vlms.md) | CLIP, BLIP, SigLIP, Flamingo, image-text alignment, VLM evaluation |
+```mermaid
+graph TD
+    A([Foundations]) --> B[Classical ML]
+    A --> C[Deep Learning Core]
+    C --> D[CV / Generative Arch]
+    C --> E[Transformer / LLM Internals]
+    D --> F[Multimodal / VLMs]
+    E --> F
+    E --> G[RAG]
+    E --> H[Agents & Agentic Systems]
+    E --> K[Alignment / Post-training]
+    E --> J[Systems / Serving / Inference]
+    H --> I[Agent Protocols: MCP / A2A / ACP]
+    G --> L[MLOps / LLMOps / AIOps]
+    H --> L
+    J --> L
+    K --> L
+    B --> L
+    style A fill:#1a73e8,color:#fff,stroke:#1a73e8
+    style E fill:#7b52ab,color:#fff,stroke:#7b52ab
+    style L fill:#2d8a4e,color:#fff,stroke:#2d8a4e
+```
 
-### Application and Orchestration
-| Module | Scope |
+| Layer | Modules |
 |---|---|
-| [RAG](docs/modules/rag.md) | Ingestion, chunking, retrieval, reranking, basic/hybrid/graph RAG, evaluation |
-| [Agents and Agentic Systems](docs/modules/agents-and-agentic-systems.md) | Tool calling, planners, memory, multi-agent, governance, safety |
-| [Agent Protocols: MCP / A2A / ACP](docs/modules/agent-protocols-mcp-a2a-acp.md) | Protocol differentiation, local tools vs remote agents, discovery, trust |
+| **Core Foundations** | [Foundations](docs/modules/foundations.md) · [Classical ML](docs/modules/classical-ml.md) · [Deep Learning Core](docs/modules/deep-learning-core.md) |
+| **Model Families** | [CV / Generative Arch](docs/modules/cv-and-generative-architectures.md) · [Transformer / LLM Internals](docs/modules/transformer-and-modern-llm-internals.md) · [Multimodal / VLMs](docs/modules/multimodal-and-vlms.md) |
+| **Application Layer** | [RAG](docs/modules/rag.md) · [Agents](docs/modules/agents-and-agentic-systems.md) · [Agent Protocols](docs/modules/agent-protocols-mcp-a2a-acp.md) |
+| **Production & Ops** | [Systems / Serving](docs/modules/systems-serving-and-inference.md) · [Alignment](docs/modules/alignment-post-training.md) · [MLOps / LLMOps / AIOps](docs/modules/mlops-llmops-aiops.md) |
 
-### Production and Operations
-| Module | Scope |
-|---|---|
-| [Systems, Serving, and Inference](docs/modules/systems-serving-and-inference.md) | PyTorch, CUDA, kernels, quantization, vLLM, TGI, deployment patterns |
-| [Alignment / Post-training](docs/modules/alignment-post-training.md) | SFT, RLHF, DPO, reward models, behavior shaping trade-offs |
-| [MLOps / LLMOps / AIOps](docs/modules/mlops-llmops-aiops.md) | MLOps, LLMOps, RAGOps, AgentOps, AIOps, observability, governance |
+→ [Full dependency analysis with traversal paths](docs/topic-graph.md)
 
 ---
 
@@ -169,25 +169,37 @@ Questions are organized by module and level in the `modules/` directory:
 
 ## Prep Plans
 
-### 7-Day Quick Plan
+<details>
+<summary><strong>7-Day Quick Plan</strong> — Targeted sprint before an interview</summary>
+
 1. Pick your role → follow the recommended module order
 2. Do top 5–8 questions per priority module
 3. Focus on Applied and System levels
 4. Review weak answer signals for quick calibration
 
-### 30-Day Deep Plan
+</details>
+
+<details>
+<summary><strong>30-Day Deep Plan</strong> — Full preparation cycle</summary>
+
 1. Follow your role page's full module order
 2. Complete all levels per module, in order
 3. Spend extra time on gap areas identified in your role page
 4. Final week: debugging drills and mock deep dives
 
-### 90-Day Mastery Path
+</details>
+
+<details>
+<summary><strong>90-Day Mastery Path</strong> — From fundamentals to architect-level</summary>
+
 1. Follow the 30-day plan first
 2. Add cross-module system design practice
 3. Develop architect-level reasoning for your specialization
 4. Run mock interviews across all round types
 
-→ Each role page includes specific 30-day and 90-day strategies
+</details>
+
+> Each role page includes a specific 30-day and 90-day strategy tailored to your background.
 
 ---
 
