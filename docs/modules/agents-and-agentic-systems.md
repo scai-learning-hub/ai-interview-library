@@ -186,6 +186,11 @@ Practice questions for this module are in the [Agentic AI question bank](../../m
 - [System questions](../../modules/05_agentic_ai/system.md)
 - [Debugging questions](../../modules/05_agentic_ai/debugging.md)
 
+## Practice Surface
+
+- [Batch 01 question library](../question-library/agents-and-agentic-systems/agents-and-agentic-systems-batch-01.md) — targeted interview drilling by question
+- [Problem Set 01](../problem-sets/agents-and-agentic-systems/agents-and-agentic-systems-problem-set-01.md) — end-to-end agent design, recovery, and launch practice
+
 ## Cross-References
 
 - [Module Index](../indexes/module-index.md) — all modules with sequences and detail cards

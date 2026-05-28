@@ -31,15 +31,18 @@ Symptom -> isolate stage -> inspect evidence -> test hypothesis -> repair -> pre
 
 ## Q-03-D-001: Your LLM generates valid JSON 99% of the time but the 1% failures are causing downstream service crashes. Diagnose and fix.
 
-**Module:** LLM Engineering
-**Submodule:** Structured Output
-**Level:** Debugging
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer
-**Tags:** [debugging, json, structured-output, reliability, llm-engineering]
-**Prerequisites:** Q-03-A-005
-**Estimated Interview Round:** Debugging
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Structured Output | Debugging | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer | Debugging |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-005 | [debugging, json, structured-output, reliability, llm-engineering] |
+
 **Why This Question Matters:** 1% failure rate at 10K requests/day = 100 failures/day = service crashes, on-call pages, and user impact. Structured output reliability is a common production pain point.
 
 ---
@@ -180,15 +183,18 @@ This is the difference between a fragile demo and a production interface contrac
 
 ## Q-03-D-002: Your vLLM deployment's throughput dropped 40% after updating to a new model version. Same hardware, same configuration. Diagnose.
 
-**Module:** LLM Engineering
-**Submodule:** Serving Performance
-**Level:** Debugging
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** DevOps / SRE → AIOps, ML / Data Engineer
-**Tags:** [debugging, vllm, throughput, model-serving, llm-engineering]
-**Prerequisites:** Q-03-A-001, Q-03-A-008, Q-03-C-004
-**Estimated Interview Round:** Debugging, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Serving Performance | Debugging | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | DevOps / SRE → AIOps, ML / Data Engineer | Debugging, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-001, Q-03-A-008, Q-03-C-004 | [debugging, vllm, throughput, model-serving, llm-engineering] |
+
 **Why This Question Matters:** Model updates can silently change serving characteristics. A new model version might have a larger vocabulary (more memory for embeddings), different attention configuration, or different tokenization that affects all serving metrics.
 
 ---
@@ -287,15 +293,18 @@ Model upgrades are not safe just because the parameter count stayed the same. Co
 
 ## Q-03-D-003: Users report that your LLM sometimes "hallucinates" tool calls — it calls functions that don't exist or with wrong parameters. How do you fix this?
 
-**Module:** LLM Engineering
-**Submodule:** Tool/Function Calling
-**Level:** Debugging
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer
-**Tags:** [debugging, tool-calling, function-calling, hallucination, llm-engineering]
-**Prerequisites:** Q-02-A-015
-**Estimated Interview Round:** Debugging
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Tool/Function Calling | Debugging | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer | Debugging |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-02-A-015 | [debugging, tool-calling, function-calling, hallucination, llm-engineering] |
+
 **Why This Question Matters:** Tool/function calling hallucination is dangerous — the model might "call" a function that doesn't exist (causing errors) or call a real function with hallucinated parameters (causing incorrect actions). This is different from text hallucination and requires different fixes.
 
 ---
@@ -422,15 +431,18 @@ Tool-calling failures are more dangerous than text hallucinations because they c
 
 ## Q-03-D-004: Your LLM application has a memory leak — GPU memory usage grows steadily until OOM crash after ~6 hours. Diagnose.
 
-**Module:** LLM Engineering
-**Submodule:** GPU Memory
-**Level:** Debugging
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** DevOps / SRE → AIOps, ML / Data Engineer
-**Tags:** [debugging, memory-leak, gpu, oom, llm-engineering]
-**Prerequisites:** Q-03-C-004, Q-03-A-001
-**Estimated Interview Round:** Debugging, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | GPU Memory | Debugging | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | DevOps / SRE → AIOps, ML / Data Engineer | Debugging, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-004, Q-03-A-001 | [debugging, memory-leak, gpu, oom, llm-engineering] |
+
 **Why This Question Matters:** GPU memory leaks in LLM serving are subtle and different from CPU memory leaks. KV cache fragmentation, uncollected tensors, and growing conversation histories are common causes. Diagnosing requires understanding GPU memory management.
 
 ---
@@ -540,15 +552,18 @@ GPU memory incidents often look like random instability until the system has bee
 
 ## Q-03-D-005: Your LLM's latency became highly variable — p50 is 200ms but p99 is 15 seconds. What's causing the long tail?
 
-**Module:** LLM Engineering
-**Submodule:** Latency Debugging
-**Level:** Debugging
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** DevOps / SRE → AIOps, Senior / Architect
-**Tags:** [debugging, latency, tail-latency, p99, serving, llm-engineering]
-**Prerequisites:** Q-03-A-001, Q-03-A-008
-**Estimated Interview Round:** Debugging, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Latency Debugging | Debugging | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | DevOps / SRE → AIOps, Senior / Architect | Debugging, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-001, Q-03-A-008 | [debugging, latency, tail-latency, p99, serving, llm-engineering] |
+
 **Why This Question Matters:** P99 latency determines the worst-case user experience. A 75x difference between p50 and p99 means some users have a terrible experience. LLM-specific causes of tail latency are different from traditional web services.
 
 ---

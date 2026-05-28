@@ -30,15 +30,18 @@ Requirements -> isolation boundaries -> control plane -> data plane -> failure c
 
 ## Q-04-S-001: Design a production RAG platform that serves 10 different knowledge bases with shared infrastructure and per-KB quality SLAs.
 
-**Module:** RAG
-**Submodule:** RAG Platform Architecture
-**Level:** System
-**Difficulty:** 5
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** Senior / Architect, DevOps / SRE → AIOps
-**Tags:** [system-design, rag-platform, multi-tenant, scaling, rag]
-**Prerequisites:** Q-04-A-001, Q-04-A-004
-**Estimated Interview Round:** System Design
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | RAG Platform Architecture | System | 5 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | Senior / Architect, DevOps / SRE → AIOps | System Design |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-A-001, Q-04-A-004 | [system-design, rag-platform, multi-tenant, scaling, rag] |
+
 **Why This Question Matters:** Enterprise teams don't build one RAG pipeline — they build a platform that serves multiple products, each with its own knowledge base, quality requirements, and access controls.
 
 ---
@@ -184,15 +187,18 @@ This question is really about platform maturity. Strong answers separate shared 
 
 ## Q-04-S-002: Design a knowledge base ingestion pipeline that handles 1 million documents across 10 different formats.
 
-**Module:** RAG
-**Submodule:** Document Ingestion
-**Level:** System
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** ML / Data Engineer, DevOps / SRE → AIOps
-**Tags:** [system-design, ingestion, document-processing, scaling, rag]
-**Prerequisites:** Q-04-A-003, Q-04-A-005
-**Estimated Interview Round:** System Design
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Document Ingestion | System | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | ML / Data Engineer, DevOps / SRE → AIOps | System Design |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-A-003, Q-04-A-005 | [system-design, ingestion, document-processing, scaling, rag] |
+
 **Why This Question Matters:** Ingestion is the boring but critical part of RAG. Processing millions of documents across different formats (PDF, DOCX, HTML, Markdown, Confluence, etc.) at scale requires robust architecture.
 
 ---
@@ -327,15 +333,18 @@ At scale, ingestion quality becomes retrieval quality. A platform with brilliant
 
 ## Q-04-S-003: Design a RAG system that handles multi-hop reasoning queries requiring information from multiple documents.
 
-**Module:** RAG
-**Submodule:** Advanced Retrieval
-**Level:** System
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** ML / Data Engineer, Senior / Architect
-**Tags:** [system-design, multi-hop, complex-reasoning, advanced-retrieval, rag]
-**Prerequisites:** Q-04-A-002, Q-04-C-008
-**Estimated Interview Round:** System Design, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Advanced Retrieval | System | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | ML / Data Engineer, Senior / Architect | System Design, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-A-002, Q-04-C-008 | [system-design, multi-hop, complex-reasoning, advanced-retrieval, rag] |
+
 **Why This Question Matters:** Simple RAG retrieves one set of documents. Multi-hop queries require iterative retrieval: the answer to the first retrieval determines what to retrieve next. "Compare the refund policies of our top 3 competitors" requires finding who the competitors are, then finding each competitor's policy.
 
 ---
@@ -478,15 +487,18 @@ This is the boundary where basic retrieval systems end. Strong candidates recogn
 
 ## Q-04-S-004: Design a RAG quality monitoring and alerting system for production.
 
-**Module:** RAG
-**Submodule:** Quality Monitoring
-**Level:** System
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** DevOps / SRE → AIOps, Senior / Architect
-**Tags:** [system-design, monitoring, quality, alerting, rag]
-**Prerequisites:** Q-04-C-006, Q-04-A-009
-**Estimated Interview Round:** System Design
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Quality Monitoring | System | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | DevOps / SRE → AIOps, Senior / Architect | System Design |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-006, Q-04-A-009 | [system-design, monitoring, quality, alerting, rag] |
+
 **Why This Question Matters:** RAG quality degrades silently — documents change, embeddings drift, retrieval patterns shift. Without active monitoring, you discover quality issues from angry users, not from your dashboard.
 
 ---

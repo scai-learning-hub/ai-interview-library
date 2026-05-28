@@ -40,15 +40,18 @@ Basic answer -> Concept depth -> Design bridge -> Practical build -> Real follow
 
 ## Q-04-C-001: What is Retrieval-Augmented Generation and why does it solve the LLM knowledge limitation problem?
 
-**Module:** RAG
-**Submodule:** Fundamentals
-**Level:** Concept
-**Difficulty:** 2
-**Experience Bands:** Beginner, Early-career, Mid-level
-**Persona Relevance:** Software Dev → AI Engineer, ML / Data Engineer, Fresher / Beginner
-**Tags:** [rag, retrieval, augmented-generation, knowledge, fundamentals]
-**Prerequisites:** Q-02-C-001
-**Estimated Interview Round:** Screening, Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Fundamentals | Concept | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Beginner, Early-career, Mid-level | Software Dev → AI Engineer, ML / Data Engineer, Fresher / Beginner | Screening, Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-02-C-001 | [rag, retrieval, augmented-generation, knowledge, fundamentals] |
+
 **Why This Question Matters:** RAG is the most popular architecture pattern for production LLM applications. Understanding why it exists (LLM knowledge is static and limited) and how it works (retrieve relevant context, inject into prompt) is the foundation for all RAG engineering.
 
 ---
@@ -152,15 +155,18 @@ RAG is usually the right first move when the knowledge changes faster than model
 
 ## Q-04-C-002: How do embedding models work for RAG, and what factors affect retrieval quality?
 
-**Module:** RAG
-**Submodule:** Embeddings
-**Level:** Concept
-**Difficulty:** 2
-**Experience Bands:** Early-career, Mid-level
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [embeddings, vector-search, similarity, retrieval, rag]
-**Prerequisites:** Q-00-C-002
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Embeddings | Concept | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Early-career, Mid-level | ML / Data Engineer, Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-00-C-002 | [embeddings, vector-search, similarity, retrieval, rag] |
+
 **Why This Question Matters:** The embedding model is the most critical component of RAG — if retrieval fails, the LLM gets wrong context and produces wrong answers. Understanding embedding model selection, similarity metrics, and their limitations is essential.
 
 ---
@@ -257,15 +263,18 @@ Embedding choice, metric choice, and normalization are often higher-leverage tha
 
 ## Q-04-C-003: What are the different chunking strategies for RAG and when should you use each?
 
-**Module:** RAG
-**Submodule:** Chunking
-**Level:** Concept
-**Difficulty:** 2
-**Experience Bands:** Early-career, Mid-level
-**Persona Relevance:** Software Dev → AI Engineer, ML / Data Engineer
-**Tags:** [chunking, text-splitting, document-processing, rag]
-**Prerequisites:** Q-03-A-007
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Chunking | Concept | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Early-career, Mid-level | Software Dev → AI Engineer, ML / Data Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-007 | [chunking, text-splitting, document-processing, rag] |
+
 **Why This Question Matters:** Chunking decisions directly affect retrieval quality. Wrong chunking means the right information either doesn't exist in any single chunk (split across chunks) or is diluted by irrelevant content in the same chunk.
 
 ---
@@ -368,15 +377,18 @@ Chunking is not preprocessing boilerplate. Bad chunk boundaries create retrieval
 
 ## Q-04-C-004: What is hybrid search and why does it outperform pure vector search for RAG?
 
-**Module:** RAG
-**Submodule:** Retrieval
-**Level:** Concept
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [hybrid-search, bm25, vector-search, retrieval, rag]
-**Prerequisites:** Q-04-C-002
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Retrieval | Concept | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-002 | [hybrid-search, bm25, vector-search, retrieval, rag] |
+
 **Why This Question Matters:** Pure vector search fails on keyword-specific queries (product SKUs, error codes, names). Pure keyword search fails on semantic queries. Hybrid search combines both and is the standard for production RAG systems.
 
 ---
@@ -473,15 +485,18 @@ Hybrid search is usually the default in production because enterprise corpora mi
 
 ## Q-04-C-005: What is a reranker and how does it improve RAG retrieval quality?
 
-**Module:** RAG
-**Submodule:** Reranking
-**Level:** Concept
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [reranking, cross-encoder, retrieval, quality, rag]
-**Prerequisites:** Q-04-C-002, Q-04-C-004
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Reranking | Concept | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-002, Q-04-C-004 | [reranking, cross-encoder, retrieval, quality, rag] |
+
 **Why This Question Matters:** Initial retrieval (vector search) is fast but approximate. Reranking with a cross-encoder is slower but much more accurate. This two-stage approach (retrieve many, rerank few) is standard for high-quality production RAG.
 
 ---
@@ -582,15 +597,18 @@ Reranking is often the highest-leverage quality improvement after baseline retri
 
 ## Q-04-C-006: How do you evaluate RAG system quality? What metrics matter?
 
-**Module:** RAG
-**Submodule:** Evaluation
-**Level:** Concept
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer, Senior / Architect
-**Tags:** [evaluation, metrics, ragas, retrieval-quality, rag]
-**Prerequisites:** Q-04-C-001
-**Estimated Interview Round:** Technical, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Evaluation | Concept | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Software Dev → AI Engineer, Senior / Architect | Technical, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-001 | [evaluation, metrics, ragas, retrieval-quality, rag] |
+
 **Why This Question Matters:** RAG evaluation is harder than traditional search evaluation because you're evaluating TWO components (retrieval + generation) and their interaction. Wrong metrics lead to optimizing the wrong thing.
 
 ---
@@ -699,15 +717,18 @@ If retrieval and generation are not measured separately, teams misdiagnose failu
 
 ## Q-04-C-007: What are the different vector database architectures and how do you choose one for production RAG?
 
-**Module:** RAG
-**Submodule:** Vector Databases
-**Level:** Concept
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer, DevOps / SRE → AIOps
-**Tags:** [vector-database, hnsw, ivf, metadata-filtering, rag]
-**Prerequisites:** Q-04-C-002
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Vector Databases | Concept | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer, DevOps / SRE → AIOps | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-002 | [vector-database, hnsw, ivf, metadata-filtering, rag] |
+
 **Why This Question Matters:** Vector database choice affects retrieval latency, scale, cost, and available features (metadata filtering, hybrid search, multi-tenancy). Making the wrong choice early requires expensive migration later.
 
 ---
@@ -817,15 +838,18 @@ Vector database choice is an operational decision as much as a retrieval decisio
 
 ## Q-04-C-008: What are common RAG failure modes and how do you prevent them?
 
-**Module:** RAG
-**Submodule:** Failure Analysis
-**Level:** Concept
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer, Senior / Architect
-**Tags:** [failure-modes, hallucination, retrieval-failure, rag]
-**Prerequisites:** Q-04-C-001, Q-04-C-006
-**Estimated Interview Round:** Technical, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Failure Analysis | Concept | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer, Senior / Architect | Technical, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-001, Q-04-C-006 | [failure-modes, hallucination, retrieval-failure, rag] |
+
 **Why This Question Matters:** RAG systems fail in specific, predictable ways. Understanding these failure modes enables proactive prevention rather than reactive debugging.
 
 ---

@@ -4,7 +4,7 @@
 
 Built by [School of Core AI](https://schoolofcoreai.com). Structured for engineers who build, deploy, debug, and scale AI systems — not for people looking for definitions to memorize.
 
-**155+ schema-strict interview questions** across 7 modules, covering foundations through production operations. Navigable by role, experience band, topic, and interview round.
+**155+ schema-strict interview questions** across 7 modules, plus starter problem sets for end-to-end practice. Navigable by role, experience band, topic, interview round, and practice mode.
 
 ---
 
@@ -64,6 +64,7 @@ flowchart LR
 | **By Experience** | Know your career band | [Experience Index](docs/indexes/experience-index.md) |
 | **By Topic** | Know the domain to study | [Module Index](docs/indexes/module-index.md) |
 | **By Questions** | Want to drill directly | [Question Library](docs/indexes/question-library-index.md) |
+| **By Problem Sets** | Want multi-step practice | [Problem Sets](docs/problem-sets/README.md) |
 | **By Tag** | Cross-module filtering | [Tag Index](docs/indexes/tag-index.md) |
 | **By Mode** | Choose by timeline / stage | [Interview Modes](interview_modes/README.md) |
 | **Guided** | Not sure where to start | [Start Here](docs/start-here.md) |
@@ -94,6 +95,13 @@ flowchart LR
 | Agent Protocols: MCP / A2A / ACP | 25 | Concept, Applied, System, Debugging, Architect | [Batch 01](docs/question-library/agent-protocols-mcp-a2a-acp/agent-protocols-mcp-a2a-acp-batch-01.md) |
 | Systems, Serving, and Inference | 15 | Concept, Applied, System, Debugging, Architect | [Batch 01](docs/question-library/systems-serving-and-inference/systems-serving-and-inference-batch-01.md) |
 | MLOps / LLMOps / AIOps | 15 | Concept, Applied, System, Debugging, Architect | [Batch 01](docs/question-library/mlops-llmops-aiops/mlops-llmops-aiops-batch-01.md) |
+
+### Problem Sets
+
+| Surface | Focus | Link |
+|---|---|---|
+| RAG Problem Set 01 | Build, debug, and harden a grounded assistant | [Open](docs/problem-sets/rag/rag-problem-set-01.md) |
+| Systems, Serving, and Inference Problem Set 01 | Serve, route, and stabilize a production LLM feature | [Open](docs/problem-sets/llm-engineering/llm-engineering-problem-set-01.md) |
 
 **Coming next**: Classical ML, Deep Learning Core, Alignment / Post-training, and Batch 02 expansions for existing modules. See [Roadmap](ROADMAP.md).
 

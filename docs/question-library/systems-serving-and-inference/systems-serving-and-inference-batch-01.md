@@ -8,15 +8,18 @@ Complements: [Module page](../../modules/systems-serving-and-inference.md)
 
 ### Q-SSI-B01-001: What is the difference between model latency and throughput in an LLM serving system, and why can optimizing one hurt the other?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Serving Fundamentals  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, mlops-llmops-platform-engineer, llm-rag-agent-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Basic systems thinking  
-**Tags:** `latency`, `throughput`, `serving`, `batching`, `llm-inference`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Serving Fundamentals   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, mlops-llmops-platform-engineer, llm-rag-agent-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic systems thinking   | `latency`, `throughput`, `serving`, `batching`, `llm-inference`   |
+
 **Why This Matters:** Every production LLM deployment must balance latency and throughput. Misunderstanding the trade-off leads to SLO violations or wasted GPU spend.
 
 **Question**  
@@ -58,15 +61,18 @@ Cloud LLM providers (OpenAI, Anthropic) run throughput-optimized backends with l
 
 ### Q-SSI-B01-002: How does KV cache work in autoregressive transformer inference, and why is it the dominant memory bottleneck?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** KV Cache and Memory  
-**Level:** Concept  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer, research-applied-research  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Transformer attention basics, matrix multiplication  
-**Tags:** `kv-cache`, `memory`, `attention`, `serving`, `gpu-memory`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | KV Cache and Memory   | Concept   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer, research-applied-research   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Transformer attention basics, matrix multiplication   | `kv-cache`, `memory`, `attention`, `serving`, `gpu-memory`   |
+
 **Why This Matters:** KV cache is the single largest memory consumer during LLM inference. Understanding it is required for capacity planning, choosing context-length limits, and selecting serving frameworks.
 
 **Question**  
@@ -107,15 +113,18 @@ Most production KV cache OOMs happen when teams set generous context windows wit
 
 ### Q-SSI-B01-003: Compare vLLM and TGI as LLM serving engines. When would you choose one over the other?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Serving Engines  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** mlops-llmops-platform-engineer, llm-rag-agent-engineer, devops-sre-to-aiops  
-**Interview Round:** Technical deep dive, System design  
-**Prerequisites:** LLM serving basics, GPU memory concepts  
-**Tags:** `vllm`, `tgi`, `serving`, `pagedattention`, `deployment`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Serving Engines   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | mlops-llmops-platform-engineer, llm-rag-agent-engineer, devops-sre-to-aiops   | Technical deep dive, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM serving basics, GPU memory concepts   | `vllm`, `tgi`, `serving`, `pagedattention`, `deployment`   |
+
 **Why This Matters:** Choosing the right serving engine affects latency, throughput, cost, and operational complexity. These are the two dominant open-source options in 2025–2026.
 
 **Question**  
@@ -157,15 +166,18 @@ Many teams start with TGI for speed of deployment, then migrate to vLLM when thr
 
 ### Q-SSI-B01-004: What is quantization in the context of LLM inference, and what are the practical trade-offs between FP16, INT8, INT4, and FP8?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Quantization  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** software-foundations-to-ai-engineer, mlops-llmops-platform-engineer, research-applied-research  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Floating point representation basics, model weight storage  
-**Tags:** `quantization`, `int8`, `int4`, `fp8`, `gptq`, `awq`, `gguf`, `memory-optimization`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Quantization   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | software-foundations-to-ai-engineer, mlops-llmops-platform-engineer, research-applied-research   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Floating point representation basics, model weight storage   | `quantization`, `int8`, `int4`, `fp8`, `gptq`, `awq`, `gguf`, `memory-optimization`   |
+
 **Why This Matters:** Quantization is the primary lever for reducing serving cost and enabling larger models on smaller GPUs. Getting it wrong degrades quality in hard-to-detect ways.
 
 **Question**  
@@ -206,15 +218,18 @@ Teams frequently ship INT4 models to save cost, then discover degraded performan
 
 ### Q-SSI-B01-005: What is tensor parallelism vs pipeline parallelism for multi-GPU inference, and when do you use each?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Multi-GPU Inference  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** mlops-llmops-platform-engineer, senior-architect-ai-systems-lead, research-applied-research  
-**Interview Round:** System design, Technical deep dive  
-**Prerequisites:** GPU architecture basics, model parallelism concepts  
-**Tags:** `tensor-parallelism`, `pipeline-parallelism`, `multi-gpu`, `distributed-inference`, `NVLink`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Multi-GPU Inference   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | mlops-llmops-platform-engineer, senior-architect-ai-systems-lead, research-applied-research   | System design, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| GPU architecture basics, model parallelism concepts   | `tensor-parallelism`, `pipeline-parallelism`, `multi-gpu`, `distributed-inference`, `NVLink`   |
+
 **Why This Matters:** Models above ~13B parameters typically require multi-GPU serving. Choosing the wrong parallelism strategy wastes hardware or creates latency bottlenecks.
 
 **Question**  
@@ -255,15 +270,18 @@ Most production 70B+ deployments use TP=8 within a single DGX node. Cross-node P
 
 ### Q-SSI-B01-006: You deploy an LLM endpoint and observe that P99 latency is 5x worse than P50. What are the likely causes and how do you diagnose them?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Latency Debugging  
-**Level:** Debugging  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, llm-rag-agent-engineer  
-**Interview Round:** Debugging, Technical deep dive  
-**Prerequisites:** LLM serving basics, percentile metrics  
-**Tags:** `latency`, `p99`, `debugging`, `serving`, `tail-latency`, `slo`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Latency Debugging   | Debugging   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | mlops-llmops-platform-engineer, devops-sre-to-aiops, llm-rag-agent-engineer   | Debugging, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM serving basics, percentile metrics   | `latency`, `p99`, `debugging`, `serving`, `tail-latency`, `slo`   |
+
 **Why This Matters:** P99 tail latency is the single most common production complaint in LLM serving. Diagnosing it requires understanding the full request lifecycle, not just model inference.
 
 **Question**  
@@ -309,15 +327,18 @@ In most real deployments, P99 latency is dominated by long-tail request sizes (1
 
 ### Q-SSI-B01-007: What is speculative decoding, and how does it improve inference throughput without changing model quality?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Inference Optimization  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** research-applied-research, mlops-llmops-platform-engineer, llm-rag-agent-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Autoregressive generation basics  
-**Tags:** `speculative-decoding`, `draft-model`, `inference-optimization`, `throughput`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Inference Optimization   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | research-applied-research, mlops-llmops-platform-engineer, llm-rag-agent-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Autoregressive generation basics   | `speculative-decoding`, `draft-model`, `inference-optimization`, `throughput`   |
+
 **Why This Matters:** Speculative decoding is one of the few techniques that accelerates inference without quality loss. Understanding it reveals knowledge of the memory-bound nature of autoregressive generation.
 
 **Question**  
@@ -358,15 +379,18 @@ Teams serving code completion endpoints see the highest speculative decoding spe
 
 ### Q-SSI-B01-008: How does continuous batching work in modern LLM serving engines, and why is it superior to static batching?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Batching Strategies  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** mlops-llmops-platform-engineer, software-foundations-to-ai-engineer, devops-sre-to-aiops  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Batching, autoregressive generation  
-**Tags:** `continuous-batching`, `static-batching`, `serving`, `gpu-utilization`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Batching Strategies   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | mlops-llmops-platform-engineer, software-foundations-to-ai-engineer, devops-sre-to-aiops   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Batching, autoregressive generation   | `continuous-batching`, `static-batching`, `serving`, `gpu-utilization`   |
+
 **Why This Matters:** Continuous batching is the single biggest throughput improvement in LLM serving. It's the default in vLLM/TGI, but understanding why it works reveals deeper systems knowledge.
 
 **Question**  
@@ -407,15 +431,18 @@ Switching from naive static batching to continuous batching in vLLM typically yi
 
 ### Q-SSI-B01-009: Design an LLM serving architecture that handles 1000 concurrent users with a P95 TTFT SLO of 500ms on a 70B model.
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** System Design  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, devops-sre-to-aiops  
-**Interview Round:** System design  
-**Prerequisites:** LLM serving, multi-GPU deployment, load balancing  
-**Tags:** `system-design`, `serving-architecture`, `scaling`, `load-balancing`, `slo`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | System Design   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, devops-sre-to-aiops   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM serving, multi-GPU deployment, load balancing   | `system-design`, `serving-architecture`, `scaling`, `load-balancing`, `slo`   |
+
 **Why This Matters:** Designing an LLM serving stack from scratch is a core system design question in AI infra interviews. It tests the intersection of ML knowledge and distributed systems.
 
 **Question**  
@@ -457,15 +484,18 @@ Most teams over-provision initially and optimize later. The key optimization lev
 
 ### Q-SSI-B01-010: What is prefix caching, and how does it reduce cost for LLM applications with repetitive system prompts?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Inference Optimization  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** KV cache, prompt structure  
-**Tags:** `prefix-caching`, `kv-cache`, `system-prompt`, `cost-optimization`, `serving`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Inference Optimization   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| KV cache, prompt structure   | `prefix-caching`, `kv-cache`, `system-prompt`, `cost-optimization`, `serving`   |
+
 **Why This Matters:** Most production LLM applications share the same system prompt across thousands of requests. Without prefix caching, the same KV cache computation is repeated for every request — pure waste.
 
 **Question**  
@@ -506,15 +536,18 @@ Teams using OpenAI's API with prompt caching see 50–80% cost reduction on repe
 
 ### Q-SSI-B01-011: Your model serves fine for single requests but OOMs when batch size increases. Walk through the diagnosis.
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** GPU Memory Debugging  
-**Level:** Debugging  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer  
-**Interview Round:** Debugging  
-**Prerequisites:** GPU memory layout, KV cache  
-**Tags:** `oom`, `gpu-memory`, `debugging`, `kv-cache`, `batch-size`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | GPU Memory Debugging   | Debugging   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer   | Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| GPU memory layout, KV cache   | `oom`, `gpu-memory`, `debugging`, `kv-cache`, `batch-size`   |
+
 **Why This Matters:** GPU OOM at scale is the most common failure mode in LLM serving. Systematic debugging separates production engineers from hobbyists.
 
 **Question**  
@@ -566,15 +599,18 @@ Most production OOMs are not from model weights (those are fixed) but from KV ca
 
 ### Q-SSI-B01-012: What are the key differences between running inference on NVIDIA GPUs vs using CPU-based or hybrid inference, and when is each appropriate?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Hardware Selection  
-**Level:** System  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, senior-architect-ai-systems-lead  
-**Interview Round:** System design, Technical deep dive  
-**Prerequisites:** Basic hardware architecture awareness  
-**Tags:** `gpu`, `cpu`, `inference`, `hardware`, `cost-optimization`, `edge`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Hardware Selection   | System   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | mlops-llmops-platform-engineer, devops-sre-to-aiops, senior-architect-ai-systems-lead   | System design, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic hardware architecture awareness   | `gpu`, `cpu`, `inference`, `hardware`, `cost-optimization`, `edge`   |
+
 **Why This Matters:** Not every inference workload justifies GPU cost. Knowing when CPU inference is viable (and when it isn't) is a real sizing decision in production deployments.
 
 **Question**  
@@ -618,15 +654,18 @@ Many teams run embedding models on CPU (e.g., sentence-transformers for RAG retr
 
 ### Q-SSI-B01-013: What is FlashAttention, and why did it fundamentally change transformer inference and training efficiency?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Kernel-Level Optimization  
-**Level:** Concept  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** research-applied-research, software-foundations-to-ai-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Attention mechanism, GPU memory hierarchy  
-**Tags:** `flash-attention`, `io-aware`, `sram`, `tiling`, `memory-hierarchy`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Kernel-Level Optimization   | Concept   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | research-applied-research, software-foundations-to-ai-engineer, mlops-llmops-platform-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Attention mechanism, GPU memory hierarchy   | `flash-attention`, `io-aware`, `sram`, `tiling`, `memory-hierarchy`   |
+
 **Why This Matters:** FlashAttention is the enabling kernel behind efficient long-context models. Understanding it reveals knowledge of the GPU memory hierarchy that underlies all modern serving optimizations.
 
 **Question**  
@@ -669,15 +708,18 @@ Before FlashAttention, training on sequences beyond 2–4K tokens was impractica
 
 ### Q-SSI-B01-014: How do you decide between serving a model via a dedicated inference endpoint vs an API gateway calling a third-party provider?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** Build vs Buy  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, devops-sre-to-aiops  
-**Interview Round:** System design, Behavioral  
-**Prerequisites:** LLM serving experience, cloud cost modeling  
-**Tags:** `build-vs-buy`, `api-provider`, `self-hosted`, `cost`, `governance`, `architecture`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | Build vs Buy   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, devops-sre-to-aiops   | System design, Behavioral   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM serving experience, cloud cost modeling   | `build-vs-buy`, `api-provider`, `self-hosted`, `cost`, `governance`, `architecture`   |
+
 **Why This Matters:** The self-host vs API decision is the highest-leverage architectural choice for LLM-powered products. Getting it wrong wastes millions or blocks product velocity.
 
 **Question**  
@@ -724,15 +766,18 @@ Many startups begin with OpenAI API, hit cost pressure at scale, then migrate to
 
 ### Q-SSI-B01-015: What are the operational differences between serving a dense model vs a Mixture-of-Experts (MoE) model in production?
 
-**Topic Family:** Systems, Serving, and Inference  
-**Subtopic:** MoE Serving  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** mlops-llmops-platform-engineer, senior-architect-ai-systems-lead, research-applied-research  
-**Interview Round:** System design, Technical deep dive  
-**Prerequisites:** MoE architecture basics, GPU serving  
-**Tags:** `moe`, `mixture-of-experts`, `serving`, `routing`, `expert-parallelism`, `memory`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Systems, Serving, and Inference   | MoE Serving   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | mlops-llmops-platform-engineer, senior-architect-ai-systems-lead, research-applied-research   | System design, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| MoE architecture basics, GPU serving   | `moe`, `mixture-of-experts`, `serving`, `routing`, `expert-parallelism`, `memory`   |
+
 **Why This Matters:** MoE models (Mixtral, DBRX, GPT-4 rumored MoE) are increasingly common in production. Their serving characteristics differ fundamentally from dense models, and naive deployment wastes memory and compute.
 
 **Question**  

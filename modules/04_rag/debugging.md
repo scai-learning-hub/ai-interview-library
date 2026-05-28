@@ -31,15 +31,18 @@ Symptom -> isolate stage -> inspect evidence -> test hypothesis -> repair -> pre
 
 ## Q-04-D-001: Your RAG system retrieves the correct documents but the LLM ignores them and hallucinates.
 
-**Module:** RAG
-**Submodule:** Answer Quality
-**Level:** Debugging
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer, ML / Data Engineer
-**Tags:** [debugging, hallucination, context-ignoring, rag]
-**Prerequisites:** Q-04-C-008, Q-04-A-001
-**Estimated Interview Round:** Debugging, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Answer Quality | Debugging | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer, ML / Data Engineer | Debugging, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-008, Q-04-A-001 | [debugging, hallucination, context-ignoring, rag] |
+
 **Why This Question Matters:** This is one of the most frustrating RAG failures: retrieval works perfectly, but the LLM generates answers from its own knowledge instead of the provided context. This is a prompt engineering + model behavior problem.
 
 ---
@@ -183,15 +186,18 @@ This incident matters because it destroys trust while looking superficially heal
 
 ## Q-04-D-002: Retrieval performance drops 50% after re-embedding your documents with a new model.
 
-**Module:** RAG
-**Submodule:** Embedding Model
-**Level:** Debugging
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [debugging, embeddings, model-upgrade, performance-regression, rag]
-**Prerequisites:** Q-04-C-002
-**Estimated Interview Round:** Debugging
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Embedding Model | Debugging | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Software Dev → AI Engineer | Debugging |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-002 | [debugging, embeddings, model-upgrade, performance-regression, rag] |
+
 **Why This Question Matters:** Upgrading embedding models should improve retrieval. When it doesn't, the cause is subtle and often relates to model compatibility, dimension mismatches, or normalization differences.
 
 ---
@@ -302,15 +308,18 @@ This is a classic silent regression: nothing crashes, but relevance collapses. G
 
 ## Q-04-D-003: Users report that RAG returns stale, outdated information despite the source documents being updated.
 
-**Module:** RAG
-**Submodule:** Index Freshness
-**Level:** Debugging
-**Difficulty:** 2
-**Experience Bands:** Early-career, Mid-level
-**Persona Relevance:** DevOps / SRE → AIOps, Software Dev → AI Engineer
-**Tags:** [debugging, stale-data, indexing, freshness, rag]
-**Prerequisites:** Q-04-A-003
-**Estimated Interview Round:** Debugging
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Index Freshness | Debugging | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Early-career, Mid-level | DevOps / SRE → AIOps, Software Dev → AI Engineer | Debugging |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-A-003 | [debugging, stale-data, indexing, freshness, rag] |
+
 **Why This Question Matters:** Stale knowledge base is a silent RAG killer. Users lose trust when the system provides outdated information that contradicts what they know from updated source documents.
 
 ---
@@ -434,15 +443,18 @@ Staleness incidents are dangerous because the answer still looks grounded. Users
 
 ## Q-04-D-004: RAG retrieves relevant documents but the reranker keeps pushing them to the bottom.
 
-**Module:** RAG
-**Submodule:** Reranking
-**Level:** Debugging
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [debugging, reranking, cross-encoder, retrieval, rag]
-**Prerequisites:** Q-04-C-005
-**Estimated Interview Round:** Debugging
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Reranking | Debugging | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Software Dev → AI Engineer | Debugging |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-005 | [debugging, reranking, cross-encoder, retrieval, rag] |
+
 **Why This Question Matters:** Rerankers should improve retrieval by promoting relevant documents. When they do the opposite, the cause is typically a domain mismatch or input formatting issue.
 
 ---
@@ -545,15 +557,18 @@ This failure matters because rerankers are usually added to improve quality. If 
 
 ## Q-04-D-005: RAG system latency increased from 800ms to 6 seconds after adding 50K new documents.
 
-**Module:** RAG
-**Submodule:** Performance
-**Level:** Debugging
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** DevOps / SRE → AIOps, Software Dev → AI Engineer
-**Tags:** [debugging, latency, performance, scaling, vector-database, rag]
-**Prerequisites:** Q-04-A-008, Q-04-C-007
-**Estimated Interview Round:** Debugging
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Performance | Debugging | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | DevOps / SRE → AIOps, Software Dev → AI Engineer | Debugging |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-A-008, Q-04-C-007 | [debugging, latency, performance, scaling, vector-database, rag] |
+
 **Why This Question Matters:** RAG latency should scale sub-linearly with document count (logarithmic for HNSW). If latency degrades linearly, something is architecturally wrong.
 
 ---

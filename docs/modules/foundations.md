@@ -161,6 +161,11 @@ Practice questions for this module are in the [Foundations question bank](../../
 - [System questions](../../modules/00_foundations/system.md)
 - [Debugging questions](../../modules/00_foundations/debugging.md)
 
+## Practice Surface
+
+- [Batch 01 question library](../question-library/foundations/foundations-batch-01.md) — targeted fundamentals drilling by question
+- [Problem Set 01](../problem-sets/foundations/foundations-problem-set-01.md) — baseline debugging, metrics judgment, and tensor reasoning practice
+
 ## Cross-References
 
 - [Module Index](../indexes/module-index.md) — all modules with sequences and detail cards

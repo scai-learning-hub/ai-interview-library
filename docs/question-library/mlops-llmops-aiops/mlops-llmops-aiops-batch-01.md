@@ -8,15 +8,18 @@ Complements: [Module page](../../modules/mlops-llmops-aiops.md)
 
 ### Q-MLO-B01-001: What is the difference between MLOps, LLMOps, and AIOps, and why do they require different operational strategies?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** Operational Scoping  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Basic software deployment awareness  
-**Tags:** `mlops`, `llmops`, `aiops`, `operations`, `observability`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | Operational Scoping   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic software deployment awareness   | `mlops`, `llmops`, `aiops`, `operations`, `observability`   |
+
 **Why This Matters:** These terms are often conflated, but each represents a distinct operational surface area with different monitoring, deployment, and failure characteristics.
 
 **Question**  
@@ -58,15 +61,18 @@ Many teams build MLOps infrastructure and then try to apply it unchanged to LLM 
 
 ### Q-MLO-B01-002: How do you detect and respond to data drift in a production ML pipeline, and how does this differ from concept drift?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** Drift Detection  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** ml-data-engineer, mlops-llmops-platform-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Basic statistics, ML model lifecycle  
-**Tags:** `data-drift`, `concept-drift`, `monitoring`, `statistical-tests`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | Drift Detection   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | ml-data-engineer, mlops-llmops-platform-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic statistics, ML model lifecycle   | `data-drift`, `concept-drift`, `monitoring`, `statistical-tests`, `production`   |
+
 **Why This Matters:** Drift is the #1 silent killer of ML models in production. Models degrade gradually without raising errors, and teams often only discover drift when business metrics drop.
 
 **Question**  
@@ -111,15 +117,18 @@ Many teams set up drift detection, get flooded with alerts they don't act on, an
 
 ### Q-MLO-B01-003: Design an observability stack for an LLM-powered RAG application. What metrics, logs, and traces would you capture?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** LLM Observability  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, llm-rag-agent-engineer  
-**Interview Round:** System design  
-**Prerequisites:** RAG architecture, observability fundamentals  
-**Tags:** `observability`, `tracing`, `rag`, `metrics`, `llmops`, `langfuse`, `langsmith`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | LLM Observability   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | mlops-llmops-platform-engineer, devops-sre-to-aiops, llm-rag-agent-engineer   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| RAG architecture, observability fundamentals   | `observability`, `tracing`, `rag`, `metrics`, `llmops`, `langfuse`, `langsmith`   |
+
 **Why This Matters:** LLM applications have more failure modes than traditional APIs. Without proper observability, teams cannot diagnose hallucination spikes, retrieval failures, or cost anomalies.
 
 **Question**  
@@ -180,15 +189,18 @@ Most production RAG failures are silent: the system returns a plausible-sounding
 
 ### Q-MLO-B01-004: What is prompt versioning, and why is it as critical as model versioning for LLM applications?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** Prompt Management  
-**Level:** Applied  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** LLM application basics  
-**Tags:** `prompt-versioning`, `prompt-management`, `llmops`, `deployment`, `regression`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | Prompt Management   | Applied   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM application basics   | `prompt-versioning`, `prompt-management`, `llmops`, `deployment`, `regression`   |
+
 **Why This Matters:** In LLM applications, the prompt IS the program. Changing a system prompt without versioning is equivalent to deploying untracked code changes to production.
 
 **Question**  
@@ -239,15 +251,18 @@ Multiple production incidents at major companies traced back to "minor" prompt e
 
 ### Q-MLO-B01-005: How do you monitor and control LLM inference cost in a production application with unpredictable usage patterns?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** Cost Management  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** mlops-llmops-platform-engineer, llm-rag-agent-engineer, devops-sre-to-aiops  
-**Interview Round:** Technical deep dive, System design  
-**Prerequisites:** LLM pricing models, token economics  
-**Tags:** `cost`, `token-optimization`, `budget`, `rate-limiting`, `llm-cost`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | Cost Management   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | mlops-llmops-platform-engineer, llm-rag-agent-engineer, devops-sre-to-aiops   | Technical deep dive, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM pricing models, token economics   | `cost`, `token-optimization`, `budget`, `rate-limiting`, `llm-cost`   |
+
 **Why This Matters:** LLM inference cost is the #1 operational surprise for teams moving from prototype to production. Without cost controls, a bug or traffic spike can generate a five-figure bill overnight.
 
 **Question**  
@@ -300,15 +315,18 @@ Multiple startups have reported $50K+ surprise bills from uncontrolled agent loo
 
 ### Q-MLO-B01-006: What is training-serving skew, and how do you prevent it in ML systems?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** Training-Serving Consistency  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** ml-data-engineer, mlops-llmops-platform-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** ML pipeline basics  
-**Tags:** `training-serving-skew`, `feature-store`, `pipeline`, `consistency`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | Training-Serving Consistency   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | ml-data-engineer, mlops-llmops-platform-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| ML pipeline basics   | `training-serving-skew`, `feature-store`, `pipeline`, `consistency`, `production`   |
+
 **Why This Matters:** Training-serving skew is one of the most insidious bugs in production ML — the model performs well offline but degrades silently in production, often going undetected for weeks.
 
 **Question**  
@@ -360,15 +378,18 @@ Google's ML systems paper listed training-serving skew as one of the most common
 
 ### Q-MLO-B01-007: Your LLM application's quality has degraded over the past two weeks, but the model version hasn't changed. How do you diagnose this?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** LLM Quality Debugging  
-**Level:** Debugging  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, devops-sre-to-aiops  
-**Interview Round:** Debugging  
-**Prerequisites:** LLM application architecture, RAG  
-**Tags:** `debugging`, `quality-degradation`, `rag`, `llm`, `root-cause-analysis`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | LLM Quality Debugging   | Debugging   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, devops-sre-to-aiops   | Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM application architecture, RAG   | `debugging`, `quality-degradation`, `rag`, `llm`, `root-cause-analysis`   |
+
 **Why This Matters:** LLM applications have more mutable surfaces than traditional software. When quality degrades without an obvious code change, the root cause can be retrieval, data, prompts, or external dependencies — and misdiagnosis wastes weeks.
 
 **Question**  
@@ -429,15 +450,18 @@ In most real production RAG degradation incidents, the root cause is retrieval, 
 
 ### Q-MLO-B01-008: Explain the concept of model registry and why it matters for production ML systems. What metadata should a registry track?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** Model Management  
-**Level:** Applied  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** mlops-llmops-platform-engineer, ml-data-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Model training basics, deployment awareness  
-**Tags:** `model-registry`, `versioning`, `mlflow`, `deployment`, `governance`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | Model Management   | Applied   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | mlops-llmops-platform-engineer, ml-data-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Model training basics, deployment awareness   | `model-registry`, `versioning`, `mlflow`, `deployment`, `governance`   |
+
 **Why This Matters:** Without a model registry, teams lose track of which model version is deployed, what data it was trained on, and whether it was evaluated before serving. This is the foundation of reproducible, auditable ML.
 
 **Question**  
@@ -493,15 +517,18 @@ Most ML compliance failures and audit findings trace back to missing model linea
 
 ### Q-MLO-B01-009: How would you design a CI/CD pipeline for an LLM-powered application? How does it differ from traditional software CI/CD?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** CI/CD for LLM Applications  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, llm-rag-agent-engineer  
-**Interview Round:** System design  
-**Prerequisites:** CI/CD concepts, LLM application architecture  
-**Tags:** `ci-cd`, `deployment`, `testing`, `llmops`, `evaluation`, `pipeline`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | CI/CD for LLM Applications   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | mlops-llmops-platform-engineer, devops-sre-to-aiops, llm-rag-agent-engineer   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| CI/CD concepts, LLM application architecture   | `ci-cd`, `deployment`, `testing`, `llmops`, `evaluation`, `pipeline`   |
+
 **Why This Matters:** Traditional CI/CD tests deterministic behavior. LLM applications are non-deterministic and have quality dimensions that require evaluation, not just assertion testing. Teams that apply standard CI/CD without adaptation ship regressions.
 
 **Question**  
@@ -559,15 +586,18 @@ Teams without prompt regression testing often discover regressions from user com
 
 ### Q-MLO-B01-010: What is a canary deployment for ML models, and how does it differ from canary deployment for traditional software?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** Deployment Strategies  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Deployment strategies, monitoring basics  
-**Tags:** `canary`, `deployment`, `progressive-rollout`, `a-b-testing`, `model-release`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | Deployment Strategies   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Deployment strategies, monitoring basics   | `canary`, `deployment`, `progressive-rollout`, `a-b-testing`, `model-release`   |
+
 **Why This Matters:** ML model canaries are harder than software canaries because failures are statistical (quality degradation) rather than binary (errors/crashes). Teams that deploy ML models without canary stages discover problems from users, not dashboards.
 
 **Question**  
@@ -617,15 +647,18 @@ Many ML teams skip canary deployment because "the model passed offline evaluatio
 
 ### Q-MLO-B01-011: What guardrails should be in place before an LLM application reaches production, and how do you enforce them operationally?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** Safety and Governance  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, llm-rag-agent-engineer  
-**Interview Round:** System design, Behavioral  
-**Prerequisites:** LLM application architecture, security basics  
-**Tags:** `guardrails`, `safety`, `governance`, `prompt-injection`, `content-filtering`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | Safety and Governance   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, llm-rag-agent-engineer   | System design, Behavioral   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM application architecture, security basics   | `guardrails`, `safety`, `governance`, `prompt-injection`, `content-filtering`, `production`   |
+
 **Why This Matters:** LLM applications are uniquely vulnerable to prompt injection, hallucination, and harmful output. Without guardrails, a production LLM app is a liability, not an asset.
 
 **Question**  
@@ -682,15 +715,18 @@ Every major LLM application launch has had guardrail bypass incidents. The patte
 
 ### Q-MLO-B01-012: How does rollback work for ML models in production, and why is it harder than rolling back traditional software?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** Disaster Recovery  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, ml-data-engineer  
-**Interview Round:** Technical deep dive, Debugging  
-**Prerequisites:** Deployment basics, model serving  
-**Tags:** `rollback`, `model-deployment`, `incident-response`, `versioning`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | Disaster Recovery   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | mlops-llmops-platform-engineer, devops-sre-to-aiops, ml-data-engineer   | Technical deep dive, Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| Deployment basics, model serving   | `rollback`, `model-deployment`, `incident-response`, `versioning`   |
+
 **Why This Matters:** ML rollback is the most underplanned capability in ML platforms. When a model degrades, the ability to revert quickly is the difference between a minor incident and a customer-impacting event.
 
 **Question**  
@@ -745,15 +781,18 @@ A common pattern: team deploys new model, quality degrades, they revert to previ
 
 ### Q-MLO-B01-013: What is the role of SLOs (Service Level Objectives) for ML-powered services, and how do you define them when model quality is non-deterministic?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** SLO and Reliability  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, devops-sre-to-aiops, mlops-llmops-platform-engineer  
-**Interview Round:** System design, Behavioral  
-**Prerequisites:** SRE fundamentals, ML serving experience  
-**Tags:** `slo`, `sli`, `reliability`, `quality`, `non-deterministic`, `governance`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | SLO and Reliability   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 8–12, 12–20   | senior-architect-ai-systems-lead, devops-sre-to-aiops, mlops-llmops-platform-engineer   | System design, Behavioral   |
+
+| Prerequisites | Tags |
+|---|---|
+| SRE fundamentals, ML serving experience   | `slo`, `sli`, `reliability`, `quality`, `non-deterministic`, `governance`   |
+
 **Why This Matters:** Traditional SLOs cover availability and latency. ML services need quality SLOs that capture model performance — without them, a service can be 100% available and 0% useful.
 
 **Question**  
@@ -809,15 +848,18 @@ Most AI teams in 2026 still don't have quality SLOs — they have availability S
 
 ### Q-MLO-B01-014: How do you implement governance and audit trails for AI systems in regulated industries?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** Governance and Compliance  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** System design, Behavioral  
-**Prerequisites:** ML deployment, compliance awareness  
-**Tags:** `governance`, `audit-trail`, `compliance`, `model-lineage`, `regulated-ml`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | Governance and Compliance   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | System design, Behavioral   |
+
+| Prerequisites | Tags |
+|---|---|
+| ML deployment, compliance awareness   | `governance`, `audit-trail`, `compliance`, `model-lineage`, `regulated-ml`   |
+
 **Why This Matters:** EU AI Act, FDA AI/ML guidance, and financial services regulations increasingly require demonstrable AI governance. Teams without audit infrastructure face regulatory risk and cannot deploy in regulated markets.
 
 **Question**  
@@ -879,15 +921,18 @@ The EU AI Act (effective 2025–2026) is driving major investment in AI governan
 
 ### Q-MLO-B01-015: Your AIOps anomaly detection system generates too many false positive alerts. How do you diagnose and fix this without missing real incidents?
 
-**Topic Family:** MLOps / LLMOps / AIOps  
-**Subtopic:** AIOps Alert Quality  
-**Level:** Debugging  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** devops-sre-to-aiops, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Debugging, Technical deep dive  
-**Prerequisites:** Anomaly detection basics, alert management  
-**Tags:** `aiops`, `anomaly-detection`, `false-positives`, `alert-fatigue`, `sre`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| MLOps / LLMOps / AIOps   | AIOps Alert Quality   | Debugging   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | devops-sre-to-aiops, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | Debugging, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Anomaly detection basics, alert management   | `aiops`, `anomaly-detection`, `false-positives`, `alert-fatigue`, `sre`   |
+
 **Why This Matters:** False positive alert fatigue is the #1 reason AIOps adoption fails. If operators ignore 90% of alerts, the real ones get missed too. Fixing this requires understanding both the ML model and the operational context.
 
 **Question**  

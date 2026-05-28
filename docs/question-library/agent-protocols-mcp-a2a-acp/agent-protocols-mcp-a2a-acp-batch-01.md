@@ -8,15 +8,18 @@ Complements: [Agents and Agentic Systems](../agents-and-agentic-systems/agents-a
 
 ### Q-PRT-B01-001: What problem does the Model Context Protocol (MCP) solve, and why was it needed beyond existing function-calling mechanisms?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** MCP Fundamentals  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** LLM function calling, tool-use basics  
-**Tags:** `mcp`, `tool-protocol`, `function-calling`, `standardization`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | MCP Fundamentals   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM function calling, tool-use basics   | `mcp`, `tool-protocol`, `function-calling`, `standardization`   |
+
 **Why This Matters:** MCP standardizes how LLMs discover and invoke tools. Without understanding why it exists, candidates treat it as just another API wrapper rather than a protocol-level abstraction.
 
 **Question**  
@@ -56,15 +59,18 @@ MCP adoption accelerated in 2025–2026 because every team building agents was f
 
 ### Q-PRT-B01-002: What is the Agent-to-Agent (A2A) protocol, and how does it differ from MCP?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** A2A Fundamentals  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** MCP basics, multi-agent awareness  
-**Tags:** `a2a`, `agent-protocol`, `multi-agent`, `delegation`, `interoperability`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | A2A Fundamentals   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, senior-architect-ai-systems-lead   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP basics, multi-agent awareness   | `a2a`, `agent-protocol`, `multi-agent`, `delegation`, `interoperability`   |
+
 **Why This Matters:** A2A addresses a fundamentally different problem than MCP. Confusing the two leads to bad architecture decisions in multi-agent systems.
 
 **Question**  
@@ -105,15 +111,18 @@ A2A emerged from Google's work on enterprise multi-agent systems. In large organ
 
 ### Q-PRT-B01-003: What is the Agent Communication Protocol (ACP), and where does it fit relative to MCP and A2A?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** ACP Fundamentals  
-**Level:** Concept  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive, Architecture  
-**Prerequisites:** MCP and A2A basics  
-**Tags:** `acp`, `agent-communication`, `messaging`, `multi-agent`, `interoperability`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | ACP Fundamentals   | Concept   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | Technical deep dive, Architecture   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP and A2A basics   | `acp`, `agent-communication`, `messaging`, `multi-agent`, `interoperability`   |
+
 **Why This Matters:** ACP occupies a distinct niche in the protocol landscape. Candidates who understand all three can make informed architecture decisions rather than defaulting to one.
 
 **Question**  
@@ -154,15 +163,18 @@ ACP gained traction in enterprises running heterogeneous agent stacks. A company
 
 ### Q-PRT-B01-004: Draw a conceptual architecture showing where MCP, A2A, and ACP operate in a multi-agent system.
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** Protocol Architecture  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** senior-architect-ai-systems-lead, llm-rag-agent-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** Architecture, System design  
-**Prerequisites:** MCP, A2A, ACP concepts  
-**Tags:** `protocol-architecture`, `multi-agent`, `mcp`, `a2a`, `acp`, `system-design`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | Protocol Architecture   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | senior-architect-ai-systems-lead, llm-rag-agent-engineer, mlops-llmops-platform-engineer   | Architecture, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP, A2A, ACP concepts   | `protocol-architecture`, `multi-agent`, `mcp`, `a2a`, `acp`, `system-design`   |
+
 **Why This Matters:** Architects must place each protocol at the correct layer. Misplacing a protocol leads to over-engineering, security gaps, or communication failures.
 
 **Question**  
@@ -218,15 +230,18 @@ Enterprise multi-agent deployments in 2025–2026 are evolving toward this layer
 
 ### Q-PRT-B01-005: How does tool discovery work in MCP, and what happens when available tools change at runtime?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** MCP Tool Discovery  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** MCP basics, LLM tool calling  
-**Tags:** `mcp`, `tool-discovery`, `dynamic-tools`, `runtime-configuration`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | MCP Tool Discovery   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer, mlops-llmops-platform-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP basics, LLM tool calling   | `mcp`, `tool-discovery`, `dynamic-tools`, `runtime-configuration`   |
+
 **Why This Matters:** Dynamic tool discovery is one of MCP's key differentiators. Candidates who only understand static tool lists miss the protocol's power.
 
 **Question**  
@@ -267,15 +282,18 @@ IDE-based MCP usage (VS Code, Cursor) pushes dynamic discovery hard. As users sw
 
 ### Q-PRT-B01-006: How does authentication and authorization work across MCP, and what security model does it assume?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** MCP Security  
-**Level:** System  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8, 8–12  
-**Role Families:** mlops-llmops-platform-engineer, senior-architect-ai-systems-lead, devops-sre-to-aiops  
-**Interview Round:** Security review, Architecture  
-**Prerequisites:** OAuth basics, API security  
-**Tags:** `mcp`, `security`, `authentication`, `authorization`, `oauth`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | MCP Security   | System   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8, 8–12   | mlops-llmops-platform-engineer, senior-architect-ai-systems-lead, devops-sre-to-aiops   | Security review, Architecture   |
+
+| Prerequisites | Tags |
+|---|---|
+| OAuth basics, API security   | `mcp`, `security`, `authentication`, `authorization`, `oauth`   |
+
 **Why This Matters:** MCP tools can execute code, access databases, and modify external systems. The security model is critical and often under-examined.
 
 **Question**  
@@ -320,15 +338,18 @@ Early MCP deployments suffered from over-permissive tool access — any user of 
 
 ### Q-PRT-B01-007: What are Agent Cards in A2A, and how do they enable dynamic agent discovery in enterprise systems?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** A2A Discovery  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** A2A basics  
-**Tags:** `a2a`, `agent-cards`, `discovery`, `enterprise`, `metadata`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | A2A Discovery   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, senior-architect-ai-systems-lead   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| A2A basics   | `a2a`, `agent-cards`, `discovery`, `enterprise`, `metadata`   |
+
 **Why This Matters:** Discovery is the first step in agent delegation. Without robust discovery, multi-agent systems require hard-coded agent references that don't scale.
 
 **Question**  
@@ -371,15 +392,18 @@ Enterprise A2A deployments mirror microservice evolution: first hard-coded URLs,
 
 ### Q-PRT-B01-008: What is the A2A task lifecycle, and why is it more complex than a simple request-response model?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** A2A Task Management  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** A2A basics, async programming  
-**Tags:** `a2a`, `task-lifecycle`, `async`, `streaming`, `long-running-tasks`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | A2A Task Management   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| A2A basics, async programming   | `a2a`, `task-lifecycle`, `async`, `streaming`, `long-running-tasks`   |
+
 **Why This Matters:** Agent tasks are often long-running and interactive. Simple request-response breaks down. Understanding the full lifecycle is essential for reliable multi-agent systems.
 
 **Question**  
@@ -431,15 +455,18 @@ Production A2A tasks frequently enter `input-required`, especially when delegate
 
 ### Q-PRT-B01-009: How does trust and identity work when one agent delegates a task to another via A2A across organizational boundaries?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** A2A Trust and Security  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** senior-architect-ai-systems-lead, devops-sre-to-aiops, mlops-llmops-platform-engineer  
-**Interview Round:** Security review, Architecture  
-**Prerequisites:** OAuth, mutual TLS, zero-trust concepts  
-**Tags:** `a2a`, `trust`, `identity`, `cross-organization`, `security`, `zero-trust`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | A2A Trust and Security   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | senior-architect-ai-systems-lead, devops-sre-to-aiops, mlops-llmops-platform-engineer   | Security review, Architecture   |
+
+| Prerequisites | Tags |
+|---|---|
+| OAuth, mutual TLS, zero-trust concepts   | `a2a`, `trust`, `identity`, `cross-organization`, `security`, `zero-trust`   |
+
 **Why This Matters:** Cross-organization agent delegation without proper trust boundaries is a security disaster waiting to happen. This is the hardest unsolved problem in multi-agent architectures.
 
 **Question**  
@@ -500,15 +527,18 @@ Financial services companies exploring multi-agent systems have made cross-bound
 
 ### Q-PRT-B01-010: What is the difference between a tool protocol and an agent protocol, and why does this distinction matter for system design?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** Protocol Classification  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead, software-foundations-to-ai-engineer  
-**Interview Round:** Conceptual screen, Architecture  
-**Prerequisites:** Basic agent and tool concepts  
-**Tags:** `tool-protocol`, `agent-protocol`, `architecture`, `classification`, `mcp`, `a2a`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | Protocol Classification   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, senior-architect-ai-systems-lead, software-foundations-to-ai-engineer   | Conceptual screen, Architecture   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic agent and tool concepts   | `tool-protocol`, `agent-protocol`, `architecture`, `classification`, `mcp`, `a2a`   |
+
 **Why This Matters:** Confusing tool protocols with agent protocols leads to the wrong abstraction at the wrong layer, creating brittle or over-engineered systems.
 
 **Question**  
@@ -561,15 +591,18 @@ A common anti-pattern in early agent systems: exposing everything as MCP tools, 
 
 ### Q-PRT-B01-011: How would you handle version incompatibilities between an MCP client and server in a production deployment?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** MCP Versioning  
-**Level:** System  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8, 8–12  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, senior-architect-ai-systems-lead  
-**Interview Round:** System design, Production  
-**Prerequisites:** MCP basics, API versioning  
-**Tags:** `mcp`, `versioning`, `compatibility`, `production`, `protocol-evolution`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | MCP Versioning   | System   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8, 8–12   | mlops-llmops-platform-engineer, devops-sre-to-aiops, senior-architect-ai-systems-lead   | System design, Production   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP basics, API versioning   | `mcp`, `versioning`, `compatibility`, `production`, `protocol-evolution`   |
+
 **Why This Matters:** Protocol evolution is inevitable. Production systems must handle version mismatches gracefully rather than crashing.
 
 **Question**  
@@ -613,15 +646,18 @@ MCP version management is already a pain point for teams running 10+ MCP servers
 
 ### Q-PRT-B01-012: Your agent system uses MCP for tools and A2A for delegation. A user query requires both. How do you orchestrate this end-to-end?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** Protocol Composition  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, llm-rag-agent-engineer  
-**Interview Round:** System design, Architecture  
-**Prerequisites:** MCP, A2A, agent orchestration  
-**Tags:** `mcp`, `a2a`, `orchestration`, `protocol-composition`, `system-design`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | Protocol Composition   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12, 12–20   | senior-architect-ai-systems-lead, llm-rag-agent-engineer   | System design, Architecture   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP, A2A, agent orchestration   | `mcp`, `a2a`, `orchestration`, `protocol-composition`, `system-design`   |
+
 **Why This Matters:** Real systems use multiple protocols simultaneously. The orchestration logic between protocol layers determines system reliability.
 
 **Question**  
@@ -676,15 +712,18 @@ Multi-protocol orchestration is the norm in production agent systems. The orches
 
 ### Q-PRT-B01-013: How does prompt injection risk change when an agent uses MCP to access external data and tools?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** MCP Security — Prompt Injection  
-**Level:** Debugging  
-**Difficulty:** 4  
-**Experience Bands:** 2–5, 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** Security review, Debugging  
-**Prerequisites:** Prompt injection basics, MCP  
-**Tags:** `mcp`, `prompt-injection`, `security`, `tool-use`, `attack-surface`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | MCP Security — Prompt Injection   | Debugging   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | Security review, Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| Prompt injection basics, MCP   | `mcp`, `prompt-injection`, `security`, `tool-use`, `attack-surface`   |
+
 **Why This Matters:** MCP dramatically expands the prompt injection surface. Data retrieved via MCP resources goes directly into the LLM's context alongside system instructions.
 
 **Question**  
@@ -740,15 +779,18 @@ Prompt injection through MCP resources has been demonstrated in real IDE plugins
 
 ### Q-PRT-B01-014: How would you design an agent registry that supports both A2A Agent Cards and ACP agent metadata?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** Multi-Protocol Registry  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** Architecture, System design  
-**Prerequisites:** A2A, ACP, service discovery patterns  
-**Tags:** `a2a`, `acp`, `registry`, `discovery`, `multi-protocol`, `architecture`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | Multi-Protocol Registry   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | Architecture, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| A2A, ACP, service discovery patterns   | `a2a`, `acp`, `registry`, `discovery`, `multi-protocol`, `architecture`   |
+
 **Why This Matters:** As organizations adopt multiple agent protocols, a unified registry prevents discovery silos and enables protocol-agnostic agent selection.
 
 **Question**  
@@ -808,15 +850,18 @@ Organizations deploying agents at scale report that discovery becomes the bottle
 
 ### Q-PRT-B01-015: What happens when an A2A delegated task enters the "input-required" state? How should the calling agent handle it?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** A2A Interactive Tasks  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** A2A task lifecycle  
-**Tags:** `a2a`, `input-required`, `interactive-tasks`, `multi-turn`, `delegation`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | A2A Interactive Tasks   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| A2A task lifecycle   | `a2a`, `input-required`, `interactive-tasks`, `multi-turn`, `delegation`   |
+
 **Why This Matters:** Interactive task delegation is where A2A becomes powerful but also complex. Most failures in multi-agent systems happen during interactive exchanges.
 
 **Question**  
@@ -869,15 +914,18 @@ The `input-required` state is the most common source of stuck A2A tasks in produ
 
 ### Q-PRT-B01-016: How do you test an MCP server in CI/CD? What should the test suite cover?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** MCP Testing  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive, Production  
-**Prerequisites:** MCP basics, CI/CD  
-**Tags:** `mcp`, `testing`, `ci-cd`, `quality-assurance`, `protocol-testing`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | MCP Testing   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer   | Technical deep dive, Production   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP basics, CI/CD   | `mcp`, `testing`, `ci-cd`, `quality-assurance`, `protocol-testing`   |
+
 **Why This Matters:** MCP servers are infrastructure. Without proper testing, tool breakages propagate to every agent and IDE that depends on them.
 
 **Question**  
@@ -940,15 +988,18 @@ Teams that skip MCP server testing discover breakages when an IDE plugin or agen
 
 ### Q-PRT-B01-017: When would you choose ACP over A2A for internal agent-to-agent communication, and vice versa?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** Protocol Selection  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** Architecture, Technical deep dive  
-**Prerequisites:** ACP and A2A concepts  
-**Tags:** `acp`, `a2a`, `protocol-selection`, `architecture-decision`, `trade-offs`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | Protocol Selection   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | Architecture, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| ACP and A2A concepts   | `acp`, `a2a`, `protocol-selection`, `architecture-decision`, `trade-offs`   |
+
 **Why This Matters:** Choosing the right protocol avoids unnecessary complexity or missing functionality. There's no one-size-fits-all answer.
 
 **Question**  
@@ -1005,15 +1056,18 @@ Many early multi-agent systems chose one protocol and then hit limitations. Team
 
 ### Q-PRT-B01-018: How do you implement observability for a system using MCP, A2A, and ACP simultaneously?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** Multi-Protocol Observability  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** devops-sre-to-aiops, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Production, System design  
-**Prerequisites:** Observability basics, distributed tracing  
-**Tags:** `observability`, `tracing`, `mcp`, `a2a`, `acp`, `multi-protocol`, `monitoring`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | Multi-Protocol Observability   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | devops-sre-to-aiops, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | Production, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Observability basics, distributed tracing   | `observability`, `tracing`, `mcp`, `a2a`, `acp`, `multi-protocol`, `monitoring`   |
+
 **Why This Matters:** Without unified observability across protocols, debugging multi-agent systems becomes impossible. Each protocol layer creates its own blind spots.
 
 **Question**  
@@ -1074,15 +1128,18 @@ The #1 complaint from teams running multi-protocol agent systems is "we can't de
 
 ### Q-PRT-B01-019: What are the security implications of an MCP server that exposes file system access, and how do you sandbox it?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** MCP Sandboxing  
-**Level:** System  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer  
-**Interview Round:** Security, Production  
-**Prerequisites:** MCP, OS security, sandboxing  
-**Tags:** `mcp`, `sandboxing`, `file-system`, `security`, `isolation`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | MCP Sandboxing   | System   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer   | Security, Production   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP, OS security, sandboxing   | `mcp`, `sandboxing`, `file-system`, `security`, `isolation`   |
+
 **Why This Matters:** File system MCP servers are among the most commonly deployed and most dangerous. Without proper sandboxing, they give LLMs unrestricted access to the host system.
 
 **Question**  
@@ -1130,15 +1187,18 @@ File system MCP servers have been exploited in proof-of-concept attacks against 
 
 ### Q-PRT-B01-020: How do MCP, A2A, and ACP compare in their approach to streaming and real-time communication?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** Protocol Streaming  
-**Level:** Concept  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** SSE, WebSocket, HTTP basics  
-**Tags:** `mcp`, `a2a`, `acp`, `streaming`, `sse`, `real-time`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | Protocol Streaming   | Concept   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer, mlops-llmops-platform-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| SSE, WebSocket, HTTP basics   | `mcp`, `a2a`, `acp`, `streaming`, `sse`, `real-time`   |
+
 **Why This Matters:** Streaming affects user experience, system architecture, and infrastructure requirements. Protocol-level streaming support determines what's possible without custom engineering.
 
 **Question**  
@@ -1196,15 +1256,18 @@ A2A streaming is the most impactful in production because agent tasks are often 
 
 ### Q-PRT-B01-021: Your A2A delegated agent returns a result that doesn't match the expected quality. How do you build quality gates for inter-agent delegation?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** A2A Quality Assurance  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive, Production  
-**Prerequisites:** A2A basics, evaluation concepts  
-**Tags:** `a2a`, `quality`, `validation`, `delegation`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | A2A Quality Assurance   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8, 8–12   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | Technical deep dive, Production   |
+
+| Prerequisites | Tags |
+|---|---|
+| A2A basics, evaluation concepts   | `a2a`, `quality`, `validation`, `delegation`, `production`   |
+
 **Why This Matters:** Delegated tasks are opaque. Without quality gates, you're blindly trusting external agents with no way to catch bad outputs.
 
 **Question**  
@@ -1263,15 +1326,18 @@ External agent quality is inconsistent. Teams report 10–20% of A2A delegated t
 
 ### Q-PRT-B01-022: How do you handle secrets and credentials when an MCP tool needs access to a third-party API?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** MCP Credential Management  
-**Level:** System  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer  
-**Interview Round:** Security, Production  
-**Prerequisites:** MCP basics, secrets management  
-**Tags:** `mcp`, `secrets`, `credentials`, `security`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | MCP Credential Management   | System   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | mlops-llmops-platform-engineer, devops-sre-to-aiops, software-foundations-to-ai-engineer   | Security, Production   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP basics, secrets management   | `mcp`, `secrets`, `credentials`, `security`, `production`   |
+
 **Why This Matters:** MCP tools often need API keys, database credentials, or service tokens. How these are managed determines whether your agent system is secure or a breach waiting to happen.
 
 **Question**  
@@ -1331,15 +1397,18 @@ Leaked API keys via MCP tool responses are a documented vulnerability. In one ca
 
 ### Q-PRT-B01-023: How do MCP Resources differ from MCP Tools, and when would you use each?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** MCP Design Patterns  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** MCP basics  
-**Tags:** `mcp`, `resources`, `tools`, `design-patterns`, `context`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | MCP Design Patterns   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP basics   | `mcp`, `resources`, `tools`, `design-patterns`, `context`   |
+
 **Why This Matters:** MCP's distinction between Resources and Tools is a core design decision. Misusing one as the other leads to inefficient or broken implementations.
 
 **Question**  
@@ -1397,15 +1466,18 @@ IDE MCP implementations use Resources heavily to provide project context (open f
 
 ### Q-PRT-B01-024: What are the practical limitations and open problems in the current agent protocol ecosystem (MCP, A2A, ACP)?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** Ecosystem Maturity  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, research-applied-research  
-**Interview Round:** Architecture, Strategy  
-**Prerequisites:** Deep understanding of all three protocols  
-**Tags:** `mcp`, `a2a`, `acp`, `limitations`, `open-problems`, `ecosystem-maturity`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | Ecosystem Maturity   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, research-applied-research   | Architecture, Strategy   |
+
+| Prerequisites | Tags |
+|---|---|
+| Deep understanding of all three protocols   | `mcp`, `a2a`, `acp`, `limitations`, `open-problems`, `ecosystem-maturity`   |
+
 **Why This Matters:** Knowing protocol limitations prevents over-promising and under-delivering. Architects must plan for what these protocols can't do yet.
 
 **Question**  
@@ -1469,15 +1541,18 @@ Production agent deployments consistently report that the protocols work for the
 
 ### Q-PRT-B01-025: You need to migrate an existing multi-agent system from custom REST APIs to standardized protocols. How do you approach this?
 
-**Topic Family:** Agent Protocols  
-**Subtopic:** Protocol Migration  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** Architecture, System design  
-**Prerequisites:** MCP, A2A, ACP, migration planning  
-**Tags:** `migration`, `protocol-adoption`, `architecture`, `mcp`, `a2a`, `acp`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agent Protocols   | Protocol Migration   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | Architecture, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| MCP, A2A, ACP, migration planning   | `migration`, `protocol-adoption`, `architecture`, `mcp`, `a2a`, `acp`, `production`   |
+
 **Why This Matters:** Most organizations already have agent systems with custom protocols. Migration to standards must be planned carefully to avoid regressions.
 
 **Question**  

@@ -8,15 +8,18 @@ Complements: [Existing question bank](../../../modules/02_genai/) (GenAI module 
 
 ### Q-TFM-B01-001: How does the tokenizer affect LLM behavior, and what goes wrong when it is poorly designed?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Tokenization  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, llm-rag-agent-engineer, research-applied-research  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Basic NLP awareness  
-**Tags:** `tokenizer`, `bpe`, `vocabulary`, `token-efficiency`, `multilingual`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Tokenization   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, llm-rag-agent-engineer, research-applied-research   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic NLP awareness   | `tokenizer`, `bpe`, `vocabulary`, `token-efficiency`, `multilingual`   |
+
 **Why This Matters:** Tokenization is the invisible contract between the data and the model. Tokenizer issues cause mysterious failures in arithmetic, code generation, and multilingual tasks.
 
 **Question**  
@@ -57,15 +60,18 @@ Llama 3 increased vocabulary size from 32K to 128K specifically to improve multi
 
 ### Q-TFM-B01-002: Explain the self-attention mechanism step by step. What is the purpose of Q, K, V, and why scale by √d_k?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Attention Mechanism  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, deep-learning-cv-engineer, research-applied-research  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Linear algebra, softmax  
-**Tags:** `attention`, `self-attention`, `qkv`, `softmax`, `scaling`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Attention Mechanism   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, ml-data-engineer, deep-learning-cv-engineer, research-applied-research   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Linear algebra, softmax   | `attention`, `self-attention`, `qkv`, `softmax`, `scaling`   |
+
 **Why This Matters:** Attention is the core operation in transformers. Understanding it is required for reasoning about model behavior, memory usage, and optimization.
 
 **Question**  
@@ -107,15 +113,18 @@ Flash Attention exploits the attention computation pattern to avoid materializin
 
 ### Q-TFM-B01-003: What is multi-head attention and why does it work better than single-head attention?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Attention Architecture  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, research-applied-research, deep-learning-cv-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Self-attention  
-**Tags:** `multi-head-attention`, `mha`, `gqa`, `mqa`, `attention-heads`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Attention Architecture   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, research-applied-research, deep-learning-cv-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Self-attention   | `multi-head-attention`, `mha`, `gqa`, `mqa`, `attention-heads`   |
+
 **Why This Matters:** Head design affects model capacity, inference speed, and KV cache size — critical for serving decisions.
 
 **Question**  
@@ -155,15 +164,18 @@ At Meta, switching from MHA to GQA in Llama 2 → 3 was motivated entirely by se
 
 ### Q-TFM-B01-004: What is Rotary Position Encoding (RoPE), and why did it replace learned and sinusoidal position encodings?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Position Encoding  
-**Level:** Concept  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, research-applied-research, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Self-attention, basic complex numbers (optional)  
-**Tags:** `rope`, `position-encoding`, `context-length`, `extrapolation`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Position Encoding   | Concept   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, research-applied-research, senior-architect-ai-systems-lead   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Self-attention, basic complex numbers (optional)   | `rope`, `position-encoding`, `context-length`, `extrapolation`   |
+
 **Why This Matters:** Position encoding determines the model's ability to handle long contexts and generalize to unseen sequence lengths — critical for RAG, agent chains, and document processing.
 
 **Question**  
@@ -205,15 +217,18 @@ Context length extension is one of the most active areas in LLM deployment. Llam
 
 ### Q-TFM-B01-005: What is the KV cache, why does it exist, and what are its memory and performance implications?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Inference Mechanics  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive, System design  
-**Prerequisites:** Attention mechanism, autoregressive decoding  
-**Tags:** `kv-cache`, `memory`, `inference`, `serving`, `decoding`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Inference Mechanics   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | Technical deep dive, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Attention mechanism, autoregressive decoding   | `kv-cache`, `memory`, `inference`, `serving`, `decoding`   |
+
 **Why This Matters:** KV cache is the single largest memory consumer during LLM inference and the primary constraint on batch size and context length in serving.
 
 **Question**  
@@ -258,15 +273,18 @@ vLLM's PagedAttention increased serving throughput 2–4x by reducing KV cache m
 
 ### Q-TFM-B01-006: How does Flash Attention work, and why does it make attention both faster and more memory-efficient?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Attention Optimization  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** deep-learning-cv-engineer, research-applied-research, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Self-attention, GPU memory hierarchy  
-**Tags:** `flash-attention`, `io-aware`, `sram`, `hbm`, `memory-efficiency`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Attention Optimization   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | deep-learning-cv-engineer, research-applied-research, mlops-llmops-platform-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Self-attention, GPU memory hierarchy   | `flash-attention`, `io-aware`, `sram`, `hbm`, `memory-efficiency`   |
+
 **Why This Matters:** Flash Attention is the standard attention implementation in all modern LLM training and inference. Understanding it is necessary for performance optimization.
 
 **Question**  
@@ -307,15 +325,18 @@ Every major LLM (Llama 3, Mistral, GPT-4, Claude) uses Flash Attention in both t
 
 ### Q-TFM-B01-007: What is Mixture of Experts (MoE) and what are its trade-offs vs dense models?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Architecture Variants  
-**Level:** Concept  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** research-applied-research, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Transformer FFN, routing concepts  
-**Tags:** `moe`, `mixture-of-experts`, `routing`, `sparse-model`, `efficiency`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Architecture Variants   | Concept   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | research-applied-research, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Transformer FFN, routing concepts   | `moe`, `mixture-of-experts`, `routing`, `sparse-model`, `efficiency`   |
+
 **Why This Matters:** MoE is the architecture choice behind the most capable frontier models (GPT-4, Mixtral, DBRX). Understanding trade-offs is essential for model selection and serving.
 
 **Question**  
@@ -356,15 +377,18 @@ Companies choosing between Llama 3 70B (dense) and Mixtral 8×22B (MoE) face a c
 
 ### Q-TFM-B01-008: What is speculative decoding, and why does it speed up LLM inference without changing the output distribution?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Generation and Decoding  
-**Level:** Applied  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive, System design  
-**Prerequisites:** Autoregressive decoding, KV cache  
-**Tags:** `speculative-decoding`, `draft-model`, `inference`, `latency`, `throughput`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Generation and Decoding   | Applied   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | Technical deep dive, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Autoregressive decoding, KV cache   | `speculative-decoding`, `draft-model`, `inference`, `latency`, `throughput`   |
+
 **Why This Matters:** Speculative decoding is one of the few techniques that reduces latency for memory-bound LLM decoding. Understanding it is key for latency-sensitive applications.
 
 **Question**  
@@ -409,15 +433,18 @@ Speculative decoding is especially effective for chat applications where latency
 
 ### Q-TFM-B01-009: Why do transformer models use LayerNorm, and what is the difference between pre-norm and post-norm architectures?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Normalization  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** research-applied-research, deep-learning-cv-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Basic normalization concept, residual connections  
-**Tags:** `layernorm`, `rmsnorm`, `pre-norm`, `post-norm`, `training-stability`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Normalization   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | research-applied-research, deep-learning-cv-engineer, software-foundations-to-ai-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic normalization concept, residual connections   | `layernorm`, `rmsnorm`, `pre-norm`, `post-norm`, `training-stability`   |
+
 **Why This Matters:** Normalization placement affects training stability and convergence. Nearly all modern LLMs use pre-norm, but understanding why prevents incorrect architectural choices.
 
 **Question**  
@@ -456,15 +483,18 @@ When fine-tuning or adapting models, normalization layers are often critical. Fr
 
 ### Q-TFM-B01-010: How does autoregressive text generation work step by step, and what are the key sampling strategies?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Generation Mechanics  
-**Level:** Applied  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, llm-rag-agent-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Softmax, probability distributions  
-**Tags:** `generation`, `sampling`, `temperature`, `top-p`, `top-k`, `greedy`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Generation Mechanics   | Applied   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, llm-rag-agent-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Softmax, probability distributions   | `generation`, `sampling`, `temperature`, `top-p`, `top-k`, `greedy`   |
+
 **Why This Matters:** Sampling strategy directly affects output quality, diversity, and reliability. Production LLM applications must tune these carefully.
 
 **Question**  
@@ -505,15 +535,18 @@ In production, most extraction and classification tasks use temperature=0 or ver
 
 ### Q-TFM-B01-011: What is the difference between model parallelism (tensor, pipeline, sequence) and data parallelism for training large models?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Distributed Training  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** research-applied-research, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design  
-**Prerequisites:** Multi-GPU basics, model architecture  
-**Tags:** `parallelism`, `tensor-parallel`, `pipeline-parallel`, `data-parallel`, `distributed-training`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Distributed Training   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | research-applied-research, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Multi-GPU basics, model architecture   | `parallelism`, `tensor-parallel`, `pipeline-parallel`, `data-parallel`, `distributed-training`   |
+
 **Why This Matters:** Training models beyond single-GPU capacity requires choosing the right parallelism strategy. Wrong choices waste expensive GPU hours.
 
 **Question**  
@@ -567,15 +600,18 @@ Llama 3 405B was trained with 3D parallelism on 16K H100 GPUs. The parallelism c
 
 ### Q-TFM-B01-012: What is the difference between pre-training, supervised fine-tuning, and alignment (RLHF/DPO), and why is each stage necessary?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Training Stages  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, llm-rag-agent-engineer, research-applied-research  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Language modeling basics  
-**Tags:** `pre-training`, `sft`, `rlhf`, `dpo`, `alignment`, `instruction-tuning`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Training Stages   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, llm-rag-agent-engineer, research-applied-research   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Language modeling basics   | `pre-training`, `sft`, `rlhf`, `dpo`, `alignment`, `instruction-tuning`   |
+
 **Why This Matters:** Understanding the training pipeline explains why base models vs instruct models behave differently, and why alignment can go wrong.
 
 **Question**  
@@ -627,15 +663,18 @@ The quality of the SFT dataset is the most underrated factor in LLM performance.
 
 ### Q-TFM-B01-013: How do modern LLMs generate structured output (JSON, function calls), and what can go wrong?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Structured Generation  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Generation mechanics, JSON awareness  
-**Tags:** `structured-output`, `json`, `constrained-decoding`, `function-calling`, `grammar`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Structured Generation   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Generation mechanics, JSON awareness   | `structured-output`, `json`, `constrained-decoding`, `function-calling`, `grammar`   |
+
 **Why This Matters:** Production LLM applications almost always require structured output. Understanding generation constraints prevents reliability failures.
 
 **Question**  
@@ -685,15 +724,18 @@ OpenAI's structured output mode uses constrained decoding with a JSON schema. Th
 
 ### Q-TFM-B01-014: What is quantization for LLMs, how does it work, and what are the quality-performance trade-offs?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Model Compression  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** mlops-llmops-platform-engineer, llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive, System design  
-**Prerequisites:** Floating point, model architecture  
-**Tags:** `quantization`, `int8`, `int4`, `gptq`, `awq`, `gguf`, `inference`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Model Compression   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | mlops-llmops-platform-engineer, llm-rag-agent-engineer, senior-architect-ai-systems-lead   | Technical deep dive, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Floating point, model architecture   | `quantization`, `int8`, `int4`, `gptq`, `awq`, `gguf`, `inference`   |
+
 **Why This Matters:** Quantization reduces model size 2–4x with minimal quality loss, making it possible to serve models on smaller/fewer GPUs. It is the default optimization for LLM deployment.
 
 **Question**  
@@ -738,15 +780,18 @@ Most production LLM deployments use quantization. The Meta Llama 3 70B at INT4 (
 
 ### Q-TFM-B01-015: Your fine-tuned model generates repetitive text (loops). Diagnose the issue.
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Generation Failures  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, research-applied-research  
-**Interview Round:** Debugging  
-**Prerequisites:** Fine-tuning, generation mechanics  
-**Tags:** `repetition`, `generation`, `fine-tuning`, `debugging`, `sampling`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Generation Failures   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, research-applied-research   | Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| Fine-tuning, generation mechanics   | `repetition`, `generation`, `fine-tuning`, `debugging`, `sampling`   |
+
 **Why This Matters:** Repetitive generation is one of the most common LLM production failures. Understanding the root causes prevents costly debugging cycles.
 
 **Question**  
@@ -791,15 +836,18 @@ Many production fine-tuning failures trace to training data quality. Teams that 
 
 ### Q-TFM-B01-016: The model produces correct answers for simple prompts but degrades on long-context prompts. Diagnose.
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Context Length / Attention  
-**Level:** Debugging  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Debugging, System design  
-**Prerequisites:** KV cache, position encoding, attention  
-**Tags:** `long-context`, `lost-in-the-middle`, `context-window`, `degradation`, `debugging`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Context Length / Attention   | Debugging   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead   | Debugging, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| KV cache, position encoding, attention   | `long-context`, `lost-in-the-middle`, `context-window`, `degradation`, `debugging`   |
+
 **Why This Matters:** Long-context degradation is one of the most subtle and impactful LLM failures, especially for RAG and document processing applications.
 
 **Question**  
@@ -844,15 +892,18 @@ The "lost in the middle" paper showed that most LLMs (even those claiming 100K+ 
 
 ### Q-TFM-B01-017: What is LoRA and how does it work at the matrix level?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Parameter-Efficient Fine-Tuning  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, research-applied-research, ml-data-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Linear algebra, fine-tuning basics  
-**Tags:** `lora`, `peft`, `low-rank`, `fine-tuning`, `adaptation`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Parameter-Efficient Fine-Tuning   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, research-applied-research, ml-data-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Linear algebra, fine-tuning basics   | `lora`, `peft`, `low-rank`, `fine-tuning`, `adaptation`   |
+
 **Why This Matters:** LoRA is the most widely used fine-tuning technique for LLMs. Understanding its mechanics enables correct hyperparameter choices and debugging.
 
 **Question**  
@@ -900,15 +951,18 @@ Production teams often train multiple LoRA adapters for different tasks/customer
 
 ### Q-TFM-B01-018: How does the feed-forward network (FFN) in a transformer work, and why does it use twice the hidden dimension?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Architecture Components  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** research-applied-research, deep-learning-cv-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Linear layers, activation functions  
-**Tags:** `ffn`, `gated-ffn`, `swiglu`, `hidden-dimension`, `transformer-block`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Architecture Components   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | research-applied-research, deep-learning-cv-engineer, software-foundations-to-ai-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Linear layers, activation functions   | `ffn`, `gated-ffn`, `swiglu`, `hidden-dimension`, `transformer-block`   |
+
 **Why This Matters:** The FFN constitutes ~2/3 of transformer parameters and is where "knowledge" is primarily stored. Understanding it explains model behavior and compression strategies.
 
 **Question**  
@@ -951,15 +1005,18 @@ Knowledge editing techniques (ROME, MEMIT) work by modifying specific FFN weight
 
 ### Q-TFM-B01-019: Design the inference serving architecture for a 70B parameter LLM to handle 500 requests/second at P99 latency under 3 seconds.
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Inference Architecture  
-**Level:** System  
-**Difficulty:** 5  
-**Experience Bands:** 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** System design  
-**Prerequisites:** GPU serving, quantization, parallelism, KV cache  
-**Tags:** `serving`, `inference`, `latency`, `throughput`, `system-design`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Inference Architecture   | System   | 5   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| GPU serving, quantization, parallelism, KV cache   | `serving`, `inference`, `latency`, `throughput`, `system-design`   |
+
 **Why This Matters:** Designing LLM serving infrastructure requires integrating architectural knowledge (quantization, parallelism, KV cache) with systems engineering (load balancing, autoscaling, SLOs).
 
 **Question**  
@@ -1015,15 +1072,18 @@ Companies serving LLMs at this scale typically use vLLM or TGI behind Kubernetes
 
 ### Q-TFM-B01-020: What are the key differences between encoder-only, decoder-only, and encoder-decoder transformer architectures?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Architecture Variants  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, research-applied-research, llm-rag-agent-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Basic transformer awareness  
-**Tags:** `encoder-only`, `decoder-only`, `encoder-decoder`, `bert`, `gpt`, `t5`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Architecture Variants   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, research-applied-research, llm-rag-agent-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic transformer awareness   | `encoder-only`, `decoder-only`, `encoder-decoder`, `bert`, `gpt`, `t5`   |
+
 **Why This Matters:** Choosing the right architecture type for a task is a fundamental design decision. Using a decoder-only model for embeddings or an encoder-only model for generation wastes resources.
 
 **Question**  
@@ -1073,15 +1133,18 @@ Modern embedding models (E5, GTE, BGE) are encoder-only or trained from decoder-
 
 ### Q-TFM-B01-021: After quantizing your model from FP16 to INT4, quality drops significantly on reasoning tasks but not on simple Q&A. Why?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Quantization Failures  
-**Level:** Debugging  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, research-applied-research  
-**Interview Round:** Debugging  
-**Prerequisites:** Quantization, model evaluation  
-**Tags:** `quantization`, `quality-degradation`, `reasoning`, `debugging`, `outlier-channels`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Quantization Failures   | Debugging   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, research-applied-research   | Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| Quantization, model evaluation   | `quantization`, `quality-degradation`, `reasoning`, `debugging`, `outlier-channels`   |
+
 **Why This Matters:** Quantization quality is not uniform across task types. Understanding when and why quality drops helps teams choose the right quantization level for their use case.
 
 **Question**  
@@ -1128,15 +1191,18 @@ Many production teams use "quality-tiered serving" — INT4 models for high-volu
 
 ### Q-TFM-B01-022: How would you evaluate whether a new foundation model is worth adopting for your production system?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Model Evaluation and Selection  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, llm-rag-agent-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** Architecture strategy, System design  
-**Prerequisites:** Model evaluation, production systems, cost analysis  
-**Tags:** `model-selection`, `evaluation`, `benchmarks`, `production`, `migration`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Model Evaluation and Selection   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12, 12–20   | senior-architect-ai-systems-lead, llm-rag-agent-engineer, mlops-llmops-platform-engineer   | Architecture strategy, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Model evaluation, production systems, cost analysis   | `model-selection`, `evaluation`, `benchmarks`, `production`, `migration`   |
+
 **Why This Matters:** New models release monthly. Impulsive model switching wastes months of engineering effort. Systematic evaluation prevents chasing benchmarks and ensures real-world value.
 
 **Question**  
@@ -1181,15 +1247,18 @@ Many teams have spent months migrating to a "better" model only to find that pro
 
 ### Q-TFM-B01-023: What is the impact of context window size on model architecture, training cost, and serving performance?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Context Window Design  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** senior-architect-ai-systems-lead, research-applied-research, llm-rag-agent-engineer  
-**Interview Round:** System design, Architecture strategy  
-**Prerequisites:** Attention mechanism, KV cache, training parallelism  
-**Tags:** `context-window`, `long-context`, `architecture`, `cost`, `training`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Context Window Design   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | senior-architect-ai-systems-lead, research-applied-research, llm-rag-agent-engineer   | System design, Architecture strategy   |
+
+| Prerequisites | Tags |
+|---|---|
+| Attention mechanism, KV cache, training parallelism   | `context-window`, `long-context`, `architecture`, `cost`, `training`   |
+
 **Why This Matters:** Context window size determines what applications are possible (e.g., full-document RAG, long-form code, conversation history) and drives infrastructure costs.
 
 **Question**  
@@ -1237,15 +1306,18 @@ Many customers ask for "128K context" but their actual use case only needs 4K of
 
 ### Q-TFM-B01-024: How would you design a model evaluation strategy that catches quality regressions before production deployment?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Evaluation Architecture  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, llm-rag-agent-engineer  
-**Interview Round:** System design, Architecture strategy  
-**Prerequisites:** Model evaluation, CI/CD, production ML  
-**Tags:** `evaluation`, `regression-testing`, `ci-cd`, `quality-gates`, `model-deployment`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Evaluation Architecture   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, llm-rag-agent-engineer   | System design, Architecture strategy   |
+
+| Prerequisites | Tags |
+|---|---|
+| Model evaluation, CI/CD, production ML   | `evaluation`, `regression-testing`, `ci-cd`, `quality-gates`, `model-deployment`   |
+
 **Why This Matters:** LLM quality regressions are subtle and hard to detect. Without systematic evaluation gates, quality issues reach users and erode trust.
 
 **Question**  
@@ -1305,15 +1377,18 @@ Every major LLM production team has experienced a quality regression that slippe
 
 ### Q-TFM-B01-025: What is the role of the embedding layer in a transformer, and why does it share weights with the final linear layer in many models?
 
-**Topic Family:** Transformer and Modern LLM Internals  
-**Subtopic:** Architecture Components  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** research-applied-research, software-foundations-to-ai-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Linear algebra, vocabulary  
-**Tags:** `embedding`, `weight-tying`, `vocabulary`, `language-model-head`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Transformer and Modern LLM Internals   | Architecture Components   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | research-applied-research, software-foundations-to-ai-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Linear algebra, vocabulary   | `embedding`, `weight-tying`, `vocabulary`, `language-model-head`   |
+
 **Why This Matters:** Understanding token embeddings explains how the model represents and outputs language, and weight tying affects model size and training.
 
 **Question**  

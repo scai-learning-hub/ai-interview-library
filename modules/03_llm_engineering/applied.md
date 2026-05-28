@@ -45,15 +45,18 @@ Design answer -> Implementation notes -> Scoped build -> Constraints -> Real fol
 
 ## Q-03-A-001: You need to serve a 70B parameter model on 2 A100 80GB GPUs. Walk through the serving configuration.
 
-**Module:** LLM Engineering
-**Submodule:** Model Serving
-**Level:** Applied
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** DevOps / SRE → AIOps, ML / Data Engineer, Senior / Architect
-**Tags:** [serving, tensor-parallel, vllm, gpu-memory, llm-engineering]
-**Prerequisites:** Q-03-C-004, Q-03-C-008
-**Estimated Interview Round:** Technical, System Design
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Model Serving | Applied | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | DevOps / SRE → AIOps, ML / Data Engineer, Senior / Architect | Technical, System Design |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-004, Q-03-C-008 | [serving, tensor-parallel, vllm, gpu-memory, llm-engineering] |
+
 **Why This Question Matters:** Deploying large models requires understanding memory budgets — model weights, KV cache, activation memory, and overhead. Getting this wrong means OOM errors in production.
 
 ---
@@ -149,15 +152,18 @@ This is the point where transformer knowledge becomes infrastructure ownership. 
 
 ## Q-03-A-002: How do you implement prefix caching to reduce latency and cost for repeated prompts?
 
-**Module:** LLM Engineering
-**Submodule:** Inference Optimization
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer, DevOps / SRE → AIOps
-**Tags:** [prefix-caching, kv-cache, latency, cost, llm-engineering]
-**Prerequisites:** Q-03-C-004
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Inference Optimization | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer, DevOps / SRE → AIOps | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-004 | [prefix-caching, kv-cache, latency, cost, llm-engineering] |
+
 **Why This Question Matters:** Many LLM applications have shared prompt prefixes (system prompts, few-shot examples, document context). Prefix caching avoids recomputing KV cache for these shared portions, directly reducing latency and cost.
 
 ---
@@ -247,15 +253,18 @@ Prefix caching is one of the cleanest wins in LLM serving, but only when the pro
 
 ## Q-03-A-003: How do you benchmark and compare LLM inference frameworks (vLLM, TensorRT-LLM, SGLang)?
 
-**Module:** LLM Engineering
-**Submodule:** Inference Frameworks
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, DevOps / SRE → AIOps, Senior / Architect
-**Tags:** [vllm, tensorrt-llm, sglang, benchmarking, throughput, llm-engineering]
-**Prerequisites:** Q-03-A-001
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Inference Frameworks | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, DevOps / SRE → AIOps, Senior / Architect | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-001 | [vllm, tensorrt-llm, sglang, benchmarking, throughput, llm-engineering] |
+
 **Why This Question Matters:** The inference framework can 2-3x throughput on the same hardware. Benchmarking correctly (not just "run a few prompts and check speed") is essential for production serving decisions.
 
 ---
@@ -350,15 +359,18 @@ Serving-framework choice is a platform decision, not a benchmark screenshot. The
 
 ## Q-03-A-004: Implement a token budget manager that prevents context window overflow in a multi-turn conversation.
 
-**Module:** LLM Engineering
-**Submodule:** Context Management
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer
-**Tags:** [context-window, token-budget, multi-turn, conversation, llm-engineering]
-**Prerequisites:** Q-03-C-001, Q-03-C-004
-**Estimated Interview Round:** Technical, Coding
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Context Management | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer | Technical, Coding |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-001, Q-03-C-004 | [context-window, token-budget, multi-turn, conversation, llm-engineering] |
+
 **Why This Question Matters:** Multi-turn conversations inevitably exceed context windows. Handling this gracefully (without dropping critical context or crashing) is a production essential.
 
 ---
@@ -490,15 +502,18 @@ Most multi-turn chat failures are really context-budget failures: missing state,
 
 ## Q-03-A-005: How do you implement structured output (JSON) parsing with LLMs reliably?
 
-**Module:** LLM Engineering
-**Submodule:** Structured Output
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer
-**Tags:** [structured-output, json, parsing, constrained-generation, llm-engineering]
-**Prerequisites:** Q-02-C-006, Q-03-C-006
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Structured Output | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-02-C-006, Q-03-C-006 | [structured-output, json, parsing, constrained-generation, llm-engineering] |
+
 **Why This Question Matters:** Most production LLM systems need structured output (JSON, enums, specific formats). Achieving 100% valid structured output is surprisingly hard and requires multiple approaches depending on the model.
 
 ---
@@ -604,15 +619,18 @@ The important production contract is not that the LLM is usually well-behaved. I
 
 ## Q-03-A-006: How do you implement token-level streaming for a real-time LLM chat interface?
 
-**Module:** LLM Engineering
-**Submodule:** Streaming
-**Level:** Applied
-**Difficulty:** 2
-**Experience Bands:** Early-career, Mid-level
-**Persona Relevance:** Software Dev → AI Engineer
-**Tags:** [streaming, sse, websocket, real-time, llm-engineering]
-**Prerequisites:** Q-03-C-006
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Streaming | Applied | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Early-career, Mid-level | Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-006 | [streaming, sse, websocket, real-time, llm-engineering] |
+
 **Why This Question Matters:** Streaming tokens as they're generated is essential for good UX — users see words appear in real-time instead of waiting 5-30 seconds for a complete response. It's also critical for long outputs where total generation time is significant.
 
 ---
@@ -734,15 +752,18 @@ Streaming is not just a nicer UI. It changes perceived latency, cancellation beh
 
 ## Q-03-A-007: How do you implement a tokenizer-aware text splitter for preprocessing long documents?
 
-**Module:** LLM Engineering
-**Submodule:** Tokenization
-**Level:** Applied
-**Difficulty:** 2
-**Experience Bands:** Early-career, Mid-level
-**Persona Relevance:** Software Dev → AI Engineer, ML / Data Engineer
-**Tags:** [tokenization, chunking, text-splitting, preprocessing, llm-engineering]
-**Prerequisites:** Q-03-C-001
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Tokenization | Applied | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Early-career, Mid-level | Software Dev → AI Engineer, ML / Data Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-001 | [tokenization, chunking, text-splitting, preprocessing, llm-engineering] |
+
 **Why This Question Matters:** Naive text splitting (by character count) leads to context window overflow or underutilization. Token-aware splitting ensures you use the context window efficiently and split at meaningful boundaries.
 
 ---
@@ -858,15 +879,18 @@ Preprocessing decisions leak directly into retrieval and prompting quality. Wast
 
 ## Q-03-A-008: How do you implement request batching for maximum LLM throughput?
 
-**Module:** LLM Engineering
-**Submodule:** Batching
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** DevOps / SRE → AIOps, Software Dev → AI Engineer
-**Tags:** [batching, continuous-batching, throughput, latency, llm-engineering]
-**Prerequisites:** Q-03-A-001, Q-03-C-004
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Batching | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | DevOps / SRE → AIOps, Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-001, Q-03-C-004 | [batching, continuous-batching, throughput, latency, llm-engineering] |
+
 **Why This Question Matters:** Batching is the primary mechanism for achieving high throughput in LLM serving. Understanding static vs continuous batching can 3-5x throughput on the same hardware.
 
 ---
@@ -968,15 +992,18 @@ Buying more GPUs is often not the first answer. Scheduler quality and batching p
 
 ## Q-03-A-009: How do you design an effective LLM evaluation pipeline for a production system?
 
-**Module:** LLM Engineering
-**Submodule:** Evaluation
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [evaluation, llm-judge, metrics, benchmarking, llm-engineering]
-**Prerequisites:** Q-02-A-005, Q-02-A-014
-**Estimated Interview Round:** Technical, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Evaluation | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Software Dev → AI Engineer | Technical, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-02-A-005, Q-02-A-014 | [evaluation, llm-judge, metrics, benchmarking, llm-engineering] |
+
 **Why This Question Matters:** LLM evaluation is harder than traditional ML evaluation because outputs are open-ended text. Building a reliable eval pipeline is the foundation for iterating on prompts, models, and configurations with confidence.
 
 ---
@@ -1086,15 +1113,18 @@ Without evaluation, prompt and model changes are just expensive guesswork. The e
 
 ## Q-03-A-010: How do you implement model fallback and routing between multiple LLM providers?
 
-**Module:** LLM Engineering
-**Submodule:** Model Routing
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer, DevOps / SRE → AIOps, Senior / Architect
-**Tags:** [model-routing, fallback, multi-provider, reliability, llm-engineering]
-**Prerequisites:** Q-02-S-006
-**Estimated Interview Round:** Technical, System Design
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Model Routing | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer, DevOps / SRE → AIOps, Senior / Architect | Technical, System Design |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-02-S-006 | [model-routing, fallback, multi-provider, reliability, llm-engineering] |
+
 **Why This Question Matters:** No single LLM provider has 100% uptime. Provider outages, rate limits, and cost spikes require automatic fallback. Model routing also enables cost optimization by routing simple tasks to cheaper models.
 
 ---
@@ -1207,15 +1237,18 @@ Routing is the interface between model quality, uptime, privacy, and cost. A str
 
 ## Q-03-A-011: How do you handle rate limiting and backpressure when your application depends on external LLM APIs?
 
-**Module:** LLM Engineering
-**Submodule:** Rate Limiting
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer, DevOps / SRE → AIOps
-**Tags:** [rate-limiting, backpressure, api, throttling, llm-engineering]
-**Prerequisites:** Q-03-A-010
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Rate Limiting | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer, DevOps / SRE → AIOps | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-010 | [rate-limiting, backpressure, api, throttling, llm-engineering] |
+
 **Why This Question Matters:** LLM API rate limits are the most common production bottleneck. Handling them gracefully (instead of throwing errors at users) is essential for reliable LLM-powered applications.
 
 ---
@@ -1330,15 +1363,18 @@ Rate limiting is really an admission-control problem. If everything is urgent, t
 
 ## Q-03-A-012: How do you monitor and control LLM API costs in production?
 
-**Module:** LLM Engineering
-**Submodule:** Cost Management
-**Level:** Applied
-**Difficulty:** 2
-**Experience Bands:** Early-career, Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer, DevOps / SRE → AIOps, Senior / Architect
-**Tags:** [cost, monitoring, budget, token-usage, llm-engineering]
-**Prerequisites:** Q-03-C-001
-**Estimated Interview Round:** Technical, Behavioral
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Cost Management | Applied | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Early-career, Mid-level, Senior | Software Dev → AI Engineer, DevOps / SRE → AIOps, Senior / Architect | Technical, Behavioral |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-001 | [cost, monitoring, budget, token-usage, llm-engineering] |
+
 **Why This Question Matters:** LLM API costs can spiral unexpectedly — a prompt change that doubles output length doubles cost. Real-time cost monitoring and controls prevent budget overruns that can cost thousands of dollars per day.
 
 ---
@@ -1436,15 +1472,18 @@ LLM spend usually rises through token drift, not only traffic growth. Teams that
 
 ## Q-03-A-013: How do you design prompts that work reliably under high-concurrency production conditions?
 
-**Module:** LLM Engineering
-**Submodule:** Prompt Reliability
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer
-**Tags:** [prompt-engineering, reliability, production, testing, llm-engineering]
-**Prerequisites:** Q-02-A-001, Q-02-A-010
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Prompt Reliability | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-02-A-001, Q-02-A-010 | [prompt-engineering, reliability, production, testing, llm-engineering] |
+
 **Why This Question Matters:** A prompt that works perfectly in development may fail unpredictably in production due to input diversity, edge cases, and model behavior under different conditions. Designing for reliability requires a different approach than designing for demos.
 
 ---

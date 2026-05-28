@@ -189,6 +189,11 @@ Practice questions for this module are in the question banks:
 - [GenAI question bank](../../modules/02_genai/) — generative AI, prompting, fine-tuning
 - [LLM Engineering question bank](../../modules/03_llm_engineering/) — LLM internals, sampling, scaling
 
+## Practice Surface
+
+- [Batch 01 question library](../question-library/transformer-and-modern-llm-internals/transformer-and-modern-llm-internals-batch-01.md) — targeted internals drilling by question
+- [Problem Set 01](../problem-sets/transformer-and-modern-llm-internals/transformer-and-modern-llm-internals-problem-set-01.md) — product-facing model internals, routing, and context-cost reasoning practice
+
 ## Cross-References
 
 - [Module Index](../indexes/module-index.md) — all modules with sequences and detail cards

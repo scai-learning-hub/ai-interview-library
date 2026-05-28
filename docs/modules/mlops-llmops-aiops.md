@@ -162,6 +162,11 @@ Practice questions for this module are in the operations question banks:
 - [MLOps question bank](../../modules/07_mlops/)
 - [AIOps question bank](../../modules/08_aiops/)
 
+## Practice Surface
+
+- [Batch 01 question library](../question-library/mlops-llmops-aiops/mlops-llmops-aiops-batch-01.md) — targeted ops, observability, and governance drilling
+- [Problem Set 01](../problem-sets/mlops-llmops-aiops/mlops-llmops-aiops-problem-set-01.md) — incident response, drift, rollout, and platform operations practice
+
 ## Cross-References
 
 - [Module Index](../indexes/module-index.md) — all modules with sequences and detail cards

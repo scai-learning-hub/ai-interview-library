@@ -8,15 +8,18 @@ Complements: [Existing question bank](../../../modules/04_rag/)
 
 ### Q-RAG-B01-001: Why can a RAG pipeline produce bad answers even when the retrieval step returns relevant documents?
 
-**Topic Family:** RAG  
-**Subtopic:** End-to-End Failure Modes  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive, Debugging  
-**Prerequisites:** Basic RAG awareness, LLM prompting  
-**Tags:** `rag`, `failure-modes`, `context-assembly`, `faithfulness`, `debugging`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | End-to-End Failure Modes   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | Technical deep dive, Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic RAG awareness, LLM prompting   | `rag`, `failure-modes`, `context-assembly`, `faithfulness`, `debugging`   |
+
 **Why This Matters:** The most frustrating RAG failures happen post-retrieval. Teams that only instrument retrieval quality miss the majority of production failures.
 
 **Question**  
@@ -62,15 +65,18 @@ Most production RAG failures are post-retrieval. Teams invest heavily in embeddi
 
 ### Q-RAG-B01-002: How do you design a chunking strategy, and what trade-offs exist between chunk size, overlap, and retrieval quality?
 
-**Topic Family:** RAG  
-**Subtopic:** Chunking  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, ml-data-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Vector embeddings, retrieval basics  
-**Tags:** `chunking`, `ingestion`, `chunk-size`, `overlap`, `semantic-chunking`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Chunking   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, ml-data-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Vector embeddings, retrieval basics   | `chunking`, `ingestion`, `chunk-size`, `overlap`, `semantic-chunking`   |
+
 **Why This Matters:** Chunking is the least glamorous and most impactful decision in a RAG pipeline. Bad chunking makes even perfect embeddings useless.
 
 **Question**  
@@ -121,15 +127,18 @@ Most production RAG systems use hybrid approaches: semantic chunking at ingestio
 
 ### Q-RAG-B01-003: Compare dense retrieval, sparse retrieval, and hybrid retrieval. When does each approach win?
 
-**Topic Family:** RAG  
-**Subtopic:** Retrieval Strategies  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer, ml-data-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Embeddings, TF-IDF/BM25 concepts  
-**Tags:** `retrieval`, `dense-retrieval`, `sparse-retrieval`, `hybrid`, `bm25`, `embedding`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Retrieval Strategies   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | llm-rag-agent-engineer, software-foundations-to-ai-engineer, ml-data-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Embeddings, TF-IDF/BM25 concepts   | `retrieval`, `dense-retrieval`, `sparse-retrieval`, `hybrid`, `bm25`, `embedding`   |
+
 **Why This Matters:** No single retrieval method dominates. Choosing the right strategy for the data and query patterns is a core RAG engineering decision.
 
 **Question**  
@@ -179,15 +188,18 @@ Every serious production RAG system uses hybrid retrieval. Pinecone, Weaviate, a
 
 ### Q-RAG-B01-004: What is a reranker, why is it needed after initial retrieval, and what are the latency vs quality trade-offs?
 
-**Topic Family:** RAG  
-**Subtopic:** Reranking  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, ml-data-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Dense retrieval, embedding models  
-**Tags:** `reranking`, `cross-encoder`, `bi-encoder`, `latency`, `retrieval-quality`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Reranking   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, ml-data-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Dense retrieval, embedding models   | `reranking`, `cross-encoder`, `bi-encoder`, `latency`, `retrieval-quality`   |
+
 **Why This Matters:** Reranking is the highest-leverage improvement most RAG teams can make. It bridges the quality gap between fast initial retrieval and accurate relevance scoring.
 
 **Question**  
@@ -237,15 +249,18 @@ Adding a cross-encoder reranker is typically the single biggest quality improvem
 
 ### Q-RAG-B01-005: How do you evaluate a RAG system end-to-end? What metrics matter and how do you collect ground truth?
 
-**Topic Family:** RAG  
-**Subtopic:** Evaluation  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design, Technical deep dive  
-**Prerequisites:** Retrieval metrics, LLM evaluation  
-**Tags:** `evaluation`, `rag-metrics`, `faithfulness`, `relevance`, `ground-truth`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Evaluation   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | System design, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Retrieval metrics, LLM evaluation   | `evaluation`, `rag-metrics`, `faithfulness`, `relevance`, `ground-truth`   |
+
 **Why This Matters:** RAG evaluation is hard because the system has multiple components and subjective outputs. Without good evaluation, teams iterate blind.
 
 **Question**  
@@ -298,15 +313,18 @@ RAGAS (Retrieval Augmented Generation Assessment) has become the standard framew
 
 ### Q-RAG-B01-006: How do embedding models represent text, and what determines whether two queries will retrieve the same documents?
 
-**Topic Family:** RAG  
-**Subtopic:** Embeddings  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Vector basics, neural networks  
-**Tags:** `embeddings`, `vector-space`, `similarity`, `semantic-search`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Embeddings   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Vector basics, neural networks   | `embeddings`, `vector-space`, `similarity`, `semantic-search`   |
+
 **Why This Matters:** Understanding embedding spaces is fundamental to diagnosing retrieval failures. Most RAG debugging starts with "why didn't this query find that document?"
 
 **Question**  
@@ -351,15 +369,18 @@ The MTEB (Massive Text Embedding Benchmark) leaderboard shows that embedding mod
 
 ### Q-RAG-B01-007: What is Graph RAG and when does it outperform standard vector-based RAG?
 
-**Topic Family:** RAG  
-**Subtopic:** Graph RAG  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Knowledge graphs, vector retrieval, multi-hop reasoning  
-**Tags:** `graph-rag`, `knowledge-graph`, `multi-hop`, `entity-extraction`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Graph RAG   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, senior-architect-ai-systems-lead   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Knowledge graphs, vector retrieval, multi-hop reasoning   | `graph-rag`, `knowledge-graph`, `multi-hop`, `entity-extraction`   |
+
 **Why This Matters:** Standard vector RAG fails for multi-hop queries and relationship-based questions. Graph RAG is the emerging solution and interview topic.
 
 **Question**  
@@ -412,15 +433,18 @@ Microsoft's Graph RAG paper (2024) showed significant improvements for global su
 
 ### Q-RAG-B01-008: How do you handle documents that change frequently in a RAG system?
 
-**Topic Family:** RAG  
-**Subtopic:** Ingestion / Index Management  
-**Level:** System  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** System design  
-**Prerequisites:** Vector databases, ingestion pipelines  
-**Tags:** `ingestion`, `index-management`, `document-updates`, `freshness`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Ingestion / Index Management   | System   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Vector databases, ingestion pipelines   | `ingestion`, `index-management`, `document-updates`, `freshness`, `production`   |
+
 **Why This Matters:** Static RAG demos ignore that real documents change. Production RAG must handle updates, deletions, and version conflicts without downtime.
 
 **Question**  
@@ -475,15 +499,18 @@ Enterprise RAG systems often index 10K–1M documents with daily update rates of
 
 ### Q-RAG-B01-009: What is the role of metadata filtering in RAG retrieval, and how do you design an effective metadata schema?
 
-**Topic Family:** RAG  
-**Subtopic:** Retrieval / Metadata  
-**Level:** Applied  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Vector database basics  
-**Tags:** `metadata`, `filtering`, `retrieval`, `access-control`, `multi-tenancy`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Retrieval / Metadata   | Applied   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Vector database basics   | `metadata`, `filtering`, `retrieval`, `access-control`, `multi-tenancy`   |
+
 **Why This Matters:** Pure semantic retrieval returns relevant content from the WRONG context. Metadata filtering is how production RAG systems ensure correct scoping.
 
 **Question**  
@@ -536,15 +563,18 @@ Every enterprise RAG deployment requires tenant isolation and access control. Th
 
 ### Q-RAG-B01-010: Your RAG system works well for short factual queries but fails for complex analytical questions. Why, and how do you fix it?
 
-**Topic Family:** RAG  
-**Subtopic:** Query Complexity  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, ml-data-engineer  
-**Interview Round:** Debugging, Technical deep dive  
-**Prerequisites:** Retrieval strategies, query understanding  
-**Tags:** `query-decomposition`, `multi-hop`, `complex-queries`, `debugging`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Query Complexity   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, ml-data-engineer   | Debugging, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Retrieval strategies, query understanding   | `query-decomposition`, `multi-hop`, `complex-queries`, `debugging`   |
+
 **Why This Matters:** Most RAG systems are only tested with simple queries. Complex queries expose fundamental design limitations.
 
 **Question**  
@@ -597,15 +627,18 @@ Enterprise users ask complex questions. "Summarize all incidents related to serv
 
 ### Q-RAG-B01-011: How do you design citation and attribution in a RAG system so users can verify answers?
 
-**Topic Family:** RAG  
-**Subtopic:** Citation / Trustworthiness  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive, System design  
-**Prerequisites:** RAG architecture, prompt engineering  
-**Tags:** `citation`, `attribution`, `trust`, `grounding`, `verification`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Citation / Trustworthiness   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, senior-architect-ai-systems-lead   | Technical deep dive, System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| RAG architecture, prompt engineering   | `citation`, `attribution`, `trust`, `grounding`, `verification`   |
+
 **Why This Matters:** RAG without citation is a black box. Users cannot verify answers, and the system cannot be trusted for high-stakes use cases.
 
 **Question**  
@@ -660,15 +693,18 @@ Perplexity AI's success is largely attributed to its inline citation design. Ent
 
 ### Q-RAG-B01-012: When should you use a vector database vs a traditional search engine vs a relational database for RAG retrieval?
 
-**Topic Family:** RAG  
-**Subtopic:** Infrastructure  
-**Level:** System  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design  
-**Prerequisites:** Database fundamentals, vector search  
-**Tags:** `vector-database`, `infrastructure`, `elasticsearch`, `pgvector`, `architecture`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Infrastructure   | System   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Database fundamentals, vector search   | `vector-database`, `infrastructure`, `elasticsearch`, `pgvector`, `architecture`   |
+
 **Why This Matters:** The choice of retrieval backend affects cost, latency, scalability, operational complexity, and capabilities. Over-engineering (dedicated vector DB for 1000 documents) and under-engineering (pgvector for 100M documents) are both common.
 
 **Question**  
@@ -719,15 +755,18 @@ Many successful production RAG systems run on pgvector because their corpus is <
 
 ### Q-RAG-B01-013: What causes hallucination in RAG systems, and how do you minimize it?
 
-**Topic Family:** RAG  
-**Subtopic:** Faithfulness / Hallucination  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** LLM generation, RAG architecture  
-**Tags:** `hallucination`, `faithfulness`, `grounding`, `guardrails`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Faithfulness / Hallucination   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, senior-architect-ai-systems-lead   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM generation, RAG architecture   | `hallucination`, `faithfulness`, `grounding`, `guardrails`   |
+
 **Why This Matters:** Hallucination is the number one user trust issue in RAG systems. Minimizing it is the primary quality objective for enterprise RAG.
 
 **Question**  
@@ -775,15 +814,18 @@ Enterprise RAG deployments in legal, medical, and financial services require hal
 
 ### Q-RAG-B01-014: How do you handle multimodal data (PDFs with tables, images, diagrams) in a RAG pipeline?
 
-**Topic Family:** RAG  
-**Subtopic:** Multimodal Ingestion  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design  
-**Prerequisites:** Document parsing, embeddings, VLMs  
-**Tags:** `multimodal`, `pdf`, `table-extraction`, `document-parsing`, `vlm`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Multimodal Ingestion   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Document parsing, embeddings, VLMs   | `multimodal`, `pdf`, `table-extraction`, `document-parsing`, `vlm`   |
+
 **Why This Matters:** Most enterprise corpora contain PDFs with tables, diagrams, and mixed layouts. Pure text RAG misses critical information in non-text elements.
 
 **Question**  
@@ -838,15 +880,18 @@ Financial reports, medical records, and legal contracts are PDF-heavy with criti
 
 ### Q-RAG-B01-015: How do you debug low retrieval recall — queries where the correct document exists in the corpus but is not retrieved?
 
-**Topic Family:** RAG  
-**Subtopic:** Debugging / Retrieval  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, ml-data-engineer  
-**Interview Round:** Debugging  
-**Prerequisites:** Embeddings, vector search, BM25  
-**Tags:** `debugging`, `retrieval`, `recall`, `embedding-diagnosis`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Debugging / Retrieval   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, ml-data-engineer   | Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| Embeddings, vector search, BM25   | `debugging`, `retrieval`, `recall`, `embedding-diagnosis`   |
+
 **Why This Matters:** Retrieval recall is the ceiling on RAG quality. If the right document is never retrieved, nothing downstream can fix the answer.
 
 **Question**  
@@ -899,15 +944,18 @@ A common production finding: HNSW index with default parameters misses 2–5% of
 
 ### Q-RAG-B01-016: What is context window management in RAG, and how do you decide how much retrieved content to include?
 
-**Topic Family:** RAG  
-**Subtopic:** Context Assembly  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** LLM context windows, retrieval  
-**Tags:** `context-window`, `context-assembly`, `token-budget`, `lost-in-middle`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Context Assembly   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM context windows, retrieval   | `context-window`, `context-assembly`, `token-budget`, `lost-in-middle`   |
+
 **Why This Matters:** Context window management is the bottleneck between retrieval and generation. Too little context → missing information. Too much → degraded attention and wasted tokens.
 
 **Question**  
@@ -962,15 +1010,18 @@ Anthropic's research on long-context understanding shows attention degradation a
 
 ### Q-RAG-B01-017: How do you handle user queries that are ambiguous or underspecified in a RAG system?
 
-**Topic Family:** RAG  
-**Subtopic:** Query Understanding  
-**Level:** Applied  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Basic RAG, prompting  
-**Tags:** `query-understanding`, `ambiguity`, `clarification`, `query-rewriting`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Query Understanding   | Applied   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic RAG, prompting   | `query-understanding`, `ambiguity`, `clarification`, `query-rewriting`   |
+
 **Why This Matters:** Real users write vague queries. A RAG system that only works for well-formed queries fails most real users.
 
 **Question**  
@@ -1020,15 +1071,18 @@ Query rewriting improves RAG answer quality by 10–25% in conversational settin
 
 ### Q-RAG-B01-018: How do you build and evaluate a hybrid retrieval pipeline that combines BM25 and dense embeddings?
 
-**Topic Family:** RAG  
-**Subtopic:** Hybrid Retrieval  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design  
-**Prerequisites:** BM25, embeddings, retrieval metrics  
-**Tags:** `hybrid-retrieval`, `bm25`, `rrf`, `fusion`, `evaluation`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Hybrid Retrieval   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| BM25, embeddings, retrieval metrics   | `hybrid-retrieval`, `bm25`, `rrf`, `fusion`, `evaluation`   |
+
 **Why This Matters:** Hybrid retrieval is the production standard for serious RAG systems. Building and tuning it properly requires understanding both retrieval paradigms and their interaction.
 
 **Question**  
@@ -1083,15 +1137,18 @@ Hybrid retrieval consistently outperforms either approach alone across published
 
 ### Q-RAG-B01-019: How should you handle conflicting information from multiple retrieved documents?
 
-**Topic Family:** RAG  
-**Subtopic:** Context Assembly / Faithfulness  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Debugging, Technical deep dive  
-**Prerequisites:** RAG architecture, prompt design  
-**Tags:** `conflict-resolution`, `faithfulness`, `multi-source`, `trust`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Context Assembly / Faithfulness   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, senior-architect-ai-systems-lead   | Debugging, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| RAG architecture, prompt design   | `conflict-resolution`, `faithfulness`, `multi-source`, `trust`   |
+
 **Why This Matters:** Real corpora have contradictions — outdated documents, regional variations, version conflicts. Unhandled conflicts cause the LLM to silently pick one, potentially the wrong one.
 
 **Question**  
@@ -1138,15 +1195,18 @@ Enterprise wikis are the worst offenders — multiple pages describe the same po
 
 ### Q-RAG-B01-020: What are the key security risks specific to RAG systems, and how do you mitigate them?
 
-**Topic Family:** RAG  
-**Subtopic:** Security  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead, devops-sre-to-aiops  
-**Interview Round:** System design, Security review  
-**Prerequisites:** LLM security basics, access control  
-**Tags:** `security`, `prompt-injection`, `data-leakage`, `access-control`, `rag-security`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Security   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead, devops-sre-to-aiops   | System design, Security review   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM security basics, access control   | `security`, `prompt-injection`, `data-leakage`, `access-control`, `rag-security`   |
+
 **Why This Matters:** RAG systems combine LLM vulnerabilities with data access vulnerabilities, creating unique attack surfaces that traditional security doesn't cover.
 
 **Question**  
@@ -1198,15 +1258,18 @@ The first wave of enterprise RAG deployments (2023–2024) exposed numerous data
 
 ### Q-RAG-B01-021: How do you design a RAG system for a corpus that includes both structured data (databases, APIs) and unstructured documents?
 
-**Topic Family:** RAG  
-**Subtopic:** Architecture / Multi-Source RAG  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** System design  
-**Prerequisites:** RAG architecture, SQL, APIs  
-**Tags:** `multi-source-rag`, `text-to-sql`, `structured-data`, `architecture`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Architecture / Multi-Source RAG   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| RAG architecture, SQL, APIs   | `multi-source-rag`, `text-to-sql`, `structured-data`, `architecture`   |
+
 **Why This Matters:** Real enterprise knowledge spans documents, databases, and APIs. RAG over only documents misses half the enterprise knowledge.
 
 **Question**  
@@ -1258,15 +1321,18 @@ Enterprise chatbots that only search documents disappoint users who ask quantita
 
 ### Q-RAG-B01-022: Your RAG system's latency increased from 2 seconds to 8 seconds after a recent update. How do you diagnose and fix it?
 
-**Topic Family:** RAG  
-**Subtopic:** Performance / Debugging  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, devops-sre-to-aiops  
-**Interview Round:** Debugging  
-**Prerequisites:** RAG architecture, latency profiling  
-**Tags:** `latency`, `debugging`, `performance`, `profiling`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Performance / Debugging   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, devops-sre-to-aiops   | Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| RAG architecture, latency profiling   | `latency`, `debugging`, `performance`, `profiling`, `production`   |
+
 **Why This Matters:** RAG latency directly impacts user experience. A 4x latency regression suggests a systemic issue that requires methodical diagnosis.
 
 **Question**  
@@ -1318,15 +1384,18 @@ The most common cause of RAG latency regression is unintentionally increasing th
 
 ### Q-RAG-B01-023: When is RAG the wrong approach, and what are the alternatives?
 
-**Topic Family:** RAG  
-**Subtopic:** Architecture Decisions  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, llm-rag-agent-engineer  
-**Interview Round:** Architecture strategy  
-**Prerequisites:** RAG, fine-tuning, prompt engineering  
-**Tags:** `architecture`, `rag-vs-finetuning`, `decision-framework`, `alternatives`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Architecture Decisions   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12, 12–20   | senior-architect-ai-systems-lead, llm-rag-agent-engineer   | Architecture strategy   |
+
+| Prerequisites | Tags |
+|---|---|
+| RAG, fine-tuning, prompt engineering   | `architecture`, `rag-vs-finetuning`, `decision-framework`, `alternatives`   |
+
 **Why This Matters:** RAG is not always the right solution. Over-applying RAG leads to unnecessary complexity and cost for problems better solved by other approaches.
 
 **Question**  
@@ -1383,15 +1452,18 @@ Many "RAG projects" would have been better served by a well-crafted system promp
 
 ### Q-RAG-B01-024: Design a RAG evaluation pipeline that runs automatically on every code change.
 
-**Topic Family:** RAG  
-**Subtopic:** Evaluation / CI/CD  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** mlops-llmops-platform-engineer, llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design  
-**Prerequisites:** CI/CD, RAG evaluation, automated testing  
-**Tags:** `evaluation`, `ci-cd`, `regression-testing`, `automation`, `ragas`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Evaluation / CI/CD   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | mlops-llmops-platform-engineer, llm-rag-agent-engineer, senior-architect-ai-systems-lead   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| CI/CD, RAG evaluation, automated testing   | `evaluation`, `ci-cd`, `regression-testing`, `automation`, `ragas`   |
+
 **Why This Matters:** RAG systems are fragile — small changes to chunking, retrieval, or prompting can cause quality regressions. Without automated evaluation, regressions ship to production.
 
 **Question**  
@@ -1448,15 +1520,18 @@ Companies running RAG at scale (customer support, internal knowledge) report tha
 
 ### Q-RAG-B01-025: Architect a production RAG system that serves 10,000 queries per hour across multiple teams with different corpora and different access levels.
 
-**Topic Family:** RAG  
-**Subtopic:** Architecture at Scale  
-**Level:** Architect  
-**Difficulty:** 5  
-**Experience Bands:** 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** Architecture strategy  
-**Prerequisites:** Distributed systems, RAG pipeline, security, multi-tenancy  
-**Tags:** `architecture`, `multi-tenant`, `scale`, `production`, `platform`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| RAG   | Architecture at Scale   | Architect   | 5   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | Architecture strategy   |
+
+| Prerequisites | Tags |
+|---|---|
+| Distributed systems, RAG pipeline, security, multi-tenancy   | `architecture`, `multi-tenant`, `scale`, `production`, `platform`   |
+
 **Why This Matters:** Scaling RAG from a demo to a multi-team production service requires fundamentally different architecture thinking.
 
 **Question**  

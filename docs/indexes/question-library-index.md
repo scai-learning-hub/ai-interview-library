@@ -4,6 +4,16 @@ How to navigate the AI Interview OS question library. This index covers the sche
 
 ---
 
+## Choose Questions Vs Problem Sets
+
+| Surface | Best when | Link |
+|---|---|---|
+| Question Library | You want targeted topic drilling and metadata-rich interview prompts | [Question Library](../question-library/README.md) |
+| Problem Sets | You want multi-step build, debugging, and design practice | [Problem Sets](../problem-sets/README.md) |
+| Module Guides | You need prerequisite order and deeper study notes first | [Module Index](module-index.md) |
+
+---
+
 ## How Questions Are Organized
 
 Each module has its own directory under `docs/question-library/`. Questions are released in numbered batches (batch-01, batch-02, etc.) as the library grows. Every question follows the same strict schema so questions are machine-readable and consistently structured.

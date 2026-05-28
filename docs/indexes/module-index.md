@@ -4,6 +4,27 @@ Modules are not equal in importance for every role. Use this index to decide seq
 
 ---
 
+## Coverage Board
+
+Use this table to see which module surfaces are already live.
+
+| Module | Guide | Question Batch | Problem Set | Best use right now |
+|---|---|---|---|---|
+| [Foundations](../modules/foundations.md) | Live | [Live](../question-library/foundations/foundations-batch-01.md) | [Live](../problem-sets/foundations/foundations-problem-set-01.md) | Core interview prep and baseline debugging |
+| [Classical ML](../modules/classical-ml.md) | Live | Planned | Planned | ML fundamentals and evaluation |
+| [Deep Learning Core](../modules/deep-learning-core.md) | Live | Planned | Planned | Training, tensors, CUDA basics |
+| [CV and Generative Architectures](../modules/cv-and-generative-architectures.md) | Live | Planned | Planned | Vision and generative architecture prep |
+| [Transformer and Modern LLM Internals](../modules/transformer-and-modern-llm-internals.md) | Live | [Live](../question-library/transformer-and-modern-llm-internals/transformer-and-modern-llm-internals-batch-01.md) | [Live](../problem-sets/transformer-and-modern-llm-internals/transformer-and-modern-llm-internals-problem-set-01.md) | LLM internals drilling and model-selection reasoning |
+| [Multimodal and VLMs](../modules/multimodal-and-vlms.md) | Live | Planned | Planned | Multimodal depth |
+| [RAG](../modules/rag.md) | Live | [Live](../question-library/rag/rag-batch-01.md) | [Live](../problem-sets/rag/rag-problem-set-01.md) | Strongest build-and-debug path |
+| [Agents and Agentic Systems](../modules/agents-and-agentic-systems.md) | Live | [Live](../question-library/agents-and-agentic-systems/agents-and-agentic-systems-batch-01.md) | [Live](../problem-sets/agents-and-agentic-systems/agents-and-agentic-systems-problem-set-01.md) | Agent architecture, safety, and control |
+| [Agent Protocols: MCP / A2A / ACP](../modules/agent-protocols-mcp-a2a-acp.md) | Live | [Live](../question-library/agent-protocols-mcp-a2a-acp/agent-protocols-mcp-a2a-acp-batch-01.md) | Planned | Protocol and trust reasoning |
+| [Systems, Serving, and Inference](../modules/systems-serving-and-inference.md) | Live | [Live](../question-library/systems-serving-and-inference/systems-serving-and-inference-batch-01.md) | [Live](../problem-sets/llm-engineering/llm-engineering-problem-set-01.md) | Serving, latency, and production trade-offs |
+| [Alignment / Post-training](../modules/alignment-post-training.md) | Live | Planned | Planned | Behavior shaping and evaluation |
+| [MLOps / LLMOps / AIOps](../modules/mlops-llmops-aiops.md) | Live | [Live](../question-library/mlops-llmops-aiops/mlops-llmops-aiops-batch-01.md) | [Live](../problem-sets/mlops-llmops-aiops/mlops-llmops-aiops-problem-set-01.md) | Ops, tracing, governance, and incident recovery |
+
+---
+
 ## Modules
 
 ### Core Foundations
@@ -145,3 +166,4 @@ Modules are not equal in importance for every role. Use this index to decide seq
 - [Experience Index](./experience-index.md) — entry points by career band
 - [Topic Graph](../topic-graph.md) — prerequisite dependencies
 - [Tag Index](./tag-index.md) — find modules by technical tag
+- [Problem Sets](../problem-sets/README.md) — multi-step practice by module

@@ -8,15 +8,18 @@ Complements: [Existing question bank](../../../modules/00_foundations/)
 
 ### Q-FND-B01-001: Why does PyTorch use dynamic computation graphs, and what does that mean for debugging vs performance?
 
-**Topic Family:** Foundations  
-**Subtopic:** Python for ML / Compute Graphs  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, research-applied-research  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Basic Python, numpy awareness  
-**Tags:** `pytorch`, `computation-graph`, `eager-mode`, `torch-compile`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Python for ML / Compute Graphs   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, ml-data-engineer, research-applied-research   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic Python, numpy awareness   | `pytorch`, `computation-graph`, `eager-mode`, `torch-compile`   |
+
 **Why This Matters:** Understanding dynamic vs static graphs is foundational for debugging training issues and knowing when to use torch.compile for production optimization.
 
 **Question**  
@@ -56,15 +59,18 @@ Most production teams develop in eager mode for fast iteration, then benchmark w
 
 ### Q-FND-B01-002: What is the difference between a tensor's shape, stride, and contiguity, and why do these matter for performance?
 
-**Topic Family:** Foundations  
-**Subtopic:** Tensor Thinking  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, deep-learning-cv-engineer, research-applied-research  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Basic numpy/torch usage  
-**Tags:** `tensors`, `memory-layout`, `stride`, `contiguous`, `performance`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Tensor Thinking   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, ml-data-engineer, deep-learning-cv-engineer, research-applied-research   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic numpy/torch usage   | `tensors`, `memory-layout`, `stride`, `contiguous`, `performance`   |
+
 **Why This Matters:** Memory layout directly affects GPU kernel efficiency. Misunderstanding contiguity causes subtle performance bugs and incorrect results in reshape operations.
 
 **Question**  
@@ -104,15 +110,18 @@ OOM errors in custom attention kernels frequently trace back to unexpected `.con
 
 ### Q-FND-B01-003: How does autograd work in PyTorch, and what happens when you call `.backward()`?
 
-**Topic Family:** Foundations  
-**Subtopic:** Autograd and Differentiation  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, research-applied-research  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Calculus basics, computation graphs  
-**Tags:** `autograd`, `backward`, `gradient`, `computation-graph`, `chain-rule`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Autograd and Differentiation   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, ml-data-engineer, research-applied-research   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Calculus basics, computation graphs   | `autograd`, `backward`, `gradient`, `computation-graph`, `chain-rule`   |
+
 **Why This Matters:** Every training loop depends on autograd. Understanding it prevents gradient-related bugs and enables writing custom operations.
 
 **Question**  
@@ -156,15 +165,18 @@ Gradient accumulation is intentionally used for simulating larger batch sizes on
 
 ### Q-FND-B01-004: When is the mean a misleading metric, and how do you choose between mean, median, percentiles, and distributions for evaluating ML systems?
 
-**Topic Family:** Foundations  
-**Subtopic:** Statistics and Evaluation  
-**Level:** Applied  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5, 5–8  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, llm-rag-agent-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Basic statistics  
-**Tags:** `statistics`, `evaluation`, `percentiles`, `tail-latency`, `metrics`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Statistics and Evaluation   | Applied   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5, 5–8   | software-foundations-to-ai-engineer, ml-data-engineer, llm-rag-agent-engineer, mlops-llmops-platform-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic statistics   | `statistics`, `evaluation`, `percentiles`, `tail-latency`, `metrics`   |
+
 **Why This Matters:** Production systems are often evaluated on means, which hide failures. Percentile thinking is essential for SLOs and user experience.
 
 **Question**  
@@ -207,15 +219,18 @@ Every serving SLO at major companies is defined on percentiles. P99 latency at 1
 
 ### Q-FND-B01-005: Explain the difference between precision, recall, F1, and when each is the right metric to optimize.
 
-**Topic Family:** Foundations  
-**Subtopic:** Evaluation Metrics  
-**Level:** Concept  
-**Difficulty:** 1  
-**Experience Bands:** 0–2  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, llm-rag-agent-engineer  
-**Interview Round:** Phone screen  
-**Prerequisites:** Binary classification basics  
-**Tags:** `precision`, `recall`, `f1`, `evaluation`, `classification`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Evaluation Metrics   | Concept   | 1   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2   | software-foundations-to-ai-engineer, ml-data-engineer, llm-rag-agent-engineer   | Phone screen   |
+
+| Prerequisites | Tags |
+|---|---|
+| Binary classification basics   | `precision`, `recall`, `f1`, `evaluation`, `classification`   |
+
 **Why This Matters:** Metric choice determines what your model optimizes for. Getting this wrong means the model succeeds on paper but fails for the business.
 
 **Question**  
@@ -256,15 +271,18 @@ Every production ML system has an implicit precision-recall trade-off. The produ
 
 ### Q-FND-B01-006: What is the computational and memory cost of matrix multiplication, and why does this matter for transformer inference?
 
-**Topic Family:** Foundations  
-**Subtopic:** Tensor Thinking / Compute  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** ml-data-engineer, deep-learning-cv-engineer, research-applied-research, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Linear algebra basics, transformer awareness  
-**Tags:** `matmul`, `flops`, `memory-bandwidth`, `compute-bound`, `memory-bound`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Tensor Thinking / Compute   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | ml-data-engineer, deep-learning-cv-engineer, research-applied-research, mlops-llmops-platform-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Linear algebra basics, transformer awareness   | `matmul`, `flops`, `memory-bandwidth`, `compute-bound`, `memory-bound`   |
+
 **Why This Matters:** Understanding matmul costs is the foundation for reasoning about model size, training time, inference throughput, and GPU utilization.
 
 **Question**  
@@ -305,15 +323,18 @@ The memory-bandwidth bottleneck is why vLLM's PagedAttention and continuous batc
 
 ### Q-FND-B01-007: How does mixed precision training work, and what can go wrong?
 
-**Topic Family:** Foundations  
-**Subtopic:** Training Mechanics  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** ml-data-engineer, deep-learning-cv-engineer, research-applied-research  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Floating point basics, training loop  
-**Tags:** `mixed-precision`, `fp16`, `bf16`, `loss-scaling`, `training`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Training Mechanics   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | ml-data-engineer, deep-learning-cv-engineer, research-applied-research   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Floating point basics, training loop   | `mixed-precision`, `fp16`, `bf16`, `loss-scaling`, `training`   |
+
 **Why This Matters:** Mixed precision is standard for modern training. Understanding it prevents training instability and enables correct performance optimization.
 
 **Question**  
@@ -362,15 +383,18 @@ Most modern LLM training uses BF16 on Ampere/Hopper GPUs. Legacy models and infe
 
 ### Q-FND-B01-008: What is the difference between torch.no_grad() and torch.inference_mode(), and when should each be used?
 
-**Topic Family:** Foundations  
-**Subtopic:** Autograd / Inference  
-**Level:** Applied  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Autograd basics  
-**Tags:** `no-grad`, `inference-mode`, `pytorch`, `memory`, `performance`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Autograd / Inference   | Applied   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, ml-data-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Autograd basics   | `no-grad`, `inference-mode`, `pytorch`, `memory`, `performance`   |
+
 **Why This Matters:** Using the wrong context manager wastes memory in production or breaks gradient computation during training.
 
 **Question**  
@@ -408,15 +432,18 @@ Serving pipelines that forget `inference_mode()` waste 10–30% GPU memory on un
 
 ### Q-FND-B01-009: You have a classification model with 95% accuracy. The product team says it is not working. What do you investigate?
 
-**Topic Family:** Foundations  
-**Subtopic:** Evaluation / Production Reasoning  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, llm-rag-agent-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** Debugging, Technical deep dive  
-**Prerequisites:** Evaluation metrics, data distribution  
-**Tags:** `evaluation`, `debugging`, `class-imbalance`, `production`, `distribution-shift`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Evaluation / Production Reasoning   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | software-foundations-to-ai-engineer, ml-data-engineer, llm-rag-agent-engineer, mlops-llmops-platform-engineer   | Debugging, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Evaluation metrics, data distribution   | `evaluation`, `debugging`, `class-imbalance`, `production`, `distribution-shift`   |
+
 **Why This Matters:** The gap between metric success and product failure is one of the most common production ML issues.
 
 **Question**  
@@ -460,15 +487,18 @@ This exact scenario happens monthly at companies launching ML features. The fix 
 
 ### Q-FND-B01-010: What is the difference between a Python generator, a DataLoader worker, and a prefetch queue, and how do they compose for training pipeline performance?
 
-**Topic Family:** Foundations  
-**Subtopic:** Python for ML / Data Loading  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, deep-learning-cv-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Python generators, multiprocessing basics  
-**Tags:** `dataloader`, `pipeline`, `python`, `gpu-utilization`, `prefetch`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Python for ML / Data Loading   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | software-foundations-to-ai-engineer, ml-data-engineer, deep-learning-cv-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Python generators, multiprocessing basics   | `dataloader`, `pipeline`, `python`, `gpu-utilization`, `prefetch`   |
+
 **Why This Matters:** GPU-starved training (GPU idle waiting for data) is a common and expensive problem. Understanding data loading architecture prevents it.
 
 **Question**  
@@ -510,15 +540,18 @@ At scale, data loading is often the bottleneck, not the model. Companies invest 
 
 ### Q-FND-B01-011: How do you reason about whether a model is underfitting vs overfitting, and what are the correct interventions for each?
 
-**Topic Family:** Foundations  
-**Subtopic:** Model Diagnostics  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, research-applied-research  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Training/validation loss, bias-variance  
-**Tags:** `underfitting`, `overfitting`, `regularization`, `model-selection`, `diagnostics`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Model Diagnostics   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, ml-data-engineer, research-applied-research   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Training/validation loss, bias-variance   | `underfitting`, `overfitting`, `regularization`, `model-selection`, `diagnostics`   |
+
 **Why This Matters:** This is the most fundamental diagnostic skill in ML. Getting the diagnosis wrong leads to wasted effort — adding data when the model is too simple, or adding regularization when the model can't even fit the training set.
 
 **Question**  
@@ -558,15 +591,18 @@ In LLM fine-tuning, overfitting is extremely common with small datasets and LoRA
 
 ### Q-FND-B01-012: What CUDA device properties should you check before starting a training or inference job, and why?
 
-**Topic Family:** Foundations  
-**Subtopic:** CUDA / GPU Awareness  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** ml-data-engineer, deep-learning-cv-engineer, mlops-llmops-platform-engineer, devops-sre-to-aiops  
-**Interview Round:** Technical deep dive, Production round  
-**Prerequisites:** Basic GPU awareness  
-**Tags:** `cuda`, `gpu`, `device-properties`, `memory`, `compute-capability`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | CUDA / GPU Awareness   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | ml-data-engineer, deep-learning-cv-engineer, mlops-llmops-platform-engineer, devops-sre-to-aiops   | Technical deep dive, Production round   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic GPU awareness   | `cuda`, `gpu`, `device-properties`, `memory`, `compute-capability`   |
+
 **Why This Matters:** Deploying to the wrong GPU or ignoring GPU characteristics leads to OOM errors, slow training, or incompatible operations.
 
 **Question**  
@@ -613,15 +649,18 @@ Cloud GPU instances vary dramatically — an A10G (24GB, PCIe) vs an A100 (80GB,
 
 ### Q-FND-B01-013: Why does shuffling matter during training, and when should you NOT shuffle?
 
-**Topic Family:** Foundations  
-**Subtopic:** Training Best Practices  
-**Level:** Concept  
-**Difficulty:** 1  
-**Experience Bands:** 0–2  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer  
-**Interview Round:** Phone screen  
-**Prerequisites:** Training loop basics  
-**Tags:** `shuffle`, `training`, `batch-composition`, `data-loading`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Training Best Practices   | Concept   | 1   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2   | software-foundations-to-ai-engineer, ml-data-engineer   | Phone screen   |
+
+| Prerequisites | Tags |
+|---|---|
+| Training loop basics   | `shuffle`, `training`, `batch-composition`, `data-loading`   |
+
 **Why This Matters:** Shuffling affects training convergence and can hide or introduce subtle bugs.
 
 **Question**  
@@ -660,15 +699,18 @@ In large-scale pre-training, shuffling is done at the dataset-construction stage
 
 ### Q-FND-B01-014: Design a model evaluation strategy for a system where ground truth arrives days or weeks after prediction.
 
-**Topic Family:** Foundations  
-**Subtopic:** Evaluation Design  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** ml-data-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design, Technical deep dive  
-**Prerequisites:** Evaluation fundamentals, production systems  
-**Tags:** `evaluation`, `delayed-labels`, `proxy-metrics`, `production`, `monitoring`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Evaluation Design   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | ml-data-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | System design, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Evaluation fundamentals, production systems   | `evaluation`, `delayed-labels`, `proxy-metrics`, `production`, `monitoring`   |
+
 **Why This Matters:** Many real ML systems (fraud detection, content recommendation, medical diagnosis) have delayed feedback. Without proxy evaluation, you fly blind for days or weeks.
 
 **Question**  
@@ -713,15 +755,18 @@ Fraud detection, medical diagnosis, loan default prediction, and ad recommendati
 
 ### Q-FND-B01-015: What is the GIL, and how does it affect ML training and serving workloads in Python?
 
-**Topic Family:** Foundations  
-**Subtopic:** Python for ML  
-**Level:** Applied  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Basic Python concurrency  
-**Tags:** `gil`, `python`, `multiprocessing`, `threading`, `performance`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Python for ML   | Applied   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, ml-data-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic Python concurrency   | `gil`, `python`, `multiprocessing`, `threading`, `performance`   |
+
 **Why This Matters:** Python's GIL is often cited as a bottleneck but its actual impact on ML workloads is nuanced. Understanding it prevents incorrect optimization decisions.
 
 **Question**  
@@ -760,15 +805,18 @@ Most serving frameworks (vLLM, TGI) use Rust/C++ for the hot path and only use P
 
 ### Q-FND-B01-016: What is the difference between micro-averaging and macro-averaging for multiclass metrics, and when does the choice matter?
 
-**Topic Family:** Foundations  
-**Subtopic:** Evaluation Metrics  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** ml-data-engineer, research-applied-research, llm-rag-agent-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Precision, recall, confusion matrix  
-**Tags:** `metrics`, `evaluation`, `multiclass`, `micro-average`, `macro-average`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Evaluation Metrics   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | ml-data-engineer, research-applied-research, llm-rag-agent-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Precision, recall, confusion matrix   | `metrics`, `evaluation`, `multiclass`, `micro-average`, `macro-average`   |
+
 **Why This Matters:** The averaging method can flip your conclusion about model quality. Choosing wrong leads to shipping a model that fails on important minority classes.
 
 **Question**  
@@ -808,15 +856,18 @@ Benchmark leaderboards often use specific averaging methods that can be gamed. M
 
 ### Q-FND-B01-017: What happens when your training data has label noise, and how do you detect and handle it?
 
-**Topic Family:** Foundations  
-**Subtopic:** Data Quality  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** ml-data-engineer, research-applied-research, llm-rag-agent-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Training basics, evaluation  
-**Tags:** `label-noise`, `data-quality`, `annotation`, `confident-learning`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Data Quality   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | ml-data-engineer, research-applied-research, llm-rag-agent-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Training basics, evaluation   | `label-noise`, `data-quality`, `annotation`, `confident-learning`   |
+
 **Why This Matters:** Most real-world datasets have 5–20% label noise. Ignoring it means training a model to memorize mistakes.
 
 **Question**  
@@ -862,15 +913,18 @@ LLM fine-tuning datasets are often created by weaker models or crowd workers. Te
 
 ### Q-FND-B01-018: Your model produces different results on CPU vs GPU for the same input. Why, and is this a bug?
 
-**Topic Family:** Foundations  
-**Subtopic:** Numerical Precision / Reproducibility  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, deep-learning-cv-engineer, research-applied-research  
-**Interview Round:** Debugging  
-**Prerequisites:** Floating point arithmetic, mixed precision  
-**Tags:** `reproducibility`, `numerical-precision`, `cpu-vs-gpu`, `floating-point`, `determinism`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Numerical Precision / Reproducibility   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | software-foundations-to-ai-engineer, ml-data-engineer, deep-learning-cv-engineer, research-applied-research   | Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| Floating point arithmetic, mixed precision   | `reproducibility`, `numerical-precision`, `cpu-vs-gpu`, `floating-point`, `determinism`   |
+
 **Why This Matters:** Numerical differences between devices cause test flakiness, evaluation inconsistency, and hard-to-debug production issues.
 
 **Question**  
@@ -912,15 +966,18 @@ Model evaluation pipelines that use exact output comparison break every time the
 
 ### Q-FND-B01-019: Explain the vanishing gradient problem, why it matters for deep networks, and how modern architectures address it.
 
-**Topic Family:** Foundations  
-**Subtopic:** Optimization / Training  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, deep-learning-cv-engineer, research-applied-research  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Backpropagation, chain rule  
-**Tags:** `vanishing-gradient`, `residual-connections`, `normalization`, `deep-networks`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Optimization / Training   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, ml-data-engineer, deep-learning-cv-engineer, research-applied-research   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Backpropagation, chain rule   | `vanishing-gradient`, `residual-connections`, `normalization`, `deep-networks`   |
+
 **Why This Matters:** Understanding gradient flow is essential for diagnosing training failures and understanding why modern architectures (ResNet, Transformer) work.
 
 **Question**  
@@ -963,15 +1020,18 @@ When fine-tuning a deep model and lower layers don't seem to update, the first c
 
 ### Q-FND-B01-020: How do you design an experiment to fairly compare two ML approaches for the same problem?
 
-**Topic Family:** Foundations  
-**Subtopic:** Experimentation  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** ml-data-engineer, research-applied-research, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive, Research discussion  
-**Prerequisites:** Evaluation fundamentals, statistics  
-**Tags:** `experimentation`, `ablation`, `comparison`, `reproducibility`, `statistical-significance`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Experimentation   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | ml-data-engineer, research-applied-research, senior-architect-ai-systems-lead   | Technical deep dive, Research discussion   |
+
+| Prerequisites | Tags |
+|---|---|
+| Evaluation fundamentals, statistics   | `experimentation`, `ablation`, `comparison`, `reproducibility`, `statistical-significance`   |
+
 **Why This Matters:** Unfair comparisons lead to wrong decisions. Rigorous experimentation separates effective ML teams from those that chase noise.
 
 **Question**  
@@ -1013,15 +1073,18 @@ Many companies switched from classical ML to LLMs based on unfair comparisons �
 
 ### Q-FND-B01-021: What is the difference between online learning and batch learning, and when does each apply in production?
 
-**Topic Family:** Foundations  
-**Subtopic:** Learning Paradigms  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** ml-data-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design, Technical deep dive  
-**Prerequisites:** Training fundamentals, production systems  
-**Tags:** `online-learning`, `batch-learning`, `continual-learning`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Learning Paradigms   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | ml-data-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | System design, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Training fundamentals, production systems   | `online-learning`, `batch-learning`, `continual-learning`, `production`   |
+
 **Why This Matters:** Choosing between online and batch learning affects system architecture, data pipeline design, model stability, and operational complexity.
 
 **Question**  
@@ -1067,15 +1130,18 @@ Most production ML at major companies is batch-retrained. Online learning is res
 
 ### Q-FND-B01-022: Your model training uses 27GB of GPU memory but your model has only 3B parameters in FP16 (6GB). Where is the rest of the memory?
 
-**Topic Family:** Foundations  
-**Subtopic:** Memory Analysis  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** ml-data-engineer, deep-learning-cv-engineer, research-applied-research, mlops-llmops-platform-engineer  
-**Interview Round:** Debugging  
-**Prerequisites:** Training basics, optimizer mechanics  
-**Tags:** `gpu-memory`, `optimizer-state`, `activations`, `memory-profiling`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Memory Analysis   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | ml-data-engineer, deep-learning-cv-engineer, research-applied-research, mlops-llmops-platform-engineer   | Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| Training basics, optimizer mechanics   | `gpu-memory`, `optimizer-state`, `activations`, `memory-profiling`   |
+
 **Why This Matters:** GPU memory is the most constrained resource in ML training. Understanding where memory goes is essential for fitting larger models and debugging OOM errors.
 
 **Question**  
@@ -1120,15 +1186,18 @@ QLoRA's key insight is reducing optimizer state memory by keeping the base model
 
 ### Q-FND-B01-023: What is Bayesian reasoning and why does it matter for ML system design?
 
-**Topic Family:** Foundations  
-**Subtopic:** Probability / Statistics  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, ml-data-engineer, research-applied-research  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** Basic probability  
-**Tags:** `bayesian`, `prior`, `posterior`, `probability`, `reasoning`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Probability / Statistics   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, ml-data-engineer, research-applied-research   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic probability   | `bayesian`, `prior`, `posterior`, `probability`, `reasoning`   |
+
 **Why This Matters:** Bayesian thinking underlies uncertainty estimation, model calibration, A/B testing design, and principled decision-making with limited data.
 
 **Question**  
@@ -1170,15 +1239,18 @@ Production anomaly detection systems that ignore base rates generate overwhelmin
 
 ### Q-FND-B01-024: How do you design an ML system to satisfy regulatory compliance and what are the key technical controls?
 
-**Topic Family:** Foundations  
-**Subtopic:** Governance / Compliance  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, ml-data-engineer  
-**Interview Round:** System design, Architecture strategy  
-**Prerequisites:** Production ML systems, evaluation, versioning  
-**Tags:** `governance`, `compliance`, `audit`, `explainability`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Governance / Compliance   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer, ml-data-engineer   | System design, Architecture strategy   |
+
+| Prerequisites | Tags |
+|---|---|
+| Production ML systems, evaluation, versioning   | `governance`, `compliance`, `audit`, `explainability`, `production`   |
+
 **Why This Matters:** AI regulations (EU AI Act, industry-specific requirements) increasingly mandate specific technical controls. Engineers who can architect compliance from the start avoid expensive retrofits.
 
 **Question**  
@@ -1220,15 +1292,18 @@ The EU AI Act requires high-risk AI systems to be explainable, auditable, and mo
 
 ### Q-FND-B01-025: How do you decide the right level of model complexity for a given problem?
 
-**Topic Family:** Foundations  
-**Subtopic:** Model Selection / Architecture  
-**Level:** Architect  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** ml-data-engineer, senior-architect-ai-systems-lead, research-applied-research  
-**Interview Round:** System design, Architecture strategy  
-**Prerequisites:** Model evaluation, production systems, cost reasoning  
-**Tags:** `model-selection`, `complexity`, `production`, `cost-benefit`, `architecture`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Foundations   | Model Selection / Architecture   | Architect   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | ml-data-engineer, senior-architect-ai-systems-lead, research-applied-research   | System design, Architecture strategy   |
+
+| Prerequisites | Tags |
+|---|---|
+| Model evaluation, production systems, cost reasoning   | `model-selection`, `complexity`, `production`, `cost-benefit`, `architecture`   |
+
 **Why This Matters:** Over-engineering is as common as under-engineering. The right model complexity depends on the problem, the data, the team, the budget, and the operational environment — not just accuracy.
 
 **Question**  

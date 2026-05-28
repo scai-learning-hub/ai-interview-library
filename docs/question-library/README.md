@@ -4,6 +4,16 @@ This directory contains the schema-strict question batches for the SCAI AI Inter
 
 Each module has its own subdirectory with numbered batch files. Questions follow the [Question Schema](../../schema/question_schema.md) and are tagged with role families, experience bands, and interview rounds.
 
+---
+
+## Choose Your Practice Surface
+
+| If you want | Go here | Why |
+|---|---|---|
+| Targeted question drilling | [Question Library](README.md) | One question at a time by module and batch |
+| Multi-step realistic practice | [Problem Sets](../problem-sets/README.md) | Build, debug, and defend decisions under pressure |
+| Deeper topic study | [Module Index](../indexes/module-index.md) | Use module guides and dependencies first |
+
 ## Current Batches
 
 | Module | Batch | Questions |
@@ -17,6 +27,16 @@ Each module has its own subdirectory with numbered batch files. Questions follow
 | [MLOps / LLMOps / AIOps](mlops-llmops-aiops/mlops-llmops-aiops-batch-01.md) | 01 | 15 |
 
 **Total: 155 questions across 7 modules**
+
+## Best Way To Use These Batches
+
+```text
+Choose module -> scan batch -> answer out loud -> review weak signals -> move to a problem set
+```
+
+- Use batches for sharp drilling.
+- Use module guides when answers feel shallow.
+- Use problem sets when you want interview-real pressure instead of isolated prompts.
 
 ## Structure
 
@@ -38,4 +58,4 @@ question-library/
     mlops-llmops-aiops-batch-01.md
 ```
 
-→ [Full Question Library Index](../indexes/question-library-index.md)
+→ [Full Question Library Index](../indexes/question-library-index.md) · [Problem Sets](../problem-sets/README.md)

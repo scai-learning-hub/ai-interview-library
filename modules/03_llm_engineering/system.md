@@ -32,15 +32,18 @@ Requirements -> isolation boundaries -> control plane -> data plane -> failure c
 
 ## Q-03-S-001: Design a multi-model LLM serving platform that handles 10,000 requests/minute across 5 different models with varying latency SLAs.
 
-**Module:** LLM Engineering
-**Submodule:** Serving Infrastructure
-**Level:** System
-**Difficulty:** 5
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** Senior / Architect, DevOps / SRE → AIOps
-**Tags:** [system-design, serving, multi-model, scaling, llm-engineering]
-**Prerequisites:** Q-03-A-001, Q-03-A-010, Q-03-A-008
-**Estimated Interview Round:** System Design
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Serving Infrastructure | System | 5 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | Senior / Architect, DevOps / SRE → AIOps | System Design |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-001, Q-03-A-010, Q-03-A-008 | [system-design, serving, multi-model, scaling, llm-engineering] |
+
 **Why This Question Matters:** Real LLM platforms serve multiple models to different products. The infrastructure must handle heterogeneous workloads, different GPU requirements, autoscaling, and cost optimization simultaneously.
 
 ---
@@ -145,15 +148,18 @@ This is where LLM serving stops being a single deployment and becomes a platform
 
 ## Q-03-S-002: Design a system for continuously evaluating LLM quality in production without human labelers.
 
-**Module:** LLM Engineering
-**Submodule:** Production Evaluation
-**Level:** System
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** ML / Data Engineer, Senior / Architect
-**Tags:** [system-design, evaluation, monitoring, quality, llm-engineering]
-**Prerequisites:** Q-03-A-009, Q-02-A-014
-**Estimated Interview Round:** System Design, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Production Evaluation | System | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | ML / Data Engineer, Senior / Architect | System Design, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-009, Q-02-A-014 | [system-design, evaluation, monitoring, quality, llm-engineering] |
+
 **Why This Question Matters:** LLM output quality can degrade silently — model updates, prompt drift, input distribution changes. Continuous automated evaluation catches regressions before users notice. Building this without hiring human labelers requires creative system design.
 
 ---
@@ -265,15 +271,18 @@ Quality monitoring is the replacement for intuition once traffic scales. If the 
 
 ## Q-03-S-003: Design a context-aware caching system for LLM responses that reduces serving costs by 40%.
 
-**Module:** LLM Engineering
-**Submodule:** Caching Architecture
-**Level:** System
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** Senior / Architect, DevOps / SRE → AIOps
-**Tags:** [system-design, caching, semantic-cache, cost-optimization, llm-engineering]
-**Prerequisites:** Q-03-A-002, Q-03-A-012
-**Estimated Interview Round:** System Design
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Caching Architecture | System | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | Senior / Architect, DevOps / SRE → AIOps | System Design |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-002, Q-03-A-012 | [system-design, caching, semantic-cache, cost-optimization, llm-engineering] |
+
 **Why This Question Matters:** LLM inference is expensive. Caching can dramatically reduce costs but traditional exact-match caching has low hit rates for natural language queries. Semantic caching enables much higher hit rates.
 
 ---
@@ -391,15 +400,18 @@ Caching looks simple until it starts returning wrong answers cheaply at scale. S
 
 ## Q-03-S-004: Design a real-time LLM observability platform that tracks quality, cost, and performance across all LLM calls.
 
-**Module:** LLM Engineering
-**Submodule:** Observability
-**Level:** System
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** DevOps / SRE → AIOps, Senior / Architect
-**Tags:** [system-design, observability, monitoring, tracing, llm-engineering]
-**Prerequisites:** Q-03-A-012, Q-03-S-002
-**Estimated Interview Round:** System Design
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Observability | System | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | DevOps / SRE → AIOps, Senior / Architect | System Design |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-012, Q-03-S-002 | [system-design, observability, monitoring, tracing, llm-engineering] |
+
 **Why This Question Matters:** LLM systems are opaque — you can't understand what's happening in production without comprehensive observability. Traditional APM tools don't capture LLM-specific signals (token usage, prompt versions, quality scores).
 
 ---
@@ -515,15 +527,18 @@ Observability is what turns opaque LLM calls into operable systems. Without prom
 
 ## Q-03-S-005: Design a multi-tenant LLM platform where each tenant can deploy custom fine-tuned models with isolation and fair resource sharing.
 
-**Module:** LLM Engineering
-**Submodule:** Multi-Tenancy
-**Level:** System
-**Difficulty:** 5
-**Experience Bands:** Architect
-**Persona Relevance:** Senior / Architect
-**Tags:** [system-design, multi-tenant, fine-tuning, isolation, resource-sharing, llm-engineering]
-**Prerequisites:** Q-03-S-001, Q-02-S-005
-**Estimated Interview Round:** System Design
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Multi-Tenancy | System | 5 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Architect | Senior / Architect | System Design |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-S-001, Q-02-S-005 | [system-design, multi-tenant, fine-tuning, isolation, resource-sharing, llm-engineering] |
+
 **Why This Question Matters:** Multi-tenant LLM platforms (like what AI startups and enterprises need internally) have unique challenges: model isolation, GPU scheduling for heterogeneous models, fair sharing, and cost attribution.
 
 ---
@@ -631,15 +646,18 @@ Multi-tenancy is where model serving, governance, and finance meet. The platform
 
 ## Q-03-S-006: Design a system for A/B testing LLM model versions and prompt changes in production.
 
-**Module:** LLM Engineering
-**Submodule:** Experimentation
-**Level:** System
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** ML / Data Engineer, Senior / Architect
-**Tags:** [system-design, ab-testing, experimentation, production, llm-engineering]
-**Prerequisites:** Q-03-A-009, Q-03-S-002
-**Estimated Interview Round:** System Design
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Experimentation | System | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | ML / Data Engineer, Senior / Architect | System Design |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-A-009, Q-03-S-002 | [system-design, ab-testing, experimentation, production, llm-engineering] |
+
 **Why This Question Matters:** LLM systems need to iterate rapidly on models and prompts. Without proper A/B testing, you're deploying changes without evidence — and LLM regressions can be subtle and costly.
 
 ---

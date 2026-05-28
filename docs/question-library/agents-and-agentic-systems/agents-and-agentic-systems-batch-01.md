@@ -8,15 +8,18 @@ Complements: [Existing question bank](../../../modules/05_agentic_ai/)
 
 ### Q-AGT-B01-001: When should you NOT use an agent and use a deterministic workflow instead?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Architecture Decisions  
-**Level:** Architect  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** System design, Architecture strategy  
-**Prerequisites:** Basic agent concepts, workflow orchestration  
-**Tags:** `agents`, `deterministic-workflows`, `architecture-decisions`, `when-not-to-use`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Architecture Decisions   | Architect   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | System design, Architecture strategy   |
+
+| Prerequisites | Tags |
+|---|---|
+| Basic agent concepts, workflow orchestration   | `agents`, `deterministic-workflows`, `architecture-decisions`, `when-not-to-use`   |
+
 **Why This Matters:** The most common agent failure is applying agents where a simple pipeline suffices. Knowing when NOT to use agents is more important than knowing how to build them.
 
 **Question**  
@@ -63,15 +66,18 @@ Major AI companies report that 60–80% of their production LLM workloads use de
 
 ### Q-AGT-B01-002: What are the core components of an LLM agent, and how do they interact?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Agent Architecture  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** LLM basics, function calling  
-**Tags:** `agent-architecture`, `tool-use`, `planning`, `memory`, `state`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Agent Architecture   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM basics, function calling   | `agent-architecture`, `tool-use`, `planning`, `memory`, `state`   |
+
 **Why This Matters:** Understanding agent components is foundational for designing, debugging, and improving agentic systems.
 
 **Question**  
@@ -116,15 +122,18 @@ Frameworks like LangChain, CrewAI, and AutoGen all implement these same componen
 
 ### Q-AGT-B01-003: How does tool calling work in LLM agents, and what are the failure modes?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Tool Use  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Function calling APIs, JSON parsing  
-**Tags:** `tool-calling`, `function-calling`, `failure-modes`, `schema`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Tool Use   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Function calling APIs, JSON parsing   | `tool-calling`, `function-calling`, `failure-modes`, `schema`   |
+
 **Why This Matters:** Tool calling is the interface between the LLM and the real world. Failures here cause agents to malfunction, produce wrong results, or enter infinite loops.
 
 **Question**  
@@ -177,15 +186,18 @@ Production agent systems cap tool inventories at 5–15 tools. Beyond that, the 
 
 ### Q-AGT-B01-004: What is the difference between ReAct, plan-and-execute, and reflexion patterns in agent design?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Planning Patterns  
-**Level:** Concept  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, research-applied-research  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Agent basics, chain-of-thought reasoning  
-**Tags:** `react`, `planning`, `reflexion`, `agent-patterns`, `orchestration`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Planning Patterns   | Concept   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, research-applied-research   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Agent basics, chain-of-thought reasoning   | `react`, `planning`, `reflexion`, `agent-patterns`, `orchestration`   |
+
 **Why This Matters:** Different planning patterns have dramatically different cost, latency, reliability, and capability profiles. Choosing the wrong pattern is a common design mistake.
 
 **Question**  
@@ -238,15 +250,18 @@ Devin (AI software engineer) uses a plan-and-execute pattern for complex coding 
 
 ### Q-AGT-B01-005: How do you implement and manage agent memory across conversations?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Memory  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** LLM context windows, RAG basics  
-**Tags:** `memory`, `long-term-memory`, `conversation-state`, `persistence`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Memory   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM context windows, RAG basics   | `memory`, `long-term-memory`, `conversation-state`, `persistence`   |
+
 **Why This Matters:** Agents without memory repeat themselves, forget user preferences, and cannot build on past interactions. Memory architecture determines user experience.
 
 **Question**  
@@ -299,15 +314,18 @@ ChatGPT's memory feature and Notion AI's project context are examples of long-te
 
 ### Q-AGT-B01-006: How do you implement guardrails for an agent that can take real-world actions?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Guardrails / Safety  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** System design  
-**Prerequisites:** Agent architecture, risk assessment  
-**Tags:** `guardrails`, `safety`, `action-validation`, `human-in-the-loop`, `permissions`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Guardrails / Safety   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Agent architecture, risk assessment   | `guardrails`, `safety`, `action-validation`, `human-in-the-loop`, `permissions`   |
+
 **Why This Matters:** Agents that can send emails, execute code, or make API calls can cause real damage. Guardrails are the difference between a useful agent and a liability.
 
 **Question**  
@@ -360,15 +378,18 @@ Every production agent deployment at major companies has been preceded by a guar
 
 ### Q-AGT-B01-007: Your agent enters an infinite loop, calling the same tool repeatedly. How do you debug and prevent this?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Debugging  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Debugging  
-**Prerequisites:** Agent architecture, tool calling  
-**Tags:** `debugging`, `infinite-loop`, `agent-loops`, `termination`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Debugging   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| Agent architecture, tool calling   | `debugging`, `infinite-loop`, `agent-loops`, `termination`   |
+
 **Why This Matters:** Agent loops are the most common production failure. They waste tokens, increase costs, and block users. Every agent system must handle them.
 
 **Question**  
@@ -419,15 +440,18 @@ Unbounded agent loops are the primary cost risk in production agent systems. A s
 
 ### Q-AGT-B01-008: How do you design a multi-agent system, and when is it better than a single agent?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Multi-Agent Design  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead, research-applied-research  
-**Interview Round:** System design  
-**Prerequisites:** Single-agent architecture, orchestration  
-**Tags:** `multi-agent`, `orchestration`, `specialization`, `coordination`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Multi-Agent Design   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead, research-applied-research   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Single-agent architecture, orchestration   | `multi-agent`, `orchestration`, `specialization`, `coordination`   |
+
 **Why This Matters:** Multi-agent systems can solve problems that overload a single agent, but add significant coordination complexity. The design trade-offs are critical.
 
 **Question**  
@@ -479,15 +503,18 @@ CrewAI, AutoGen, and LangGraph all support multi-agent patterns. In practice, mo
 
 ### Q-AGT-B01-009: How do you design human-in-the-loop workflows for agent systems?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Human-in-the-Loop  
-**Level:** System  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design  
-**Prerequisites:** Agent architecture, UX design  
-**Tags:** `human-in-the-loop`, `approval-workflows`, `agent-ux`, `checkpoints`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Human-in-the-Loop   | System   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Agent architecture, UX design   | `human-in-the-loop`, `approval-workflows`, `agent-ux`, `checkpoints`   |
+
 **Why This Matters:** Fully autonomous agents are rarely safe for production. Human-in-the-loop designs make agents viable for real business processes.
 
 **Question**  
@@ -538,15 +565,18 @@ GitHub Copilot Workspace uses a plan-review-execute pattern where the user revie
 
 ### Q-AGT-B01-010: How do you evaluate the quality of an agent system?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Evaluation  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, research-applied-research  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Evaluation fundamentals, agent architecture  
-**Tags:** `evaluation`, `agent-metrics`, `trajectory`, `success-rate`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Evaluation   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, research-applied-research   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Evaluation fundamentals, agent architecture   | `evaluation`, `agent-metrics`, `trajectory`, `success-rate`   |
+
 **Why This Matters:** Agent evaluation is much harder than static LLM evaluation. Agents take actions, and the quality of the trajectory matters as much as the final answer.
 
 **Question**  
@@ -601,15 +631,18 @@ SWE-bench (for coding agents) evaluates pass@1 success rate, but teams also trac
 
 ### Q-AGT-B01-011: What is state management in agents, and why is it harder than it looks?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** State Management  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Agent architecture, distributed systems basics  
-**Tags:** `state-management`, `agent-state`, `persistence`, `recovery`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | State Management   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Agent architecture, distributed systems basics   | `state-management`, `agent-state`, `persistence`, `recovery`   |
+
 **Why This Matters:** Agent state is the accumulated context of what the agent knows and has done. Losing state means losing work. Corrupting state means wrong decisions.
 
 **Question**  
@@ -660,15 +693,18 @@ LangGraph's core innovation is treating agent state as a graph with explicit sta
 
 ### Q-AGT-B01-012: How do you handle errors and retries in an agent system without cascading failures?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Error Handling  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Error handling, agent architecture  
-**Tags:** `error-handling`, `retry`, `fallback`, `resilience`, `debugging`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Error Handling   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer, mlops-llmops-platform-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Error handling, agent architecture   | `error-handling`, `retry`, `fallback`, `resilience`, `debugging`   |
+
 **Why This Matters:** Agents interact with external tools that fail frequently. Without proper error handling, one tool failure cascades through the entire agent execution.
 
 **Question**  
@@ -720,15 +756,18 @@ Production agents at companies like Replit and GitHub report tool error rates of
 
 ### Q-AGT-B01-013: What is the role of a supervisor agent, and how do you prevent it from becoming a bottleneck?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Multi-Agent Orchestration  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design  
-**Prerequisites:** Multi-agent architecture, orchestration  
-**Tags:** `supervisor`, `orchestration`, `multi-agent`, `delegation`, `bottleneck`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Multi-Agent Orchestration   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Multi-agent architecture, orchestration   | `supervisor`, `orchestration`, `multi-agent`, `delegation`, `bottleneck`   |
+
 **Why This Matters:** Supervisor patterns are the most common multi-agent architecture, but they have well-known scalability and reliability problems.
 
 **Question**  
@@ -778,15 +817,18 @@ AutoGen and CrewAI both use supervisor patterns. In practice, teams often replac
 
 ### Q-AGT-B01-014: How do you make agent behavior reproducible for debugging and testing?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Reproducibility / Testing  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** LLM non-determinism, testing  
-**Tags:** `reproducibility`, `testing`, `determinism`, `agent-testing`, `debugging`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Reproducibility / Testing   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM non-determinism, testing   | `reproducibility`, `testing`, `determinism`, `agent-testing`, `debugging`   |
+
 **Why This Matters:** Agents are inherently non-deterministic. Without reproducibility strategies, debugging is impossible and regression testing is unreliable.
 
 **Question**  
@@ -837,15 +879,18 @@ Companies running production agents (Cursor, Devin, Replit) all invest heavily i
 
 ### Q-AGT-B01-015: What security risks are unique to agent systems, and how do you mitigate them?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Security  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead, devops-sre-to-aiops  
-**Interview Round:** System design, Security review  
-**Prerequisites:** LLM security, agent architecture  
-**Tags:** `security`, `prompt-injection`, `agent-security`, `least-privilege`, `sandboxing`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Security   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead, devops-sre-to-aiops   | System design, Security review   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM security, agent architecture   | `security`, `prompt-injection`, `agent-security`, `least-privilege`, `sandboxing`   |
+
 **Why This Matters:** Agents amplify LLM security risks because they can take real-world actions. A prompt injection in a chatbot is embarrassing; in an agent, it's dangerous.
 
 **Question**  
@@ -902,15 +947,18 @@ OWASP's top 10 for LLM applications includes "Insecure Plugin Design" and "Exces
 
 ### Q-AGT-B01-016: How do you design an agent that can use code execution as a tool safely?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Code Execution  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** System design  
-**Prerequisites:** Sandboxing, agent architecture  
-**Tags:** `code-execution`, `sandboxing`, `safety`, `data-analysis-agent`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Code Execution   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Sandboxing, agent architecture   | `code-execution`, `sandboxing`, `safety`, `data-analysis-agent`   |
+
 **Why This Matters:** Code execution gives agents enormous capability (data analysis, computation, verification) but is the highest-risk tool an agent can have.
 
 **Question**  
@@ -963,15 +1011,18 @@ ChatGPT's Code Interpreter runs in an isolated sandbox with no network access. T
 
 ### Q-AGT-B01-017: How does an agent decide when it has enough information to answer and should stop taking actions?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Termination / Control Flow  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Agent loops, tool use  
-**Tags:** `termination`, `stopping-criteria`, `agent-control`, `efficiency`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Termination / Control Flow   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Agent loops, tool use   | `termination`, `stopping-criteria`, `agent-control`, `efficiency`   |
+
 **Why This Matters:** Over-action (continuing when the answer is clear) wastes cost and time. Under-action (stopping too early) produces incomplete answers. Getting this right is an engineering challenge.
 
 **Question**  
@@ -1018,15 +1069,18 @@ Production agents at companies like Cursor enforce strict per-task budgets (e.g.
 
 ### Q-AGT-B01-018: What observability do you need for a production agent system?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Observability  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** mlops-llmops-platform-engineer, llm-rag-agent-engineer, devops-sre-to-aiops  
-**Interview Round:** System design  
-**Prerequisites:** Observability basics, agent architecture  
-**Tags:** `observability`, `tracing`, `monitoring`, `agent-ops`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Observability   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | mlops-llmops-platform-engineer, llm-rag-agent-engineer, devops-sre-to-aiops   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Observability basics, agent architecture   | `observability`, `tracing`, `monitoring`, `agent-ops`, `production`   |
+
 **Why This Matters:** Agents are opaque systems with many moving parts. Without proper observability, debugging production issues is nearly impossible.
 
 **Question**  
@@ -1081,15 +1135,18 @@ LangSmith became popular specifically because standard observability tools don't
 
 ### Q-AGT-B01-019: How do you implement an agent that can escalate to a human when it's uncertain or encountering a high-stakes decision?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Escalation / Governance  
-**Level:** Applied  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** Technical deep dive  
-**Prerequisites:** Agent architecture, UX  
-**Tags:** `escalation`, `uncertainty`, `human-handoff`, `governance`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Escalation / Governance   | Applied   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, senior-architect-ai-systems-lead   | Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| Agent architecture, UX   | `escalation`, `uncertainty`, `human-handoff`, `governance`   |
+
 **Why This Matters:** Agents that never escalate are dangerous; agents that always escalate are useless. Finding the right escalation threshold is a core design problem.
 
 **Question**  
@@ -1139,15 +1196,18 @@ Customer support agents at companies like Klarna and Intercom escalate 15–30% 
 
 ### Q-AGT-B01-020: What is the cost model of an agent system, and how do you optimize for cost without sacrificing quality?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Cost Optimization  
-**Level:** System  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design  
-**Prerequisites:** Token pricing, agent architecture  
-**Tags:** `cost`, `optimization`, `token-budget`, `model-selection`, `production`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Cost Optimization   | System   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Token pricing, agent architecture   | `cost`, `optimization`, `token-budget`, `model-selection`, `production`   |
+
 **Why This Matters:** Agents consume 5–50x more tokens than single LLM calls. Without cost awareness, agent systems become prohibitively expensive at scale.
 
 **Question**  
@@ -1200,15 +1260,18 @@ Companies running agents at scale (10K+ daily executions) report that model rout
 
 ### Q-AGT-B01-021: What is agent governance, and how do you build it into the architecture?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Governance  
-**Level:** Architect  
-**Difficulty:** 5  
-**Experience Bands:** 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** Architecture strategy  
-**Prerequisites:** Agent systems, compliance, risk management  
-**Tags:** `governance`, `compliance`, `accountability`, `audit`, `policy`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Governance   | Architect   | 5   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | Architecture strategy   |
+
+| Prerequisites | Tags |
+|---|---|
+| Agent systems, compliance, risk management   | `governance`, `compliance`, `accountability`, `audit`, `policy`   |
+
 **Why This Matters:** As agents take real-world actions on behalf of users and organizations, governance determines who is accountable, what is auditable, and what is controllable.
 
 **Question**  
@@ -1269,15 +1332,18 @@ Enterprises deploying agents in 2025–2026 are building "AI governance platform
 
 ### Q-AGT-B01-022: How do you handle partial failures in a multi-step agent task?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Resilience  
-**Level:** Debugging  
-**Difficulty:** 3  
-**Experience Bands:** 2–5, 5–8  
-**Role Families:** llm-rag-agent-engineer, software-foundations-to-ai-engineer  
-**Interview Round:** Debugging  
-**Prerequisites:** Agent architecture, error handling  
-**Tags:** `partial-failure`, `degradation`, `resilience`, `agent-robustness`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Resilience   | Debugging   | 3   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 2–5, 5–8   | llm-rag-agent-engineer, software-foundations-to-ai-engineer   | Debugging   |
+
+| Prerequisites | Tags |
+|---|---|
+| Agent architecture, error handling   | `partial-failure`, `degradation`, `resilience`, `agent-robustness`   |
+
 **Why This Matters:** Real agent tasks involve multiple steps across multiple systems. Complete failure is obvious; partial failure is insidious and breaks user trust silently.
 
 **Question**  
@@ -1325,15 +1391,18 @@ Perplexity AI shows citation confidence indicators in its answers — if a sourc
 
 ### Q-AGT-B01-023: How do you build an agent that improves over time from user feedback?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Learning / Feedback  
-**Level:** System  
-**Difficulty:** 4  
-**Experience Bands:** 5–8, 8–12  
-**Role Families:** llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead  
-**Interview Round:** System design  
-**Prerequisites:** Fine-tuning, evaluation, feedback loops  
-**Tags:** `feedback-loop`, `agent-improvement`, `online-learning`, `fine-tuning`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Learning / Feedback   | System   | 4   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 5–8, 8–12   | llm-rag-agent-engineer, mlops-llmops-platform-engineer, senior-architect-ai-systems-lead   | System design   |
+
+| Prerequisites | Tags |
+|---|---|
+| Fine-tuning, evaluation, feedback loops   | `feedback-loop`, `agent-improvement`, `online-learning`, `fine-tuning`   |
+
 **Why This Matters:** Agents that don't improve from production traffic miss the most valuable signal. User interactions are the best training data for the agent's actual task.
 
 **Question**  
@@ -1381,15 +1450,18 @@ GitHub Copilot's improvement over time is partly driven by acceptance rate signa
 
 ### Q-AGT-B01-024: What are the key differences between building a chatbot and building an agent?
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Architecture  
-**Level:** Concept  
-**Difficulty:** 2  
-**Experience Bands:** 0–2, 2–5  
-**Role Families:** software-foundations-to-ai-engineer, llm-rag-agent-engineer  
-**Interview Round:** Phone screen, Technical deep dive  
-**Prerequisites:** LLM basics  
-**Tags:** `chatbot-vs-agent`, `architecture`, `fundamentals`, `action`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Architecture   | Concept   | 2   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 0–2, 2–5   | software-foundations-to-ai-engineer, llm-rag-agent-engineer   | Phone screen, Technical deep dive   |
+
+| Prerequisites | Tags |
+|---|---|
+| LLM basics   | `chatbot-vs-agent`, `architecture`, `fundamentals`, `action`   |
+
 **Why This Matters:** Many engineers conflate chatbots and agents. The distinction affects every architectural decision from tool design to safety to evaluation.
 
 **Question**  
@@ -1436,15 +1508,18 @@ The industry over-applied the "agent" label in 2024–2025. Many "agents" are re
 
 ### Q-AGT-B01-025: Architect an agent platform that allows non-technical business users to create and deploy custom agents.
 
-**Topic Family:** Agents and Agentic Systems  
-**Subtopic:** Platform Design  
-**Level:** Architect  
-**Difficulty:** 5  
-**Experience Bands:** 8–12, 12–20  
-**Role Families:** senior-architect-ai-systems-lead, mlops-llmops-platform-engineer  
-**Interview Round:** Architecture strategy  
-**Prerequisites:** Agent systems, platform engineering, multi-tenancy  
-**Tags:** `agent-platform`, `no-code`, `multi-tenancy`, `governance`, `architecture`  
+| Topic Family | Subtopic | Level | Difficulty |
+|---|---|---|---|
+| Agents and Agentic Systems   | Platform Design   | Architect   | 5   |
+
+| Experience Bands | Role Families | Interview Round |
+|---|---|---|
+| 8–12, 12–20   | senior-architect-ai-systems-lead, mlops-llmops-platform-engineer   | Architecture strategy   |
+
+| Prerequisites | Tags |
+|---|---|
+| Agent systems, platform engineering, multi-tenancy   | `agent-platform`, `no-code`, `multi-tenancy`, `governance`, `architecture`   |
+
 **Why This Matters:** The next phase of agent deployment is democratization — enabling business users to create agents without engineering for each one. This is a complex platform problem.
 
 **Question**  

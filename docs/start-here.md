@@ -94,7 +94,14 @@ The system covers 12 topic families organized from foundations through operation
 
 ---
 
-## Step 4: Study Questions
+## Step 4: Practice With Questions And Problem Sets
+
+Use the two practice surfaces differently:
+
+| Surface | Use it when | Link |
+|---|---|---|
+| Question Library | You want targeted drilling by module, level, or question type | [Question Library](question-library/) |
+| Problem Sets | You want multi-step build, debugging, and system-design practice | [Problem Sets](problem-sets/README.md) |
 
 Browse the [Question Library](question-library/) for schema-strict interview questions organized by module and batch.
 
@@ -107,7 +114,9 @@ Each question includes:
 - Weak answer signals and red flags
 - Real-world production insights
 
-→ [Question Library Index](indexes/question-library-index.md)
+Problem sets add the next layer: one scenario, multiple decisions, failure handling, and release judgment.
+
+→ [Question Library Index](indexes/question-library-index.md) · [Problem Sets](problem-sets/README.md)
 
 ---
 
@@ -132,12 +141,13 @@ Each question includes:
 ### 30-Day Plan
 1. Follow your role page's full module order
 2. Complete all levels per module
-3. Extra time on gap areas from your role page
-4. Final week: debugging drills and mock deep dives
+3. Run at least one problem set per priority module once the core questions are done
+4. Extra time on gap areas from your role page
+5. Final week: debugging drills and mock deep dives
 
 ### 90-Day Plan
 1. Complete the 30-day plan first
-2. Add cross-module system design practice
+2. Add cross-module system design practice and problem sets
 3. Develop architect-level reasoning for your specialization
 4. Run mock interviews across all round types
 

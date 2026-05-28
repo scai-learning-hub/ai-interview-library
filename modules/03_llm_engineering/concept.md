@@ -41,15 +41,18 @@ Basic answer -> Mechanism -> Cost and latency implication -> Practical build -> 
 
 ## Q-03-C-001: How does tokenization work in LLMs, and why does it matter for engineering decisions?
 
-**Module:** LLM Engineering
-**Submodule:** Tokenization
-**Level:** Concept
-**Difficulty:** 2
-**Experience Bands:** Beginner, Early-career, Mid-level
-**Persona Relevance:** Software Dev → AI Engineer, ML / Data Engineer, Fresher / Beginner
-**Tags:** [tokenization, bpe, sentencepiece, vocabulary, llm-engineering]
-**Prerequisites:** Q-00-C-002
-**Estimated Interview Round:** Technical, Screening
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Tokenization | Concept | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Beginner, Early-career, Mid-level | Software Dev → AI Engineer, ML / Data Engineer, Fresher / Beginner | Technical, Screening |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-00-C-002 | [tokenization, bpe, sentencepiece, vocabulary, llm-engineering] |
+
 **Why This Question Matters:** Tokenization is invisible but determines cost, context window capacity, and multilingual ability. A single poor tokenization decision can 2x your API costs or break your application in non-English languages.
 
 ---
@@ -130,15 +133,18 @@ Tokenization mistakes hit product cost and UX before they hit model quality. Tea
 
 ## Q-03-C-002: Explain the self-attention mechanism. Why is it $O(n^2)$ and what are the implications for long-context models?
 
-**Module:** LLM Engineering
-**Submodule:** Attention Mechanisms
-**Level:** Concept
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [attention, self-attention, transformer, quadratic-complexity, llm-engineering]
-**Prerequisites:** Q-01-C-007
-**Estimated Interview Round:** Technical, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Attention Mechanisms | Concept | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Software Dev → AI Engineer | Technical, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-01-C-007 | [attention, self-attention, transformer, quadratic-complexity, llm-engineering] |
+
 **Why This Question Matters:** Self-attention is the core compute bottleneck of transformers. Understanding its quadratic nature explains why long-context models are expensive and guides architectural decisions about context window size.
 
 ---
@@ -225,15 +231,18 @@ This is the bridge from transformer theory to infrastructure economics. If a can
 
 ## Q-03-C-003: What are the different positional encoding schemes (RoPE, ALiBi) and why do they matter for context length extrapolation?
 
-**Module:** LLM Engineering
-**Submodule:** Positional Encoding
-**Level:** Concept
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Senior / Architect
-**Tags:** [positional-encoding, rope, alibi, context-length, llm-engineering]
-**Prerequisites:** Q-03-C-002
-**Estimated Interview Round:** Technical, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Positional Encoding | Concept | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Senior / Architect | Technical, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-002 | [positional-encoding, rope, alibi, context-length, llm-engineering] |
+
 **Why This Question Matters:** Positional encoding determines how well a model handles sequences longer than what it was trained on. This is critical for production systems that need to process long documents when the base model was trained on shorter contexts.
 
 ---
@@ -321,15 +330,18 @@ Positional encoding is not an academic footnote. It determines whether "we can e
 
 ## Q-03-C-004: What is the KV cache, and why is it the primary memory bottleneck in LLM inference?
 
-**Module:** LLM Engineering
-**Submodule:** KV Cache
-**Level:** Concept
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, DevOps / SRE → AIOps, Senior / Architect
-**Tags:** [kv-cache, inference, memory, llm-engineering, performance]
-**Prerequisites:** Q-03-C-002, Q-02-C-008
-**Estimated Interview Round:** Technical, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | KV Cache | Concept | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, DevOps / SRE → AIOps, Senior / Architect | Technical, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-002, Q-02-C-008 | [kv-cache, inference, memory, llm-engineering, performance] |
+
 **Why This Question Matters:** The KV cache determines how many concurrent requests a GPU can serve and how long contexts can be. It's often the limiting factor in LLM serving economics, not compute.
 
 ---
@@ -424,15 +436,18 @@ KV cache is where many serving plans break. Teams budget for weights, forget the
 
 ## Q-03-C-005: Compare Multi-Head Attention (MHA), Multi-Query Attention (MQA), and Grouped-Query Attention (GQA). When does each make sense?
 
-**Module:** LLM Engineering
-**Submodule:** Attention Mechanisms
-**Level:** Concept
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Senior / Architect
-**Tags:** [mha, mqa, gqa, attention, inference, kv-cache, llm-engineering]
-**Prerequisites:** Q-03-C-002, Q-03-C-004
-**Estimated Interview Round:** Technical, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Attention Mechanisms | Concept | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Senior / Architect | Technical, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-002, Q-03-C-004 | [mha, mqa, gqa, attention, inference, kv-cache, llm-engineering] |
+
 **Why This Question Matters:** GQA has become the default attention mechanism for modern LLMs (Llama 3, Mistral, Gemma). Understanding why involves KV cache economics and is essential for model selection and serving optimization.
 
 ---
@@ -510,15 +525,18 @@ This question exposes whether the candidate thinks like a model user or a system
 
 ## Q-03-C-006: How do different decoding strategies (greedy, beam search, sampling) affect LLM output quality?
 
-**Module:** LLM Engineering
-**Submodule:** Decoding Strategies
-**Level:** Concept
-**Difficulty:** 2
-**Experience Bands:** Early-career, Mid-level
-**Persona Relevance:** Software Dev → AI Engineer, ML / Data Engineer
-**Tags:** [decoding, sampling, beam-search, greedy, llm-engineering]
-**Prerequisites:** Q-02-C-009
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Decoding Strategies | Concept | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Early-career, Mid-level | Software Dev → AI Engineer, ML / Data Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-02-C-009 | [decoding, sampling, beam-search, greedy, llm-engineering] |
+
 **Why This Question Matters:** Decoding strategy choice significantly affects output quality, diversity, and reliability. Using the wrong strategy for your task produces either repetitive/boring output or unpredictable/unreliable output.
 
 ---
@@ -601,15 +619,18 @@ Teams often treat temperature like a cosmetic knob. In production it is part of 
 
 ## Q-03-C-007: What are speculative decoding and medusa heads? How do they speed up LLM inference?
 
-**Module:** LLM Engineering
-**Submodule:** Inference Optimization
-**Level:** Concept
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** ML / Data Engineer, Senior / Architect, DevOps / SRE → AIOps
-**Tags:** [speculative-decoding, medusa, inference, latency, llm-engineering]
-**Prerequisites:** Q-03-C-004, Q-02-C-008
-**Estimated Interview Round:** Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Inference Optimization | Concept | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | ML / Data Engineer, Senior / Architect, DevOps / SRE → AIOps | Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-03-C-004, Q-02-C-008 | [speculative-decoding, medusa, inference, latency, llm-engineering] |
+
 **Why This Question Matters:** Speculative decoding is the most promising technique for reducing LLM latency without quality loss. It's becoming standard in production serving stacks and understanding it is essential for LLM infrastructure engineers.
 
 ---
@@ -709,15 +730,18 @@ Speculative decoding matters because it turns GPU underutilization into speed. T
 
 ## Q-03-C-008: What is model quantization and how does it enable large model deployment on constrained hardware?
 
-**Module:** LLM Engineering
-**Submodule:** Quantization
-**Level:** Concept
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, DevOps / SRE → AIOps
-**Tags:** [quantization, int8, int4, gptq, awq, gguf, llm-engineering]
-**Prerequisites:** Q-01-C-001, Q-02-C-008
-**Estimated Interview Round:** Technical, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Quantization | Concept | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, DevOps / SRE → AIOps | Technical, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-01-C-001, Q-02-C-008 | [quantization, int8, int4, gptq, awq, gguf, llm-engineering] |
+
 **Why This Question Matters:** Quantization makes the difference between "needs 4 H100s" and "runs on a single GPU." It's the primary technique enabling LLM deployment for cost-conscious teams and edge deployment scenarios.
 
 ---
@@ -805,15 +829,18 @@ Quantization is where model quality, hardware limits, and unit economics collide
 
 ## Q-03-C-009: What are the key considerations when selecting a base model for a new project?
 
-**Module:** LLM Engineering
-**Submodule:** Model Selection
-**Level:** Concept
-**Difficulty:** 2
-**Experience Bands:** Early-career, Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer, ML / Data Engineer, Senior / Architect
-**Tags:** [model-selection, benchmarks, licensing, llm-engineering, production]
-**Prerequisites:** Q-02-C-001
-**Estimated Interview Round:** Screening, Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| LLM Engineering | Model Selection | Concept | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Early-career, Mid-level, Senior | Software Dev → AI Engineer, ML / Data Engineer, Senior / Architect | Screening, Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-02-C-001 | [model-selection, benchmarks, licensing, llm-engineering, production] |
+
 **Why This Question Matters:** The base model choice is the foundation of your LLM project. A wrong choice costs weeks of rework. Understanding the selection criteria (beyond "pick the top leaderboard model") is essential.
 
 ---

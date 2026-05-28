@@ -35,15 +35,18 @@ Design choice -> Build scope -> Constraints -> Failure handling -> Real follow-u
 
 ## Q-04-A-001: Implement a production RAG pipeline with hybrid search, reranking, and answer grounding.
 
-**Module:** RAG
-**Submodule:** Pipeline Implementation
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer, ML / Data Engineer
-**Tags:** [rag-pipeline, hybrid-search, reranking, implementation, rag]
-**Prerequisites:** Q-04-C-001, Q-04-C-004, Q-04-C-005
-**Estimated Interview Round:** Technical, Coding
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Pipeline Implementation | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer, ML / Data Engineer | Technical, Coding |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-001, Q-04-C-004, Q-04-C-005 | [rag-pipeline, hybrid-search, reranking, implementation, rag] |
+
 **Why This Question Matters:** Building a complete RAG pipeline requires integrating multiple components correctly. The difference between a demo RAG and a production RAG is the presence of hybrid search, reranking, answer grounding, and proper error handling.
 
 ---
@@ -214,15 +217,18 @@ Real teams do not ship "vector DB plus prompt" and call it done. The hard part i
 
 ## Q-04-A-002: How do you implement query expansion and transformation to improve RAG retrieval?
 
-**Module:** RAG
-**Submodule:** Query Engineering
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [query-expansion, hyde, multi-query, retrieval, rag]
-**Prerequisites:** Q-04-C-002
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Query Engineering | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-002 | [query-expansion, hyde, multi-query, retrieval, rag] |
+
 **Why This Question Matters:** User queries are often vague, short, or poorly phrased. Query transformation improves retrieval by converting the user's intent into better search queries. This is one of the highest-impact improvements for RAG quality.
 
 ---
@@ -359,15 +365,18 @@ Query transformation is high leverage precisely because user queries are often t
 
 ## Q-04-A-003: How do you handle document updates and index freshness in a production RAG system?
 
-**Module:** RAG
-**Submodule:** Index Management
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** DevOps / SRE → AIOps, Software Dev → AI Engineer
-**Tags:** [index-management, freshness, incremental-update, rag]
-**Prerequisites:** Q-04-C-007
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Index Management | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | DevOps / SRE → AIOps, Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-007 | [index-management, freshness, incremental-update, rag] |
+
 **Why This Question Matters:** Documents change constantly — policies update, product docs evolve, knowledge bases grow. If your RAG index is stale, you serve outdated answers. Incremental updates without full reindexing are essential for operational efficiency.
 
 ---
@@ -509,15 +518,18 @@ Freshness failures are brutal because the answer can look perfectly grounded whi
 
 ## Q-04-A-004: How do you implement metadata filtering and access control in RAG?
 
-**Module:** RAG
-**Submodule:** Access Control
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer, Senior / Architect
-**Tags:** [access-control, metadata-filtering, security, multi-tenant, rag]
-**Prerequisites:** Q-04-C-007
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Access Control | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer, Senior / Architect | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-007 | [access-control, metadata-filtering, security, multi-tenant, rag] |
+
 **Why This Question Matters:** In enterprise RAG, different users should only see documents they have access to. Without proper access control, RAG becomes a data leak vector — a user can query and retrieve documents they shouldn't see.
 
 ---
@@ -651,15 +663,18 @@ Enterprise RAG is a security product as much as an AI product. If retrieval boun
 
 ## Q-04-A-005: How do you handle multi-modal RAG (images, tables, diagrams in documents)?
 
-**Module:** RAG
-**Submodule:** Multi-Modal
-**Level:** Applied
-**Difficulty:** 4
-**Experience Bands:** Senior, Architect
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [multi-modal, images, tables, document-parsing, rag]
-**Prerequisites:** Q-04-C-003, Q-04-A-001
-**Estimated Interview Round:** Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Multi-Modal | Applied | 4 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Senior, Architect | ML / Data Engineer, Software Dev → AI Engineer | Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-003, Q-04-A-001 | [multi-modal, images, tables, document-parsing, rag] |
+
 **Why This Question Matters:** Enterprise documents contain tables, charts, diagrams, and images — not just text. A RAG system that only handles text paragraphs misses crucial information that may be exactly what the user needs.
 
 ---
@@ -796,15 +811,18 @@ Multimodal RAG fails when teams flatten every artifact into vague text. The deep
 
 ## Q-04-A-006: How do you implement RAG for structured data (SQL databases, APIs, knowledge graphs)?
 
-**Module:** RAG
-**Submodule:** Structured Data RAG
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [structured-data, text-to-sql, knowledge-graph, rag]
-**Prerequisites:** Q-04-C-001
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Structured Data RAG | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-001 | [structured-data, text-to-sql, knowledge-graph, rag] |
+
 **Why This Question Matters:** Not all knowledge lives in documents. Databases, APIs, and knowledge graphs contain structured data that traditional RAG can't handle. Text-to-SQL and graph RAG extend RAG to structured knowledge.
 
 ---
@@ -957,15 +975,18 @@ Structured-data RAG is where weak retrieval thinking gets exposed. The strong an
 
 ## Q-04-A-007: How do you implement citation and source attribution in RAG responses?
 
-**Module:** RAG
-**Submodule:** Citation
-**Level:** Applied
-**Difficulty:** 2
-**Experience Bands:** Early-career, Mid-level
-**Persona Relevance:** Software Dev → AI Engineer
-**Tags:** [citation, attribution, trustworthiness, rag]
-**Prerequisites:** Q-04-A-001
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Citation | Applied | 2 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Early-career, Mid-level | Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-A-001 | [citation, attribution, trustworthiness, rag] |
+
 **Why This Question Matters:** Citations make RAG answers verifiable. Without citations, users can't trust the answer or check its accuracy. Citation implementation is also important for compliance and audit trails.
 
 ---
@@ -1086,15 +1107,18 @@ Citations are not a cosmetic UI feature. They are the contract that turns "the m
 
 ## Q-04-A-008: How do you optimize RAG for low-latency applications (sub-500ms end-to-end)?
 
-**Module:** RAG
-**Submodule:** Performance Optimization
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** DevOps / SRE → AIOps, Software Dev → AI Engineer
-**Tags:** [performance, latency, optimization, caching, rag]
-**Prerequisites:** Q-04-A-001, Q-03-A-002
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Performance Optimization | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | DevOps / SRE → AIOps, Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-A-001, Q-03-A-002 | [performance, latency, optimization, caching, rag] |
+
 **Why This Question Matters:** RAG pipelines add latency: embedding (20ms) + vector search (5ms) + reranking (200ms) + LLM generation (1000ms+) = 1200ms+. For real-time applications, every millisecond matters.
 
 ---
@@ -1205,15 +1229,18 @@ Fast RAG is not about one trick. It is about deciding which stages deserve laten
 
 ## Q-04-A-009: How do you build an evaluation dataset for RAG and continuously improve the system?
 
-**Module:** RAG
-**Submodule:** Evaluation & Iteration
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** ML / Data Engineer, Software Dev → AI Engineer
-**Tags:** [evaluation, dataset, continuous-improvement, rag]
-**Prerequisites:** Q-04-C-006
-**Estimated Interview Round:** Technical, Deep Dive
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Evaluation & Iteration | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | ML / Data Engineer, Software Dev → AI Engineer | Technical, Deep Dive |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-C-006 | [evaluation, dataset, continuous-improvement, rag] |
+
 **Why This Question Matters:** Without a ground truth evaluation dataset, RAG improvements are guesswork. Building and maintaining an eval dataset enables data-driven iteration.
 
 ---
@@ -1349,15 +1376,18 @@ RAG teams that do not maintain an eval set end up arguing from anecdotes. The st
 
 ## Q-04-A-010: How do you implement conversational RAG (multi-turn with context-aware retrieval)?
 
-**Module:** RAG
-**Submodule:** Conversational RAG
-**Level:** Applied
-**Difficulty:** 3
-**Experience Bands:** Mid-level, Senior
-**Persona Relevance:** Software Dev → AI Engineer
-**Tags:** [conversational, multi-turn, context-aware, retrieval, rag]
-**Prerequisites:** Q-04-A-001, Q-03-A-004
-**Estimated Interview Round:** Technical
+| Module | Submodule | Level | Difficulty |
+|---|---|---|---|
+| RAG | Conversational RAG | Applied | 3 |
+
+| Experience Bands | Persona Relevance | Interview Round |
+|---|---|---|
+| Mid-level, Senior | Software Dev → AI Engineer | Technical |
+
+| Prerequisites | Tags |
+|---|---|
+| Q-04-A-001, Q-03-A-004 | [conversational, multi-turn, context-aware, retrieval, rag] |
+
 **Why This Question Matters:** Single-turn RAG is simple — query → retrieve → answer. Multi-turn RAG is hard because follow-up queries reference previous turns (pronouns, context). "What about their competitors?" requires knowing "their" refers to the company from 3 turns ago.
 
 ---
