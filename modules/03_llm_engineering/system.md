@@ -2,6 +2,34 @@
 
 ---
 
+## How To Read This File
+
+System-level LLM interviews are not asking whether you know the components. They are asking whether you can run LLM capability as a platform under latency, quality, security, and cost pressure.
+
+```text
+Requirements -> isolation boundaries -> control plane -> data plane -> failure containment -> operating model
+```
+
+- **Requirements**: what each workload optimizes for and what the SLA actually means
+- **Isolation boundaries**: where tenants, providers, models, and workloads must diverge
+- **Control plane**: configuration, rollout policy, evaluation, and ownership
+- **Data plane**: routing, serving, caching, observability, and feedback collection
+- **Failure containment**: what can fail locally versus what can take down the platform
+- **Operating model**: who owns changes, approvals, budgets, and rollback
+
+## Architecture Map
+
+| ID | Core system problem | Main design pressure | What strong answers include |
+|---|---|---|---|
+| [Q-03-S-001](#q-03-s-001) | Multi-model serving platform | Heterogeneous model pools and latency SLAs | Queue-aware autoscaling, GPU specialization, rollout control |
+| [Q-03-S-002](#q-03-s-002) | Continuous quality monitoring | Silent quality regression without labels | Multi-signal scoring, drift detection, alert policy |
+| [Q-03-S-003](#q-03-s-003) | Response caching architecture | Cost reduction without bad cache hits | Exact plus semantic cache, invalidation, thresholds |
+| [Q-03-S-004](#q-03-s-004) | LLM observability platform | Debuggability across many features and services | Tracing, request explorer, cost and quality telemetry |
+| [Q-03-S-005](#q-03-s-005) | Multi-tenant model platform | Isolation and fair sharing on shared GPUs | Shared base models, adapter registry, quotas, fairness |
+| [Q-03-S-006](#q-03-s-006) | Experimentation platform | Safe rollout of prompt and model changes | Sticky assignment, guardrails, statistical rigor |
+
+---
+
 ## Q-03-S-001: Design a multi-model LLM serving platform that handles 10,000 requests/minute across 5 different models with varying latency SLAs.
 
 **Module:** LLM Engineering
@@ -23,13 +51,13 @@ Design a platform serving 5 models (8B, 13B, 70B, MoE 8x7B, API-proxied GPT-4o) 
 
 ---
 
-**Expected Answer (Short)**
+#### System Answer
 
 Architecture: (1) API Gateway with routing layer → routes requests to appropriate model pool. (2) Per-model GPU pools with autoscaling (based on queue depth, not just CPU). (3) vLLM/TensorRT-LLM per pool with continuous batching. (4) Model registry for version management and hot-swapping. (5) Request queue per model with priority. (6) Autoscaler monitors queue depth + latency → scales GPU instances. (7) Cost optimization: spot instances for batch workloads, reserved for real-time. (8) Observability: per-model latency, throughput, error rate, GPU utilization, KV cache utilization.
 
 ---
 
-**Deep Answer**
+#### Architecture + Operating Model
 
 - **Architecture diagram:**
   ```
@@ -84,7 +112,11 @@ Architecture: (1) API Gateway with routing layer → routes requests to appropri
 
 ---
 
-**Follow-up Questions**
+#### Scoped Design Drill
+
+Design the control plane for this platform: model registry, pool configuration, autoscaling policy, rollout gates, and emergency failover when one model pool or GPU class becomes unavailable.
+
+#### Real Interviewer Follow-ups
 
 1. How do you handle a sudden 5x traffic spike (viral moment)?
 2. A model update causes quality regression on one of the 5 models. How do you roll back?
@@ -92,7 +124,7 @@ Architecture: (1) API Gateway with routing layer → routes requests to appropri
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "One big cluster serves everything" — no per-model optimization
 - Doesn't consider model loading time in scaling decisions
@@ -101,9 +133,13 @@ Architecture: (1) API Gateway with routing layer → routes requests to appropri
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Multi-model platform architecture. This is a senior/staff-level question. The candidate should demonstrate understanding of GPU-specific scaling, model loading constraints, and cost-aware infrastructure design.
+
+#### Design / Production Bridge
+
+This is where LLM serving stops being a single deployment and becomes a platform economics problem. The wrong pool boundaries or scaling signals create either runaway cost or chronic latency misses.
 
 ---
 
@@ -128,13 +164,13 @@ Design a continuous LLM quality monitoring system that detects quality regressio
 
 ---
 
-**Expected Answer (Short)**
+#### System Answer
 
 Multi-signal approach: (1) Automated metrics: response length, format compliance, latency, error rate. (2) LLM-as-judge: sample 5% of responses, score with a stronger model. (3) Implicit user signals: did user ask a follow-up? (possible unsatisfied), did user click "helpful"?, did user escalate to human? (4) Drift detection: compare feature distributions (topic, length, confidence) to baseline. (5) Alerting: weighted score from all signals, alert if drops below threshold. Update baseline weekly.
 
 ---
 
-**Deep Answer**
+#### Architecture + Operating Model
 
 - **System architecture:**
   ```
@@ -196,7 +232,11 @@ Multi-signal approach: (1) Automated metrics: response length, format compliance
 
 ---
 
-**Follow-up Questions**
+#### Scoped Design Drill
+
+Define the event schema, sampling rate, hourly aggregation window, and rollback trigger for a no-human-label quality monitor. Keep the design explicit about which signals are fast but noisy versus slow but trustworthy.
+
+#### Real Interviewer Follow-ups
 
 1. The LLM-as-judge has 10% disagreement with eventual human review. Is this acceptable?
 2. How do you handle the cold-start problem when launching a new feature?
@@ -204,7 +244,7 @@ Multi-signal approach: (1) Automated metrics: response length, format compliance
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Check quality manually every week" — too slow
 - Only uses one signal (e.g., only user ratings)
@@ -213,9 +253,13 @@ Multi-signal approach: (1) Automated metrics: response length, format compliance
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Production observability for LLM systems. Multi-signal quality monitoring without human labelers shows the candidate can design self-sustaining quality systems.
+
+#### Design / Production Bridge
+
+Quality monitoring is the replacement for intuition once traffic scales. If the platform cannot detect regressions without a manual audit, it will ship silent failures faster than humans can inspect them.
 
 ---
 
@@ -240,13 +284,13 @@ Design a caching system for LLM responses that supports exact-match and semantic
 
 ---
 
-**Expected Answer (Short)**
+#### System Answer
 
 Three-tier cache: (1) Exact match: hash of (model, prompt, parameters) → cached response. Hit rate: 5-15%. (2) Semantic cache: embed the query, find similar cached queries (cosine similarity > threshold). Hit rate: 20-40%. (3) Prefix cache: KV cache reuse for shared prompt prefixes (implemented at serving level). Combined: 30-50% cost reduction. Invalidation: TTL-based (24h for dynamic content, 7d for static), version-based (invalidate on model/prompt change), quality-based (invalidate if cached response gets negative feedback).
 
 ---
 
-**Deep Answer**
+#### Architecture + Operating Model
 
 - **Architecture:**
   ```
@@ -314,7 +358,11 @@ Three-tier cache: (1) Exact match: hash of (model, prompt, parameters) → cache
 
 ---
 
-**Follow-up Questions**
+#### Scoped Design Drill
+
+Design the cache keying, similarity threshold governance, invalidation triggers, and safety checks for a system that needs both exact cache speed and semantic cache hit rate without serving stale or misleading answers.
+
+#### Real Interviewer Follow-ups
 
 1. A cached response is factually incorrect but highly similar semantically. How do you prevent serving it?
 2. How do you handle cache warm-up after a model version update invalidates the entire cache?
@@ -322,7 +370,7 @@ Three-tier cache: (1) Exact match: hash of (model, prompt, parameters) → cache
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Only exact-match caching ("natural language queries rarely match exactly")
 - No cache invalidation strategy
@@ -331,9 +379,13 @@ Three-tier cache: (1) Exact match: hash of (model, prompt, parameters) → cache
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Cost engineering creativity. Semantic caching is innovative but risky — the candidate should balance cost savings with quality guarantees. The invalidation strategy and similarity threshold tuning are the hard parts.
+
+#### Design / Production Bridge
+
+Caching looks simple until it starts returning wrong answers cheaply at scale. Strong system answers make cache correctness and invalidation part of the platform contract, not an afterthought.
 
 ---
 
@@ -358,13 +410,13 @@ Design an observability platform for a company running 50 LLM-powered features a
 
 ---
 
-**Expected Answer (Short)**
+#### System Answer
 
 Four pillars: (1) Metrics: real-time dashboards with token usage, cost, latency, error rate, quality scores per feature/model/endpoint. (2) Traces: distributed tracing with LLM-specific spans (prompt construction, model call, post-processing, tool calls). (3) Logs: structured logs of every LLM call (input, output, tokens, model, duration, cost). (4) Evaluations: continuous quality scoring integrated into traces. Architecture: lightweight SDK that wraps LLM calls → async export to central platform → dashboards + alerts.
 
 ---
 
-**Deep Answer**
+#### Architecture + Operating Model
 
 - **SDK (minimal overhead):**
   ```python
@@ -430,7 +482,11 @@ Four pillars: (1) Metrics: real-time dashboards with token usage, cost, latency,
 
 ---
 
-**Follow-up Questions**
+#### Scoped Design Drill
+
+Define the minimum telemetry schema for one LLM span, one end-user trace, and one feature-level dashboard. Include how PII is redacted, how prompt versions are attached, and how engineers find one bad request quickly.
+
+#### Real Interviewer Follow-ups
 
 1. How do you handle PII in logged prompts and responses?
 2. What's the storage and cost of logging every LLM call for a high-volume service?
@@ -438,7 +494,7 @@ Four pillars: (1) Metrics: real-time dashboards with token usage, cost, latency,
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Use standard APM tools" — miss LLM-specific metrics
 - No tracing (can't debug individual request failures)
@@ -447,9 +503,13 @@ Four pillars: (1) Metrics: real-time dashboards with token usage, cost, latency,
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Production LLM operations maturity. Comprehensive observability with cost, quality, and performance tracking shows the candidate has operated LLM systems at scale.
+
+#### Design / Production Bridge
+
+Observability is what turns opaque LLM calls into operable systems. Without prompt versioning, token metrics, and request traces, every incident becomes expensive guesswork.
 
 ---
 
@@ -474,13 +534,13 @@ Design a platform where 50 internal teams can each deploy their own fine-tuned L
 
 ---
 
-**Expected Answer (Short)**
+#### System Answer
 
 Architecture: shared base model instances (Llama 3 70B) with per-tenant LoRA adapters hot-swapped at inference time. Tenant isolation through: (1) API key authentication with rate limits per tenant. (2) LoRA adapter registry with version management per tenant. (3) GPU pool with fair-share scheduling (weighted by team priority). (4) Cost attribution: track per-tenant token usage. (5) Quality isolation: per-tenant eval dashboards. Model serving: vLLM/SGLang with multi-LoRA support — serve multiple adapters on one base model instance.
 
 ---
 
-**Deep Answer**
+#### Architecture + Operating Model
 
 - **Key insight: shared base model, per-tenant LoRA adapters.**
   Instead of deploying 50 separate model instances, deploy shared base models and dynamically load the appropriate LoRA adapter per request. LoRA adapter size: 10-100MB vs 140GB for base model.
@@ -538,7 +598,11 @@ Architecture: shared base model instances (Llama 3 70B) with per-tenant LoRA ada
 
 ---
 
-**Follow-up Questions**
+#### Scoped Design Drill
+
+Design the adapter registry, quota system, and fair-share scheduler for 50 tenants sharing a small number of base models. Be explicit about what is isolated per tenant and what is intentionally shared.
+
+#### Real Interviewer Follow-ups
 
 1. Team A's adapter works great but Team B's degrades the base model. How do you isolate this?
 2. Hot-swapping LoRA adapters adds latency. How much and how do you minimize it?
@@ -546,7 +610,7 @@ Architecture: shared base model instances (Llama 3 70B) with per-tenant LoRA ada
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Deploy separate model instances per team" — 50 × 140GB = impractical
 - No per-tenant cost tracking
@@ -555,9 +619,13 @@ Architecture: shared base model instances (Llama 3 70B) with per-tenant LoRA ada
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Platform-level thinking. Multi-tenant LLM platforms are a real architecture challenge. The shared base model + per-tenant LoRA approach is the industry solution. Understanding GPU scheduling and fair sharing shows staff+ engineering capability.
+
+#### Design / Production Bridge
+
+Multi-tenancy is where model serving, governance, and finance meet. The platform only works if one tenant can scale or fail without turning everyone else’s latency and budget into collateral damage.
 
 ---
 
@@ -582,13 +650,13 @@ Design an A/B testing system for your LLM platform that supports: testing new mo
 
 ---
 
-**Expected Answer (Short)**
+#### System Answer
 
 Architecture: (1) Experiment configuration: define variants (control/treatment), traffic split, metrics, and duration. (2) Traffic router: consistently assign users to variants (hash-based, sticky assignment). (3) Metric collection: per-variant quality scores (LLM-judge), latency, cost, user behavior. (4) Statistical analysis: sequential testing with early stopping, control for multiple comparisons. (5) Guardrails: automatic rollback if treatment variant causes safety or quality regression. (6) Integration: works with model router, observability platform, and quality monitoring.
 
 ---
 
-**Deep Answer**
+#### Architecture + Operating Model
 
 - **Experiment definition:**
   ```yaml
@@ -649,7 +717,11 @@ Architecture: (1) Experiment configuration: define variants (control/treatment),
 
 ---
 
-**Follow-up Questions**
+#### Scoped Design Drill
+
+Design the experiment registry, sticky assignment policy, and automated guardrail checks for model, prompt, parameter, and adapter experiments. Keep the design explicit about rollback triggers and metric ownership.
+
+#### Real Interviewer Follow-ups
 
 1. How do you handle experiments that change conversation quality over multiple turns (not just one response)?
 2. What's the minimum experiment duration and why?
@@ -657,7 +729,7 @@ Architecture: (1) Experiment configuration: define variants (control/treatment),
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Deploy to 50% of users and check metrics after a week" — no statistical rigor
 - No consistent user assignment (users see different variants each request)
@@ -666,6 +738,10 @@ Architecture: (1) Experiment configuration: define variants (control/treatment),
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Data-driven decision making. LLM changes are expensive to validate. Candidates who describe statistically rigorous A/B testing with guardrails show they can iterate safely in production.
+
+#### Design / Production Bridge
+
+LLM experimentation is expensive because bad variants can hurt quality, latency, and cost at the same time. Strong answers show how to learn quickly without making users absorb unbounded risk.

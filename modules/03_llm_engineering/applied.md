@@ -2,6 +2,47 @@
 
 ---
 
+## How To Read This File
+
+Applied LLM Engineering questions should sound like build-and-serve work, not theory recitation:
+
+```text
+Design answer -> Implementation notes -> Scoped build -> Constraints -> Real follow-ups
+```
+
+- **Design answer**: the architecture or operating choice you would make first
+- **Implementation notes**: the concrete mechanics, APIs, runtime behavior, and trade-offs
+- **Scoped build**: the smallest real artifact you can implement or demo
+- **Constraints**: memory, latency, reliability, and cost boundaries
+- **Real follow-ups**: the pressure questions that expose whether you have actually shipped this
+
+## Implementation Map
+
+### Stage 1 — Serving Path
+
+| ID | Core problem | Bounded build scope | Pressure point |
+|---|---|---|---|
+| [Q-03-A-001](#q-03-a-001) | Serve 70B on limited GPUs | Memory budget plus vLLM launch plan | Concurrency collapses at long context |
+| [Q-03-A-002](#q-03-a-002) | Prefix caching | Measure TTFT improvement for shared prompts | Cache memory pressure |
+| [Q-03-A-003](#q-03-a-003) | Benchmark frameworks | Compare vLLM, TensorRT-LLM, SGLang on realistic traffic | Throughput vs operator complexity |
+| [Q-03-A-004](#q-03-a-004) | Token budget manager | Bound multi-turn context with reserved output budget | Silent overflow and summary drift |
+| [Q-03-A-005](#q-03-a-005) | Reliable JSON output | Validate and retry against a real schema | Syntax success vs semantic success |
+| [Q-03-A-006](#q-03-a-006) | Streaming chat endpoint | SSE stream with disconnect and error handling | GPU waste on abandoned streams |
+| [Q-03-A-007](#q-03-a-007) | Token-aware splitting | Chunk with the real tokenizer and overlap | Broken boundaries and wasted context |
+
+### Stage 2 — Throughput And Operations
+
+| ID | Core problem | Bounded build scope | Pressure point |
+|---|---|---|---|
+| [Q-03-A-008](#q-03-a-008) | Continuous batching | Simulate scheduler behavior under mixed request lengths | Throughput vs latency fairness |
+| [Q-03-A-009](#q-03-a-009) | Evaluation pipeline | Versioned dataset plus automated regression gate | Open-ended quality is hard to score |
+| [Q-03-A-010](#q-03-a-010) | Model routing and fallback | Cost-aware router with circuit breakers | Provider outages and prompt compatibility |
+| [Q-03-A-011](#q-03-a-011) | Rate limiting and backpressure | Priority queue plus capacity-aware dispatch | Shared quota collapse |
+| [Q-03-A-012](#q-03-a-012) | Cost control | Per-endpoint spend tracking and guardrails | Silent token growth |
+| [Q-03-A-013](#q-03-a-013) | Prompt reliability | Hardened prompt plus validation and fallback | 99% in test is still bad in prod |
+
+---
+
 ## Q-03-A-001: You need to serve a 70B parameter model on 2 A100 80GB GPUs. Walk through the serving configuration.
 
 **Module:** LLM Engineering
@@ -23,13 +64,13 @@ You have 2× A100 80GB GPUs (160GB total). Your model is 70B parameters in FP16 
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Use tensor parallelism (TP=2) to split model across 2 GPUs (70GB weights per GPU). Remaining ~10GB per GPU for KV cache. With GQA and FP16 KV cache, this supports ~4K context per request with ~16 concurrent requests. For longer contexts, use INT8 KV cache or INT8 model weights to free memory. vLLM configuration: `--tensor-parallel-size 2 --max-model-len 4096 --gpu-memory-utilization 0.9`.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 - **Memory budget per GPU (A100 80GB):**
   ```
@@ -76,7 +117,11 @@ Use tensor parallelism (TP=2) to split model across 2 GPUs (70GB weights per GPU
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Write a small planning sheet that takes model size, dtype, GPU count, and target context length, then outputs estimated weight memory, KV cache budget, safe `max-num-seqs`, and a candidate vLLM launch command. Validate it with one short-context and one long-context load test.
+
+#### Real Interviewer Follow-ups
 
 1. A user sends a 32K context request — what happens with this configuration?
 2. How would the configuration change if you had 4× A100s instead of 2?
@@ -84,7 +129,7 @@ Use tensor parallelism (TP=2) to split model across 2 GPUs (70GB weights per GPU
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Just load the model and it works" — no memory planning
 - Doesn't understand tensor parallelism
@@ -92,9 +137,13 @@ Use tensor parallelism (TP=2) to split model across 2 GPUs (70GB weights per GPU
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Infrastructure-level LLM knowledge. Being able to plan GPU memory budgets and predict serving capacity is essential for production LLM deployment.
+
+#### Design / Production Bridge
+
+This is the point where transformer knowledge becomes infrastructure ownership. If the memory math is wrong, the product does not fail gracefully; it falls over under real prompt lengths and concurrency.
 
 ---
 
@@ -119,13 +168,13 @@ Your chatbot has a 2000-token system prompt that's identical for all users. Each
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Prefix caching stores the KV cache for the 2000-token system prompt and reuses it across all requests. First request: compute full 2000 tokens, cache KV. Subsequent requests: skip system prompt computation, only process user-specific tokens. This reduces TTFT from processing 2200 tokens to processing ~200 tokens (10x faster). In vLLM: `--enable-prefix-caching`. Works because the system prompt's KV cache is identical regardless of user input.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 - **Without prefix caching:**
   ```
@@ -166,7 +215,11 @@ Prefix caching stores the KV cache for the 2000-token system prompt and reuses i
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Enable prefix caching for one shared system prompt, capture TTFT with and without it, then repeat with several feature-specific prompts to show when hit rate falls because prompt diversity becomes too high.
+
+#### Real Interviewer Follow-ups
 
 1. What happens when you have 100 different system prompts for different features? Does prefix caching still help?
 2. How does prefix caching interact with KV cache memory limits? What if you can't fit all prefixes in memory?
@@ -174,7 +227,7 @@ Prefix caching stores the KV cache for the 2000-token system prompt and reuses i
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Doesn't know prefix caching exists
 - Can't calculate the performance benefit
@@ -182,9 +235,13 @@ Prefix caching stores the KV cache for the 2000-token system prompt and reuses i
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Production optimization awareness. Prefix caching is one of the highest-impact optimizations for LLM serving. Understanding it shows the candidate thinks about cost and latency systematically.
+
+#### Design / Production Bridge
+
+Prefix caching is one of the cleanest wins in LLM serving, but only when the prompt contract is stable enough to produce real reuse. Strong candidates know both the upside and the memory trade-off.
 
 ---
 
@@ -209,13 +266,13 @@ Your team needs to choose between vLLM, TensorRT-LLM, and SGLang for serving Lla
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Benchmark dimensions: (1) Tokens/sec/GPU at different batch sizes. (2) Latency: TTFT and inter-token latency (ITL) at p50/p95/p99. (3) Maximum concurrent requests before quality degrades. (4) Memory efficiency (max context length). Test methodology: use realistic workload (actual prompt lengths, generation lengths), not synthetic benchmarks. Also consider: ease of deployment, model update speed, API compatibility, community support.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 - **Benchmark methodology:**
   ```python
@@ -261,7 +318,11 @@ Benchmark dimensions: (1) Tokens/sec/GPU at different batch sizes. (2) Latency: 
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Build a repeatable benchmark harness that replays a production-like prompt and generation distribution across vLLM, TensorRT-LLM, and SGLang. Report TTFT, p95 latency, throughput, memory utilization, and operator cost, not just tokens per second.
+
+#### Real Interviewer Follow-ups
 
 1. TTFT is great at low concurrency but degrades at high concurrency. Is this expected? How do you address it?
 2. TensorRT-LLM gives 40% more throughput but takes 2 hours to compile a new model. When is this worth it?
@@ -269,7 +330,7 @@ Benchmark dimensions: (1) Tokens/sec/GPU at different batch sizes. (2) Latency: 
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Just benchmark tokens/sec" — incomplete (must include latency)
 - Benchmarks with unrealistic workloads
@@ -277,9 +338,13 @@ Benchmark dimensions: (1) Tokens/sec/GPU at different batch sizes. (2) Latency: 
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Rigorous engineering methodology. The candidate should describe systematic benchmarking with realistic workloads and multi-dimensional metrics, not just throughput.
+
+#### Design / Production Bridge
+
+Serving-framework choice is a platform decision, not a benchmark screenshot. The right answer depends on the workload shape, the speed of model updates, and how much operational complexity the team can afford.
 
 ---
 
@@ -304,13 +369,13 @@ You're building a chatbot with a 32K token context window. Conversations can las
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Strategy: (1) Reserve fixed budgets: system_prompt (2K), recent_messages (last 5 turns, ~5K), tools (1K), generation (4K), remaining (20K for history). (2) When history exceeds budget, compress old messages: summarize, truncate, or use sliding window. (3) Count tokens accurately using the model's tokenizer, not approximations. (4) Always leave generation budget (max_tokens) — never fill context completely.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 class TokenBudgetManager:
@@ -393,7 +458,11 @@ class TokenBudgetManager:
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Implement a token budget manager that reserves explicit output space, always keeps recent turns, summarizes older turns when needed, and rejects any request that still exceeds the model window after compression.
+
+#### Real Interviewer Follow-ups
 
 1. Your summarization sometimes loses critical information (e.g., user's name mentioned 20 turns ago). How do you handle this?
 2. How do you test that your token budget manager works correctly?
@@ -401,7 +470,7 @@ class TokenBudgetManager:
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Just increase the context window" — avoids the problem
 - No strategy for when conversations exceed the window
@@ -409,9 +478,13 @@ class TokenBudgetManager:
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Practical multi-turn engineering. This is a real problem every chat application faces. The hybrid approach (sliding window + summarization) shows engineering judgment.
+
+#### Design / Production Bridge
+
+Most multi-turn chat failures are really context-budget failures: missing state, clipped tool history, or no room left for output. A good answer treats token budgeting as a system contract, not a convenience utility.
 
 ---
 
@@ -436,13 +509,13 @@ You need your LLM to always return valid JSON matching a specific schema. How do
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Layered approach: (1) Constrained generation (grammar-based): force the model to only generate valid JSON tokens. Tools: Outlines, SGLang, vLLM JSON mode. (2) Model-level JSON mode: OpenAI's response_format=json_object. (3) Prompt engineering: explicit examples, schema in prompt. (4) Post-processing: parse attempt, retry with error feedback if invalid. Best reliability: constrained generation (100%), then model JSON mode (99%+), then prompt + retry (~98%).
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 - **Level 1: Constrained generation (100% valid JSON):**
   ```python
@@ -499,7 +572,11 @@ Layered approach: (1) Constrained generation (grammar-based): force the model to
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Take one real schema with required and optional fields, implement constrained generation when available, add schema validation and retry fallback when it is not, and log both syntax failures and semantic-schema failures separately.
+
+#### Real Interviewer Follow-ups
 
 1. Constrained generation is slower. How much latency increase is acceptable for 100% reliability?
 2. How do you handle optional fields in your JSON schema?
@@ -507,7 +584,7 @@ Layered approach: (1) Constrained generation (grammar-based): force the model to
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Tell the model to output JSON" — that's the weakest approach
 - Doesn't know about constrained generation
@@ -515,9 +592,13 @@ Layered approach: (1) Constrained generation (grammar-based): force the model to
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Production reliability engineering. Achieving structured output at 100% reliability requires understanding the full toolkit (constrained generation > JSON mode > prompt engineering).
+
+#### Design / Production Bridge
+
+The important production contract is not that the LLM is usually well-behaved. It is that downstream systems never crash because the output layer trusted free-form text as if it were already a typed API.
 
 ---
 
@@ -542,13 +623,13 @@ Implement server-sent events (SSE) streaming for an LLM chat endpoint. How do yo
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Use SSE (Server-Sent Events) for HTTP streaming. Server generates tokens one at a time, sends each as an SSE event. Client receives token-by-token. Key concerns: (1) Backpressure: if client is slow, buffer tokens server-side (bounded buffer, drop or pause if full). (2) Errors mid-stream: send an SSE error event, client shows partial response + error indicator. (3) Client disconnect: detect closed connection, cancel generation to free GPU resources.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 # FastAPI SSE streaming endpoint
@@ -621,7 +702,11 @@ async def chat_stream(request: Request, body: ChatRequest):
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Ship a minimal SSE endpoint that streams tokens, emits explicit completion and error events, and cancels generation as soon as the client disconnects. Then verify that abandoned requests actually release serving capacity.
+
+#### Real Interviewer Follow-ups
 
 1. SSE vs WebSocket for LLM streaming — when would you use each?
 2. How do you implement streaming with function/tool calling (model outputs both text and tool calls)?
@@ -629,7 +714,7 @@ async def chat_stream(request: Request, body: ChatRequest):
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Doesn't handle client disconnection (wastes GPU)
 - No error handling mid-stream
@@ -637,9 +722,13 @@ async def chat_stream(request: Request, body: ChatRequest):
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Full-stack LLM engineering. Streaming is where backend meets frontend. Handling disconnection, errors, and resource cleanup shows production awareness.
+
+#### Design / Production Bridge
+
+Streaming is not just a nicer UI. It changes perceived latency, cancellation behavior, and how long expensive generation jobs remain alive after the user has already left.
 
 ---
 
@@ -664,13 +753,13 @@ You need to split documents into chunks that fit within a 4096-token budget. Imp
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Use the model's actual tokenizer to count tokens (not character approximation). Split on sentence boundaries. Algorithm: accumulate sentences until adding the next sentence would exceed the token budget, then emit the chunk. Overlap between chunks for continuity (10-20% overlap). Handle edge cases: single sentences exceeding budget, empty chunks.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 from transformers import AutoTokenizer
@@ -737,7 +826,11 @@ class TokenAwareTextSplitter:
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Implement a tokenizer-aware splitter against the exact model tokenizer you plan to use downstream, then compare chunk counts and budget utilization against a naive character-based splitter on prose, code, and mixed-format documents.
+
+#### Real Interviewer Follow-ups
 
 1. How does chunking strategy change for code vs prose?
 2. What overlap percentage works best in practice?
@@ -745,7 +838,7 @@ class TokenAwareTextSplitter:
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Split by character count divided by 4 (inaccurate)
 - No overlap between chunks
@@ -753,9 +846,13 @@ class TokenAwareTextSplitter:
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Attention to detail. Token-aware splitting is a common task done wrong. Using the actual tokenizer and handling edge cases shows careful engineering.
+
+#### Design / Production Bridge
+
+Preprocessing decisions leak directly into retrieval and prompting quality. Waste the context window here and every later stage pays for it with lower recall or higher cost.
 
 ---
 
@@ -780,13 +877,13 @@ Explain static batching vs continuous batching for LLM inference. How does conti
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Static batching: group N requests, process together, wait for ALL to finish before starting next batch. Problem: short responses wait for long responses to finish (wasted compute). Continuous batching: as soon as one request in the batch finishes, insert a new request into its slot immediately. The batch is always full, GPU is always busy. Throughput improvement: 3-5x because GPU utilization stays near 100% instead of declining as requests complete at different times.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 - **Static batching (naive):**
   ```
@@ -839,7 +936,11 @@ Static batching: group N requests, process together, wait for ALL to finish befo
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Simulate a mixed workload with short and long generations, then compare static batching and continuous batching by measuring average GPU utilization, throughput, and tail latency. Explain which policy you would ship for an interactive product.
+
+#### Real Interviewer Follow-ups
 
 1. What's the trade-off between batch size and per-request latency?
 2. How does continuous batching interact with prefix caching?
@@ -847,7 +948,7 @@ Static batching: group N requests, process together, wait for ALL to finish befo
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Doesn't know continuous batching exists
 - "Just increase batch size" without understanding the wait-for-longest problem
@@ -855,9 +956,13 @@ Static batching: group N requests, process together, wait for ALL to finish befo
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Understanding of the fundamental throughput mechanism in modern LLM serving. This is how vLLM achieves its performance — candidates serving LLMs in production should understand it.
+
+#### Design / Production Bridge
+
+Buying more GPUs is often not the first answer. Scheduler quality and batching policy determine whether the hardware you already have is actually being used well.
 
 ---
 
@@ -882,13 +987,13 @@ Design an evaluation pipeline for a customer support LLM that needs to classify 
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Multi-metric evaluation: (1) Classification accuracy: exact-match on category labels (automated). (2) Response quality: LLM-as-judge scoring on helpfulness, accuracy, tone (automated + calibrated). (3) Escalation detection: precision/recall (automated). (4) Safety: check for harmful/inappropriate content (automated classifier). (5) End-to-end: resolution rate from A/B test (human-in-the-loop). Run on versioned eval datasets. Track metrics over time. Alert on regression.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 - **Evaluation architecture:**
   ```
@@ -948,7 +1053,11 @@ Multi-metric evaluation: (1) Classification accuracy: exact-match on category la
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Create a small versioned evaluation set for one production workflow, score it with automated metrics and an LLM judge, and block deployment whenever any primary metric regresses beyond a pre-declared threshold.
+
+#### Real Interviewer Follow-ups
 
 1. How do you calibrate the LLM-as-judge to match human evaluators?
 2. What eval dataset size gives you statistical confidence?
@@ -956,7 +1065,7 @@ Multi-metric evaluation: (1) Classification accuracy: exact-match on category la
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Vibes-based" evaluation (manually check a few examples)
 - Only uses one metric (accuracy or BLEU)
@@ -965,9 +1074,13 @@ Multi-metric evaluation: (1) Classification accuracy: exact-match on category la
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Evaluation maturity is one of the strongest signals of LLM engineering capability. Candidates who describe multi-metric, automated eval with regression detection are significantly more likely to build reliable systems.
+
+#### Design / Production Bridge
+
+Without evaluation, prompt and model changes are just expensive guesswork. The engineering bar is not whether you can score outputs once, but whether the pipeline can stop bad changes before they hit users.
 
 ---
 
@@ -992,13 +1105,13 @@ Design a model router that selects between GPT-4o, Claude 3.5 Sonnet, and Llama 
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Router design: (1) Classify request complexity (simple/complex via heuristic or small classifier). (2) Route simple requests to cheapest available model (Llama 3 self-hosted). (3) Route complex requests to strongest available model (GPT-4o or Claude). (4) Fallback chain: if primary fails (timeout, rate limit, error), try next provider. (5) Circuit breaker: if a provider has 5+ failures in 60 seconds, stop sending traffic to it temporarily. (6) Track quality per-route and adjust routing weights.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 class ModelRouter:
@@ -1062,7 +1175,11 @@ class ModelRouter:
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Implement a router that classifies request complexity, applies a cost-aware primary route, and uses circuit breakers plus prompt adapters for fallback providers. Then run a failure drill where the primary provider times out repeatedly.
+
+#### Real Interviewer Follow-ups
 
 1. How do you ensure prompt compatibility across providers? (Different models may need different prompts.)
 2. The self-hosted Llama model has better privacy but worse quality. How do you factor privacy into routing?
@@ -1070,7 +1187,7 @@ class ModelRouter:
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Single provider, no fallback strategy
 - No circuit breaker (retries overwhelm failing provider)
@@ -1078,9 +1195,13 @@ class ModelRouter:
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Production reliability engineering. Multi-provider routing with circuit breakers shows the candidate builds resilient systems. Cost-aware routing shows business awareness.
+
+#### Design / Production Bridge
+
+Routing is the interface between model quality, uptime, privacy, and cost. A strong answer treats fallback as a first-class system behavior, not a desperate retry after the outage has already spread.
 
 ---
 
@@ -1105,13 +1226,13 @@ Your application makes 500 requests/minute to OpenAI's API but your rate limit i
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Solutions: (1) Token bucket rate limiter — throttle outgoing requests to stay within limits. (2) Request queue with priority — queue excess requests, process in order when capacity available. (3) Tiered caching — cache responses for common queries to reduce API calls. (4) Parallel providers — overflow to Claude or self-hosted model. (5) Request coalescing — batch similar requests. (6) Graceful degradation — for low-priority requests, serve cached/simpler responses.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 import asyncio
@@ -1177,7 +1298,11 @@ class LLMRateLimiter:
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Implement a token bucket plus priority queue around one external API integration, then test it with over-limit traffic and verify that critical interactive requests still complete while low-priority jobs are delayed or degraded.
+
+#### Real Interviewer Follow-ups
 
 1. Your rate limit is per-organization. Multiple services share the same API key. How do you coordinate?
 2. How do you handle token-per-minute (TPM) limits vs request-per-minute (RPM) limits?
@@ -1185,7 +1310,7 @@ class LLMRateLimiter:
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Just increase the rate limit" — not always possible
 - No priority system (all requests treated equally)
@@ -1193,9 +1318,13 @@ class LLMRateLimiter:
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Production API management. Rate limiting is a universal production concern but uniquely challenging for LLM APIs (cost + latency + limits). Priority queuing and caching show engineering maturity.
+
+#### Design / Production Bridge
+
+Rate limiting is really an admission-control problem. If everything is urgent, the system becomes unreliable for everyone as soon as the provider becomes the bottleneck.
 
 ---
 
@@ -1220,13 +1349,13 @@ Your LLM costs jumped from $500/day to $2000/day. No traffic increase. How do yo
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Detection: real-time cost dashboard with alerts (alert at 150% of daily average). Diagnosis: (1) Check token usage per endpoint — which endpoint's cost increased? (2) Check average tokens per request — did prompt or output length change? (3) Check model version — did someone switch to a more expensive model? (4) Check for runaway loops (retry storms). Prevention: per-endpoint cost budgets, max_tokens enforcement, prompt length limits, cost anomaly alerts.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 - **Cost monitoring architecture:**
   ```python
@@ -1275,7 +1404,11 @@ Detection: real-time cost dashboard with alerts (alert at 150% of daily average)
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Track input tokens, output tokens, model choice, and cost per endpoint for every request, then add anomaly alerts and one hard budget action such as model downgrade, request rejection, or tighter `max_tokens` when a threshold is crossed.
+
+#### Real Interviewer Follow-ups
 
 1. How do you set cost budgets for new features with unknown usage patterns?
 2. Should cost be a factor in model selection? How much quality degradation is acceptable for 50% cost reduction?
@@ -1283,7 +1416,7 @@ Detection: real-time cost dashboard with alerts (alert at 150% of daily average)
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "We check the OpenAI dashboard at end of month" — way too late
 - No per-endpoint cost tracking
@@ -1291,9 +1424,13 @@ Detection: real-time cost dashboard with alerts (alert at 150% of daily average)
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Cost awareness. LLM costs are the #1 concern for production LLM applications. Candidates who describe real-time monitoring, per-endpoint budgets, and automatic controls demonstrate operational maturity.
+
+#### Design / Production Bridge
+
+LLM spend usually rises through token drift, not only traffic growth. Teams that do not measure cost at the request and endpoint level usually discover the problem after the bill arrives.
 
 ---
 
@@ -1318,13 +1455,13 @@ You designed a prompt that works 99% of the time in testing. In production with 
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Layers of defense: (1) Prompt hardening — add explicit constraints, examples for edge cases, boundary conditions. (2) Input validation — reject or transform malformed inputs before they reach the LLM. (3) Output validation — parse and validate structured output, retry on failure. (4) Fallback prompts — simpler prompt as backup when complex prompt fails. (5) Monitoring — track failure rate by input category, continuously add edge case examples. (6) Graceful degradation — return a safe default response rather than error.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 - **Prompt hardening techniques:**
   ```
@@ -1384,7 +1521,11 @@ Layers of defense: (1) Prompt hardening — add explicit constraints, examples f
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Wrap one prompt-driven workflow with input validation, hardened instructions, output validation, retry, and a fallback path. Then build a regression set from real failure cases and measure whether the layered defenses push reliability from demo quality to production quality.
+
+#### Real Interviewer Follow-ups
 
 1. How do you balance prompt specificity (more instructions = more reliable) vs prompt length (more tokens = higher cost/latency)?
 2. Your fallback classifier is rule-based and lower quality. How do you decide when to accept the fallback vs error?
@@ -1392,7 +1533,7 @@ Layers of defense: (1) Prompt hardening — add explicit constraints, examples f
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "99% is good enough" — not at 10K requests/day
 - No output validation
@@ -1401,6 +1542,10 @@ Layers of defense: (1) Prompt hardening — add explicit constraints, examples f
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Production reliability mindset applied to LLM engineering. The key insight: reliability comes from layers of defense (input validation → prompt hardening → output validation → retry → fallback), not from one perfect prompt.
+
+#### Design / Production Bridge
+
+Prompting becomes engineering when the system is designed to survive the 1% failures. Strong candidates stop talking about prompt wording alone and start talking about validation, rollback, and safe degradation.

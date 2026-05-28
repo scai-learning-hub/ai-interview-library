@@ -14,6 +14,20 @@ The question schema ensures every question is:
 
 ---
 
+## Interview Flow Overlay
+
+The repository stores questions by **Level** (`Concept`, `Applied`, `System`, `Debugging`, `Architect`), but users prepare for interviews through a more practical progression:
+
+1. **Basic check** — can the candidate answer clearly in 30–60 seconds?
+2. **Concept depth** — can they explain why it works?
+3. **Design push** — can they reason about trade-offs and constraints?
+4. **Practical build drill** — can they implement a scoped version themselves?
+5. **Real interviewer follow-ups** — can they handle pressure after the first answer?
+
+This overlay does **not** replace the `Level` field. It is the readability contract for new batches and for module indexes.
+
+---
+
 ## Full Schema Template
 
 ```markdown
@@ -21,7 +35,7 @@ The question schema ensures every question is:
 
 **Module:** {module name}
 **Submodule:** {submodule or topic area}
-**Level:** Concept | Applied | System | Debugging
+**Level:** Concept | Applied | System | Debugging | Architect
 **Difficulty:** {1–5}
 **Experience Bands:** {Beginner | Early-career | Mid-level | Senior | Architect} (one or more)
 **Persona Relevance:** {persona group(s) where this question is most relevant}
@@ -44,6 +58,12 @@ The question schema ensures every question is:
 
 ---
 
+**Practical Extension / Build Drill**
+
+{One concrete implementation exercise that turns the concept into a scoped build task. Use bounded prompts such as "implement reciprocal rank fusion over dense + BM25 results" or "compare cosine vs dot-product retrieval in Torch". Avoid vague prompts like "build a full AI app." Required for new Concept and Applied questions unless the question is purely architectural.}
+
+---
+
 **Deep Answer**
 
 - {Bullet point 1: core explanation}
@@ -55,7 +75,7 @@ The question schema ensures every question is:
 
 ---
 
-**Follow-up Questions**
+**Follow-up Questions (Real Interviewer Follow-ups)**
 
 1. {Follow-up that increases depth or pressure}
 2. {Follow-up that tests a related trade-off}
@@ -99,7 +119,7 @@ Q-{MODULE_ID}-{LEVEL_CODE}-{SEQUENCE}
 | Component | Format | Values |
 |-----------|--------|--------|
 | MODULE_ID | Two-digit | 00–11 |
-| LEVEL_CODE | Single letter | C (Concept), A (Applied), S (System), D (Debugging) |
+| LEVEL_CODE | Single letter | C (Concept), A (Applied), S (System), D (Debugging), R (Architect) |
 | SEQUENCE | Three-digit | 001–999 |
 
 ### Examples
@@ -110,6 +130,7 @@ Q-{MODULE_ID}-{LEVEL_CODE}-{SEQUENCE}
 | `Q-04-A-012` | RAG, Applied level, question 12 |
 | `Q-09-S-005` | System Design, System level, question 5 |
 | `Q-10-D-003` | Debugging & Failure Modes, Debugging level, question 3 |
+| `Q-06-R-002` | LLMOps, Architect level, question 2 |
 | `Q-05-A-021` | Agentic AI, Applied level, question 21 |
 
 ### Rules
@@ -155,7 +176,7 @@ Submodules are not strictly enumerated — new ones can be added as needed, but 
 
 ### Level
 
-One of four values. Every module must contain questions at all four levels.
+One of five values. Every mature module should span all five levels.
 
 | Level | Code | What It Tests |
 |-------|------|--------------|
@@ -163,6 +184,19 @@ One of four values. Every module must contain questions at all four levels.
 | Applied | A | Design choices, trade-offs, practical reasoning |
 | System | S | Architecture, scale, reliability, cost/perf trade-offs |
 | Debugging | D | Failure analysis, incidents, anti-patterns, recovery |
+| Architect | R | Operating model, governance, platform strategy |
+
+### Practical Extension / Build Drill
+
+- Must be concrete, scoped, and implementable in 20–90 minutes.
+- Prefer prompts that exercise the exact concept under discussion.
+- Good examples:
+	- implement cosine-vs-dot ranking over embeddings in Torch
+	- build a minimal LangChain + FAISS retrieval pipeline with citations
+	- write reciprocal rank fusion for two ranked result lists
+- Bad examples:
+	- "build an AI product"
+	- "create a startup-ready RAG platform"
 
 ### Difficulty
 
@@ -257,6 +291,12 @@ This field helps learners understand the purpose of the question, not just the c
 - Must include at least one production consideration for Applied+ questions.
 - Must include at least one caveat or edge case where the obvious answer breaks down.
 - No filler bullets like "This is an important concept."
+
+### Follow-up Questions
+
+- These should sound like real interviewer pressure, not worksheet prompts.
+- At least one follow-up should force a trade-off, failure mode, or design decision.
+- When relevant, one follow-up should bridge the concept into implementation or system behavior.
 
 ### Follow-up Questions
 

@@ -2,6 +2,32 @@
 
 ---
 
+## How To Read This File
+
+System-level RAG interviews are not asking whether you know what chunking or reranking is. They are asking whether you can operate RAG as a platform under latency, security, quality, and cost pressure.
+
+```text
+Requirements -> isolation boundaries -> control plane -> data plane -> failure containment -> operating model
+```
+
+- **Requirements**: what each workload optimizes for
+- **Isolation boundaries**: where tenants, KBs, data classes, and SLAs diverge
+- **Control plane**: configuration, rollout, eval gating, and ownership
+- **Data plane**: ingestion, retrieval, ranking, generation, caching
+- **Failure containment**: what breaks locally vs platform-wide
+- **Operating model**: who owns configs, approvals, audits, and migrations
+
+## Architecture Map
+
+| ID | Core system problem | Main design pressure | What strong answers include |
+|---|---|---|---|
+| [Q-04-S-001](#q-04-s-001) | Multi-KB RAG platform | Shared infra vs per-KB optimization | Control plane, tenant isolation, SLA-aware configs |
+| [Q-04-S-002](#q-04-s-002) | Ingestion at million-doc scale | Heterogeneous parsing and freshness | Queues, extraction quality, versioning, rollback |
+| [Q-04-S-003](#q-04-s-003) | Multi-hop reasoning system | Dependency-aware retrieval | Planning, source routing, bounded execution |
+| [Q-04-S-004](#q-04-s-004) | Production quality monitoring | Silent degradation | Quality telemetry, drift detection, alert routing |
+
+---
+
 ## Q-04-S-001: Design a production RAG platform that serves 10 different knowledge bases with shared infrastructure and per-KB quality SLAs.
 
 **Module:** RAG
@@ -23,36 +49,50 @@ Design a RAG platform serving: Engineering docs (50K docs, sub-300ms latency), L
 
 ---
 
-**Expected Answer (Short)**
+#### System Answer
 
 Architecture: (1) Shared infrastructure layer: vector database cluster, LLM serving pool, embedding service. (2) Per-KB configuration: each knowledge base has its own namespace in vector DB, configured chunking strategy, embedding model, retrieval parameters, and LLM. (3) Configuration-as-code: YAML configs per KB define the full pipeline. (4) Quality SLAs: per-KB eval suites with automated regression testing. (5) Shared services: ingestion pipeline, caching layer, observability. (6) Isolation: logical namespace isolation in vector DB, separate API keys.
 
 ---
 
-**Deep Answer**
+#### Architecture + Operating Model
+
+- **The right abstraction is control plane plus data plane:**
+  ```
+  Control plane:
+    KB registry -> config -> eval policy -> rollout gates -> audit / approvals
+
+  Data plane:
+    ingest -> index -> retrieve -> rerank -> generate -> cite -> observe
+  ```
+  A multi-KB platform fails when every team forks the pipeline in code. Strong systems keep the shared mechanics in one platform and expose per-KB variation through governed configuration.
 
 - **Platform architecture:**
   ```
-  ┌─────────────────────────────────────────────────────┐
-  │                    RAG Platform                       │
-  │                                                       │
-  │  ┌───────────┐  ┌───────────┐  ┌───────────┐       │
-  │  │ KB: Eng   │  │ KB: Legal │  │ KB: Support│       │
-  │  │ Namespace │  │ Namespace │  │ Namespace  │       │
-  │  │ embed: bge│  │ embed: e5 │  │ embed: oai │       │
-  │  │ llm: 8b   │  │ llm: gpt4o│  │ llm: claude│       │
-  │  │ chunks:512│  │ chunks:256│  │ chunks:512 │       │
-  │  └───────────┘  └───────────┘  └───────────┘       │
-  │                                                       │
-  │  ┌─────────────────────────────────────────────┐     │
-  │  │         Shared Infrastructure                │     │
-  │  │ Vector DB Cluster │ LLM Pool │ Embed Service│     │
-  │  │ Cache Layer │ Observability │ Ingestion     │     │
-  │  └─────────────────────────────────────────────┘     │
-  └─────────────────────────────────────────────────────┘
+  ┌─────────────────────────────────────────────────────────────┐
+  │                         RAG Platform                        │
+  │                                                             │
+  │  Control Plane                                              │
+  │  ┌───────────────────────────────────────────────────────┐  │
+  │  │ KB registry │ config store │ eval gates │ rollout    │  │
+  │  │ access policy │ prompt/version catalog │ audit log   │  │
+  │  └───────────────────────────────────────────────────────┘  │
+  │                                                             │
+  │  Data Plane                                                 │
+  │  ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌──────────┐ │
+  │  │ Ingestion  │ │ Retrieval  │ │ Reranking  │ │ Generate │ │
+  │  │ pipelines  │ │ services   │ │ service    │ │ + cite   │ │
+  │  └────────────┘ └────────────┘ └────────────┘ └──────────┘ │
+  │                                                             │
+  │  Shared Infra                                               │
+  │  ┌───────────────────────────────────────────────────────┐  │
+  │  │ Vector stores │ embed services │ cache │ observability│  │
+  │  │ job queues │ feature flags │ authn/authz │ model pool │  │
+  │  └───────────────────────────────────────────────────────┘  │
+  └─────────────────────────────────────────────────────────────┘
   ```
 
-- **KB configuration (YAML):**
+- **Per-KB configuration should define behavior, not just parameters:**
   ```yaml
   knowledge_base:
     name: "legal-contracts"
@@ -80,16 +120,43 @@ Architecture: (1) Shared infrastructure layer: vector database cluster, LLM serv
       audit_logging: required
   ```
 
-- **Per-KB SLA monitoring:**
-  | KB | Latency SLA | Accuracy SLA | Volume |
-  |----|-------------|-------------|--------|
-  | Engineering | p99 < 300ms | > 0.85 | 10K/day |
-  | Legal | p99 < 5s | > 0.95 | 500/day |
-  | Support | p99 < 2s | > 0.88 | 50K/day |
+  The important part is that KB teams can change retrieval and generation policy without changing platform code.
+
+- **Isolation model:**
+  | Concern | Shared | Per-KB |
+  |--------|--------|--------|
+  | Job orchestration | Yes | No |
+  | Vector namespace / index | Maybe | Usually yes |
+  | Embedding model | Maybe | Often yes |
+  | Prompt and citation policy | Catalog shared | Choice per KB |
+  | Eval suite and SLA | Framework shared | Thresholds per KB |
+  | Access control rules | Auth service shared | Scope rules per KB |
+
+- **SLA-aware design choices:**
+  | KB | Dominant goal | Likely design choice |
+  |----|---------------|----------------------|
+  | Engineering docs | Low latency | Smaller models, tighter top-k, maybe no heavy reranker |
+  | Legal contracts | Accuracy + auditability | Strong reranker, citations, full audit, slower path acceptable |
+  | Customer support | High volume + multilingual | Cheap embed path, semantic cache, language-aware routing |
+
+- **Operating model questions strong candidates answer:**
+  - Who can create a new KB config?
+  - Who approves prompt or model changes for legal-grade KBs?
+  - What eval gates must pass before rollout?
+  - How do you roll back one KB without touching all others?
+
+- **Failure-domain thinking:**
+  - A single bad KB config should not crash the shared serving path.
+  - Per-KB rollouts should be feature-flagged and reversible.
+  - Shared model outages should trigger fallback policy by KB criticality.
 
 ---
 
-**Follow-up Questions**
+#### Scoped Design Drill
+
+Design the control plane for onboarding a new knowledge base: config creation, eval registration, ACL binding, staged rollout, and rollback. Keep the data plane shared unless the SLA clearly requires dedicated isolation.
+
+#### Real Interviewer Follow-ups
 
 1. Engineering KB needs sub-300ms but Legal needs highest accuracy. How do you optimize each independently?
 2. A new team wants to add their KB. What's the onboarding process?
@@ -97,7 +164,7 @@ Architecture: (1) Shared infrastructure layer: vector database cluster, LLM serv
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Separate infrastructure per KB (expensive, doesn't share resources)
 - One-size-fits-all configuration (same chunking/embedding/LLM for all KBs)
@@ -105,9 +172,13 @@ Architecture: (1) Shared infrastructure layer: vector database cluster, LLM serv
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Platform thinking. The candidate should describe shared infrastructure with per-KB configuration, enabling each team to optimize independently while sharing operational costs.
+
+#### Design / Production Bridge
+
+This question is really about platform maturity. Strong answers separate shared mechanics from per-KB policy so teams can optimize independently without turning the platform into ten bespoke RAG systems.
 
 ---
 
@@ -132,13 +203,20 @@ Design an ingestion pipeline for 1M documents: PDFs (400K), web pages (300K), Of
 
 ---
 
-**Expected Answer (Short)**
+#### System Answer
 
 Architecture: (1) Source connectors: per-format extractors (PDF: PyMuPDF + Unstructured, Web: HTML parser, Office: python-docx, Confluence: API). (2) Processing pipeline: Extract → Clean → Chunk → Embed → Store. (3) Queue-based processing: documents into task queue (Celery, SQS), workers process in parallel. (4) Incremental: hash-based change detection, only reprocess changed docs. (5) Quality: extraction quality monitoring, failed document handling, manual review queue for low-confidence extractions.
 
 ---
 
-**Deep Answer**
+#### Architecture + Operating Model
+
+- **A scalable ingestion system is a reliability pipeline, not just ETL:**
+  ```
+  source discovery -> change detection -> extraction -> normalization -> chunking
+      -> embedding -> indexing -> quality checks -> publish / rollback
+  ```
+  The hardest part is not raw throughput. It is preserving correctness and recoverability while many source formats fail in different ways.
 
 - **Pipeline architecture:**
   ```
@@ -161,7 +239,7 @@ Architecture: (1) Source connectors: per-format extractors (PDF: PyMuPDF + Unstr
   | Confluence | Confluence API | Nested pages, macros, attachments |
   | Markdown | Standard parser | Code blocks, math equations |
 
-- **Scale processing (1M documents):**
+- **Throughput estimate is useful, but publish semantics matter more:**
   ```python
   # Queue-based parallel processing
   # Assuming average 3 chunks per document = 3M embeddings
@@ -173,6 +251,15 @@ Architecture: (1) Source connectors: per-format extractors (PDF: PyMuPDF + Unstr
   # With 4 GPU workers: ~25 minutes for full reindex
   # Incremental (500 docs/day): < 1 minute
   ```
+
+- **Quality gates should exist before new content becomes searchable:**
+  | Gate | Why it exists |
+  |-----|---------------|
+  | Extraction completeness | Catch empty or broken parses |
+  | OCR confidence | Route low-confidence docs to review |
+  | Chunk count anomaly | Detect parser explosions or truncation |
+  | Metadata completeness | Prevent ACL/date/source loss |
+  | Embedding success | Avoid half-indexed documents |
 
 - **Failed document handling:**
   ```python
@@ -194,9 +281,24 @@ Architecture: (1) Source connectors: per-format extractors (PDF: PyMuPDF + Unstr
                                     tags={"format": document.format})
   ```
 
+- **Publishing model matters at 1M docs:**
+  - In-place publishing is simpler but can expose partially reprocessed corpora.
+  - Blue/green or versioned publish flows let you finish extraction and validation first, then atomically switch visibility.
+  - Large corpora often need per-source or per-partition publishing to avoid all-or-nothing cutovers.
+
+- **Operational concerns a deep answer should mention:**
+  - Dead-letter queues by failure class.
+  - Reprocessing retries that are idempotent.
+  - Cost controls on OCR and vision extraction.
+  - Format-specific monitoring, because PDF quality problems are not HTML quality problems.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Design Drill
+
+Design one publish path for Confluence and one for scanned PDFs. Show where change detection, extraction confidence, dead-letter handling, and index publish boundaries differ.
+
+#### Real Interviewer Follow-ups
 
 1. 5% of PDFs fail extraction (scanned, corrupted, password-protected). How do you handle them?
 2. How do you ensure extraction quality across formats?
@@ -204,7 +306,7 @@ Architecture: (1) Source connectors: per-format extractors (PDF: PyMuPDF + Unstr
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Parse everything with one tool" — different formats need different parsers
 - No error handling for failed documents
@@ -213,9 +315,13 @@ Architecture: (1) Source connectors: per-format extractors (PDF: PyMuPDF + Unstr
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Data engineering at RAG scale. The candidate should describe format-specific extraction, parallelized processing, error handling, and quality monitoring.
+
+#### Design / Production Bridge
+
+At scale, ingestion quality becomes retrieval quality. A platform with brilliant retrieval logic and weak extraction will still feel broken to users because the evidence never entered the index correctly.
 
 ---
 
@@ -240,13 +346,13 @@ Design a system that answers: "What are the combined revenue impacts of all secu
 
 ---
 
-**Expected Answer (Short)**
+#### System Answer
 
 Multi-hop RAG architecture: (1) Query planner: LLM decomposes the complex query into sub-queries with dependencies. (2) Iterative retrieval: execute sub-queries in dependency order, each using results from previous steps. (3) Context accumulation: gather context from all steps. (4) Final synthesis: LLM generates final answer from accumulated context. Implementation: agent-like loop with planning, retrieval, and synthesis phases.
 
 ---
 
-**Deep Answer**
+#### Architecture + Operating Model
 
 ```python
 class MultiHopRAG:
@@ -286,6 +392,10 @@ class MultiHopRAG:
         )
 ```
 
+- **Multi-hop is retrieval with dependencies, not just bigger top-k:**
+  - Some answers require discovering intermediate entities before the next retrieval step is even knowable.
+  - If you try to retrieve everything in one pass, recall collapses or the context becomes too broad to use.
+
 - **Planning prompt:**
   ```
   Decompose this complex question into simple, sequential retrieval steps.
@@ -302,6 +412,15 @@ class MultiHopRAG:
   4. Calculate the combined revenue impact
   ```
 
+- **Execution architecture choices:**
+  | Concern | Strong pattern |
+  |--------|----------------|
+  | Planning | Planner with schema/tool awareness |
+  | Execution | Bounded step engine with max hops and retries |
+  | Source routing | Structured systems first when possible |
+  | Evidence handling | Keep intermediate results typed and inspectable |
+  | Final synthesis | Combine cited outputs, not raw unbounded transcripts |
+
 - **Key design decisions:**
   | Decision | Options |
   |----------|---------|
@@ -311,9 +430,27 @@ class MultiHopRAG:
   | Source routing | Different vector DBs per data type |
   | Failure handling | Skip failed steps with partial answer, or fail entirely |
 
+- **Hard constraints a serious system should enforce:**
+  - Maximum hop count.
+  - Step-level timeout and retry limits.
+  - Validation of planner output before execution.
+  - Explicit source permissions and audit trail for each step.
+
+- **Latency mitigation patterns:**
+  - Parallelize independent sub-steps.
+  - Prefer tool/database calls over LLM synthesis when the answer is computable.
+  - Summarize intermediate context instead of carrying raw outputs from every hop.
+  - Cache stable intermediate entities like "top customers last quarter" when business semantics allow it.
+
+- **Best deep point:** multi-hop RAG often becomes workflow or agent design. The mature answer knows when to stop calling it "RAG" and start treating it as a bounded orchestration problem.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Design Drill
+
+Design a bounded executor for the revenue-impact query that validates planner output, routes CRM and financial steps to structured tools, and only uses document retrieval for unstructured incident reports.
+
+#### Real Interviewer Follow-ups
 
 1. The planner generates a bad plan. How do you validate the plan before execution?
 2. How do you handle circular dependencies in the plan?
@@ -321,7 +458,7 @@ class MultiHopRAG:
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Just retrieve more documents in one shot" — doesn't handle dependencies
 - No planning step (tries to answer everything at once)
@@ -329,9 +466,13 @@ class MultiHopRAG:
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Advanced RAG engineering. Multi-hop retrieval is where RAG meets agentic patterns. The candidate should describe planning, iterative execution, and synthesis — not just more retrieval.
+
+#### Design / Production Bridge
+
+This is the boundary where basic retrieval systems end. Strong candidates recognize that multi-hop problems need planning, bounded execution, and typed intermediate state, not just a larger context window.
 
 ---
 
@@ -356,13 +497,19 @@ Design a monitoring system that detects RAG quality degradation within 30 minute
 
 ---
 
-**Expected Answer (Short)**
+#### System Answer
 
 Three-layer monitoring: (1) System metrics: retrieval latency, vector DB health, embedding service uptime, LLM API latency (real-time, alert on anomaly). (2) Retrieval quality: average retrieval score, similarity distribution, empty retrieval rate, reranker score distribution (sampled, 5-minute windows). (3) Answer quality: LLM-as-judge on sampled responses (faithfulness, relevance), citation accuracy rate, "I don't know" rate trend, user feedback signals (hourly). Dashboard with automated alerts on statistical drift from baseline.
 
 ---
 
-**Deep Answer**
+#### Architecture + Operating Model
+
+- **A production monitoring system needs quality telemetry, not just uptime:**
+  ```
+  system health + retrieval health + answer quality + business impact + drift signals
+  ```
+  If you only watch latency and 500s, you will miss the failures users actually care about.
 
 - **Monitoring architecture:**
   ```
@@ -391,6 +538,14 @@ Three-layer monitoring: (1) System metrics: retrieval latency, vector DB health,
   | Vector DB latency | p95 >100ms (baseline: 20ms) | Critical |
   | "I don't know" spike | Rate doubles from baseline | Warning |
 
+- **Monitoring layers to separate explicitly:**
+  | Layer | Example signals |
+  |------|-----------------|
+  | Infrastructure | DB health, API errors, queue lag, model latency |
+  | Retrieval | empty results, score drift, rerank drift, index freshness |
+  | Answer quality | faithfulness, citation precision, abstention quality |
+  | User outcome | clicks, support deflection, dissatisfaction, manual escalations |
+
 - **Root cause diagnosis dashboard:**
   ```
   Quality dropped → Which component?
@@ -400,9 +555,24 @@ Three-layer monitoring: (1) System metrics: retrieval latency, vector DB health,
   └── All metrics degraded → Infrastructure issue? Provider outage?
   ```
 
+- **Design points strong candidates mention:**
+  - Baselines should be sliced by KB, language, query class, and tenant, not only global averages.
+  - LLM-as-judge sampling should be adaptive: increase sampling when drift indicators rise.
+  - Monitoring must be tied to change events: prompt rollout, embedding migration, parser change, KB update.
+  - Alert routing should follow ownership: ingestion team, retrieval team, platform/SRE, or KB owner.
+
+- **How to catch gradual degradation:**
+  - Rolling 7-day and 14-day drift comparisons.
+  - Per-slice quality trends rather than single-point anomaly thresholds.
+  - "Golden set" scheduled probes that run continuously against stable questions.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Design Drill
+
+Design one dashboard for platform operators and one for KB owners. Split which metrics each sees, what thresholds alert them, and what runbook each alert should trigger.
+
+#### Real Interviewer Follow-ups
 
 1. How do you distinguish between genuine quality degradation and normal variance?
 2. The LLM-as-judge sample costs $50/day. How do you reduce this?
@@ -410,7 +580,7 @@ Three-layer monitoring: (1) System metrics: retrieval latency, vector DB health,
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Check quality manually weekly" — too slow
 - Only monitors system health (latency, errors), not quality
@@ -418,6 +588,10 @@ Three-layer monitoring: (1) System metrics: retrieval latency, vector DB health,
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 RAG operations maturity. Monitoring answer quality (not just system health) and detecting degradation within 30 minutes shows the candidate operates production RAG systems.
+
+#### Design / Production Bridge
+
+RAG systems usually fail silently before they fail loudly. The strong answer builds a monitoring stack that can tell whether the degradation came from infra, ingestion, retrieval, or answer behavior before users file tickets.

@@ -2,6 +2,33 @@
 
 ---
 
+## How To Read This File
+
+Debugging-level RAG questions are about disciplined isolation, not clever guesses.
+
+```text
+Symptom -> isolate stage -> inspect evidence -> test hypothesis -> repair -> prevent recurrence
+```
+
+- **Symptom**: what users or monitors observe
+- **Isolate stage**: ingestion, retrieval, reranking, context assembly, generation, cache, infra
+- **Inspect evidence**: logs, prompts, chunk IDs, scores, model versions, timings
+- **Test hypothesis**: disconfirm the fastest likely cause first
+- **Repair**: fix the immediate issue without hiding the root cause
+- **Prevent recurrence**: add guards, monitoring, rollout control, or eval coverage
+
+## Debugging Map
+
+| ID | Primary symptom | Stage most likely at fault | What strong answers include |
+|---|---|---|---|
+| [Q-04-D-001](#q-04-d-001) | Correct docs, wrong answer | Prompt/context/generation | Prompt inspection, context ordering, faithfulness verification |
+| [Q-04-D-002](#q-04-d-002) | Retrieval regresses after model upgrade | Embedding/index compatibility | Version checks, dimension/metric validation, rollback plan |
+| [Q-04-D-003](#q-04-d-003) | Updated source, stale answer | Ingestion/index/cache | Freshness chain tracing, tombstones, cache invalidation |
+| [Q-04-D-004](#q-04-d-004) | Reranker degrades recall | Reranking input/model fit | Input inspection, truncation checks, domain mismatch |
+| [Q-04-D-005](#q-04-d-005) | Latency explodes after scale-up | Non-search stages | Stage timings, context growth, filter/index misuse |
+
+---
+
 ## Q-04-D-001: Your RAG system retrieves the correct documents but the LLM ignores them and hallucinates.
 
 **Module:** RAG
@@ -23,13 +50,16 @@ Users report wrong answers. You verify that the correct chunks ARE being retriev
 
 ---
 
-**Expected Answer (Short)**
+#### Debugging Answer
 
 Root causes: (1) Prompt not forceful enough — model defaults to parametric knowledge when context conflicts with its training data. (2) Context too long — model loses focus on relevant chunks (lost in the middle problem). (3) Context poorly formatted — model can't parse the chunk structure. (4) Model temperature too high — generates creative content instead of faithful answers. Fixes: stronger grounding instructions, reorder context (relevant first), reduce context to fewer, higher-quality chunks, add explicit "if the context doesn't contain this, say so" instruction.
 
 ---
 
-**Deep Answer**
+#### Diagnostic + Repair Notes
+
+- **This is a generation-grounding bug, not a retrieval bug:**
+  The first job is to prove the answer-bearing chunk is truly in the final prompt context seen by the model. Teams often say "retrieval was correct" when the chunk was later reordered, truncated, or drowned in prompt assembly.
 
 - **Debugging checklist:**
   ```
@@ -40,6 +70,15 @@ Root causes: (1) Prompt not forceful enough — model defaults to parametric kno
   5. Check model temperature setting
   6. Check if the answer conflicts with model's training knowledge
   ```
+
+- **Fast isolation sequence:**
+  | Question | Why it matters |
+  |---------|----------------|
+  | Is the supporting chunk in the final packed prompt? | Retrieval may be fine but prompt packing may be wrong |
+  | Is the chunk near the top or buried in the middle? | Position bias is common |
+  | Is the prompt forcing abstention and source use? | Weak prompt contracts cause parametric answers |
+  | Is the model or temperature configured for creativity? | High temperature worsens faithfulness |
+  | Does the answer contradict well-known public priors? | Model may prefer pretraining knowledge over local evidence |
 
 - **Root cause: Lost in the middle**
   ```
@@ -80,6 +119,12 @@ Root causes: (1) Prompt not forceful enough — model defaults to parametric kno
   showing the model choosing context over its own knowledge
   ```
 
+- **Additional common causes strong candidates mention:**
+  - The packed context includes duplicate or contradictory chunks.
+  - Relevant evidence is clipped during context compression.
+  - The answer is multi-hop but the prompt expects single-span extraction.
+  - The citation layer is absent, so the model has no pressure to stay grounded.
+
 - **Systematic fix:**
   ```python
   def diagnose_hallucination(query, context, answer, llm):
@@ -97,9 +142,19 @@ Root causes: (1) Prompt not forceful enough — model defaults to parametric kno
       return verification
   ```
 
+- **Prevention patterns:**
+  - Keep top evidence first.
+  - Reduce packed context to the minimum useful set.
+  - Use citation or span-verification prompts.
+  - Track faithfulness and unsupported-claim rate as production metrics.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Debug Drill
+
+Take one failing query, log the exact final prompt, move the known-good supporting chunk to the top, lower temperature, and compare the answer plus support classification before and after the change.
+
+#### Real Interviewer Follow-ups
 
 1. How do you measure the faithfulness rate across all responses?
 2. Different LLMs have different grounding strengths. How do you choose?
@@ -107,7 +162,7 @@ Root causes: (1) Prompt not forceful enough — model defaults to parametric kno
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Use a better model" — doesn't diagnose the actual root cause
 - Doesn't check the prompt structure
@@ -116,9 +171,13 @@ Root causes: (1) Prompt not forceful enough — model defaults to parametric kno
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Systematic debugging. The candidate should log the full prompt, check context positioning, verify answer derivability, and strengthen grounding instructions. This is a common and important RAG failure.
+
+#### Failure / Production Bridge
+
+This incident matters because it destroys trust while looking superficially healthy: retrieval metrics can look fine even though answer quality is failing at the final step.
 
 ---
 
@@ -143,13 +202,16 @@ You upgraded from text-embedding-ada-002 to text-embedding-3-large. All document
 
 ---
 
-**Expected Answer (Short)**
+#### Debugging Answer
 
 Top causes: (1) Query embeddings still use the old model — query and doc embeddings must use the SAME model. (2) Dimension mismatch — old model outputs 1536 dims, new model outputs 3072, but vector DB index wasn't rebuilt. (3) Similarity metric mismatch — old model requires cosine, new model may use dot product. (4) Normalization difference — one model normalizes embeddings, the other doesn't. (5) Partial re-embedding — some documents were missed during re-embedding.
 
 ---
 
-**Deep Answer**
+#### Diagnostic + Repair Notes
+
+- **Treat embedding migrations like schema migrations, not model swaps:**
+  Retrieval regressions after re-embedding usually come from incompatibility, partial rollout, or serving the wrong index version rather than from the model being intrinsically worse.
 
 - **Debugging steps:**
   ```python
@@ -180,6 +242,15 @@ Top causes: (1) Query embeddings still use the old model — query and doc embed
   # If mismatches > 0 → partial re-embedding failure
   ```
 
+- **Migration checks that strong answers add:**
+  | Check | Why |
+  |------|-----|
+  | Query path model version | Queries may still hit old embedding service |
+  | Index version routing | Requests may be pointed at a mixed or stale namespace |
+  | Metric config | New vectors may require different similarity behavior |
+  | Normalization policy | Silent ranking regressions often start here |
+  | Chunking changes | Retrieval may change because chunking changed, not just embeddings |
+
 - **Common pitfalls during embedding model migration:**
   | Issue | Cause | Fix |
   |-------|-------|-----|
@@ -190,9 +261,20 @@ Top causes: (1) Query embeddings still use the old model — query and doc embed
   | API version | Using old API version returns old model | Check API config |
   | Truncation | New model has different max token length | Adjust chunk sizes |
 
+- **Zero-downtime repair pattern:**
+  - Build a shadow index with the new embeddings.
+  - Run offline eval and sampled online comparison.
+  - Route a small percentage of traffic to the new path.
+  - Cut over only after retrieval slices pass.
+  - Keep the old index hot until rollback is no longer needed.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Debug Drill
+
+Pick 20 known queries, compare old-index vs new-index Recall@5, and log model version, vector dimension, similarity metric, and normalization status for each path before deciding whether to roll forward or roll back.
+
+#### Real Interviewer Follow-ups
 
 1. How do you perform a zero-downtime embedding model migration?
 2. How do you validate the new model before committing to the migration?
@@ -200,7 +282,7 @@ Top causes: (1) Query embeddings still use the old model — query and doc embed
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "The new model must be worse" — doesn't investigate
 - Doesn't check if query and document models match
@@ -208,9 +290,13 @@ Top causes: (1) Query embeddings still use the old model — query and doc embed
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Model migration debugging. Embedding model upgrades are common operations. The candidate should check compatibility at every level: model alignment, dimensions, metrics, normalization.
+
+#### Failure / Production Bridge
+
+This is a classic silent regression: nothing crashes, but relevance collapses. Good teams treat embedding upgrades as staged migrations with eval gates, not as background maintenance.
 
 ---
 
@@ -235,13 +321,16 @@ Your company's HR policy was updated last Monday (new PTO policy). Users asking 
 
 ---
 
-**Expected Answer (Short)**
+#### Debugging Answer
 
 Debugging the staleness chain: (1) Check when the document was last indexed — if the indexing timestamp is before Monday, the update wasn't picked up. (2) Check the ingestion pipeline schedule — if it runs weekly, it hasn't run since the update. (3) Check change detection — does the pipeline detect SharePoint changes? (4) Check if old chunks were deleted — maybe new chunks were added but old ones still exist (duplicates). (5) Check if embedding service re-embedded the updated content. (6) Check vector DB cache — some vector DBs cache results.
 
 ---
 
-**Deep Answer**
+#### Diagnostic + Repair Notes
+
+- **Staleness is a chain problem, so debug the chain in order:**
+  source system -> connector -> change detection -> extraction -> embedding -> index publish -> cache -> serving
 
 - **Staleness debugging flowchart:**
   ```
@@ -257,6 +346,13 @@ Debugging the staleness chain: (1) Check when the document was last indexed — 
           ├── New chunks have low relevance score? → Re-check embedding
           └── Vector DB serving cached results? → Cache invalidation issue
   ```
+
+- **Evidence to collect before changing anything:**
+  - Source document version/timestamp.
+  - Metadata store hash and last indexed timestamp.
+  - Returned chunk IDs and their version metadata.
+  - Whether both old and new chunks are simultaneously retrievable.
+  - Cache key and cache age for the failing query.
 
 - **Common root causes:**
   | Cause | Evidence | Fix |
@@ -293,9 +389,24 @@ Debugging the staleness chain: (1) Check when the document was last indexed — 
       })
   ```
 
+- **The deeper issue is publish semantics:**
+  - If old and new chunks are visible together, retrieval can oscillate.
+  - If updates are frequent, hourly batch jobs may violate user expectations even when the pipeline is "working."
+  - If cache invalidation is weak, the answer path can lag behind the index path.
+
+- **Prevention patterns:**
+  - Versioned chunk visibility or blue/green index publish.
+  - Freshness dashboards by source system.
+  - Synthetic probes for recently changed documents.
+  - Alerts on indexing lag and duplicate chunk count.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Debug Drill
+
+Trace one stale-answer incident end-to-end: prove the source changed, inspect whether the new chunk exists in the index, check whether old chunks still rank, and verify whether cache invalidation happened for the affected document or query family.
+
+#### Real Interviewer Follow-ups
 
 1. How do you verify that the index correctly reflects the latest source documents?
 2. Users expect real-time updates. Your pipeline runs hourly. What do you do?
@@ -303,7 +414,7 @@ Debugging the staleness chain: (1) Check when the document was last indexed — 
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Rebuild the entire index" — doesn't diagnose the root cause
 - Doesn't check if old chunks were properly deleted
@@ -311,9 +422,13 @@ Debugging the staleness chain: (1) Check when the document was last indexed — 
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Data pipeline debugging. The candidate should trace the staleness through the full pipeline: source → connector → change detection → ingestion → embedding → vector DB → cache → retrieval.
+
+#### Failure / Production Bridge
+
+Staleness incidents are dangerous because the answer still looks grounded. Users blame the model, but the root cause is usually missing freshness guarantees in the data path.
 
 ---
 
@@ -338,13 +453,16 @@ Without the reranker, your top-5 retrieval recall is 0.82. After adding a rerank
 
 ---
 
-**Expected Answer (Short)**
+#### Debugging Answer
 
 Reranker pushes good results down when: (1) Input format mismatch — reranker expects (query, passage) but receives (query, chunk_metadata + passage), confusing the model. (2) Domain mismatch — general-purpose reranker doesn't understand your domain terminology (medical, legal, code). (3) Truncation — reranker has a 512-token limit, your chunks are 1000 tokens, so relevant content is truncated. (4) Score normalization — reranker scores aren't comparable across queries, and your thresholding is wrong. (5) Passage length bias — reranker prefers longer passages, shorter relevant chunks are penalized.
 
 ---
 
-**Deep Answer**
+#### Diagnostic + Repair Notes
+
+- **A reranker regression is often an interface bug, not a model bug:**
+  The quickest win is to inspect exactly what text the reranker receives, how long it is, and whether the scoring semantics are interpreted correctly.
 
 - **Debugging steps:**
   ```python
@@ -371,6 +489,14 @@ Reranker pushes good results down when: (1) Input format mismatch — reranker e
   # Good: reranker.score(query, text)
   ```
 
+- **Extra checks strong candidates add:**
+  | Check | Why |
+  |------|-----|
+  | Candidate set before rerank | If relevant docs are absent, reranker is not the cause |
+  | Truncation boundary | Relevant answer may be beyond model max tokens |
+  | Score direction | Some pipelines accidentally sort ascending instead of descending |
+  | Domain slice behavior | Model may fail specifically on legal, medical, or code terms |
+
 - **Root causes and fixes:**
   | Cause | Evidence | Fix |
   |-------|----------|-----|
@@ -380,9 +506,18 @@ Reranker pushes good results down when: (1) Input format mismatch — reranker e
   | Length bias | Short relevant chunks score lower than long irrelevant ones | Normalize scores by length |
   | Score inversion | Reranker outputs distance not similarity | Multiply by -1 or use 1-score |
 
+- **Repair strategy:**
+  - Re-run the failing examples with and without rerank.
+  - Measure Recall@K and MRR on a labeled set, not just one query.
+  - If domain mismatch is confirmed, either fine-tune the reranker or conditionally disable it on slices where it harms results.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Debug Drill
+
+Take 10 labeled failing queries, log pre-rerank candidates, check truncation and input contamination, then compare Recall@5 and MRR before and after cleaning the reranker input format.
+
+#### Real Interviewer Follow-ups
 
 1. How do you evaluate whether the reranker improves retrieval?
 2. When should you NOT use a reranker?
@@ -390,7 +525,7 @@ Reranker pushes good results down when: (1) Input format mismatch — reranker e
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Remove the reranker" — doesn't diagnose why
 - Doesn't inspect the actual input sent to the reranker
@@ -398,9 +533,13 @@ Reranker pushes good results down when: (1) Input format mismatch — reranker e
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Component-level debugging. The candidate should isolate the reranker's behavior by checking its inputs, outputs, and comparing with/without. This tests systematic debugging of ML component integration.
+
+#### Failure / Production Bridge
+
+This failure matters because rerankers are usually added to improve quality. If they silently degrade retrieval, teams can spend weeks tuning prompts while the real regression sits one stage earlier.
 
 ---
 
@@ -425,13 +564,16 @@ Your RAG system served 50K documents at 800ms. After adding 50K more (now 100K),
 
 ---
 
-**Expected Answer (Short)**
+#### Debugging Answer
 
 If vector search is still 10ms, the latency is elsewhere. Investigate: (1) Reranker — if you're reranking 50 results and each result is now a larger passage, cross-encoder scoring is quadratically expensive. (2) Metadata filtering — if filter uses scan instead of index, more documents = more scan time. (3) Embedding service — if embedding model is overloaded (shared resource), query embedding takes longer. (4) Context assembly — if pipeline fetches full documents (not just chunks), more documents = more data transfer. (5) LLM input — if context grew (more chunks, longer chunks), LLM processing is slower.
 
 ---
 
-**Deep Answer**
+#### Diagnostic + Repair Notes
+
+- **The premise already narrows the search space:**
+  If vector search is still 10 ms, the latency spike is almost certainly in reranking, context fetch/assembly, remote dependencies, or generator input growth.
 
 - **Latency breakdown debugging:**
   ```python
@@ -481,9 +623,25 @@ If vector search is still 10ms, the latency is elsewhere. Investigate: (1) Reran
   | Context fetch | Fetching full pages instead of chunks | Network time increased |
   | LLM | Longer context = more generation time | LLM time increased proportionally to input |
 
+- **Additional high-value checks:**
+  - Did the retrieval or reranking stage start returning longer chunks after the new corpus was added?
+  - Did a namespace/filter bug pull in irrelevant documents from the new batch?
+  - Did the prompt packer start including more than the intended top-k?
+  - Did a remote model or embedding service become overloaded after traffic or corpus growth?
+
+- **Prevention patterns:**
+  - Emit per-stage timings on every request.
+  - Track average packed-context tokens and top-k after rerank.
+  - Alert on changes in chunk length distribution after ingestion changes.
+  - Run scale-step load tests before corpus expansions hit production.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Debug Drill
+
+Instrument one slow query end-to-end, record stage timings and packed-context tokens, then verify whether the regression comes from longer passages, broader retrieval, or prompt assembly instead of from ANN search itself.
+
+#### Real Interviewer Follow-ups
 
 1. You discover the LLM context grew to 10K tokens. How do you fix this without reducing quality?
 2. How do you set up monitoring to catch latency regressions before they hit users?
@@ -491,7 +649,7 @@ If vector search is still 10ms, the latency is elsewhere. Investigate: (1) Reran
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Upgrade the vector database" — vector search isn't the bottleneck
 - "Add more RAM" — doesn't diagnose the actual component causing latency
@@ -499,6 +657,10 @@ If vector search is still 10ms, the latency is elsewhere. Investigate: (1) Reran
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Performance debugging methodology. The candidate should instrument each pipeline stage, identify the actual bottleneck, and fix it. The key insight is that vector search scales logarithmically, so 10ms → 10ms is expected; the latency is elsewhere.
+
+#### Failure / Production Bridge
+
+This incident is a good test of engineering discipline: the visible symptom is "RAG got slower," but the real skill is proving which stage expanded with scale and why the architecture allowed that coupling.

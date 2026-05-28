@@ -4,6 +4,36 @@ What to generate in the next expansion cycle after the initial public push.
 
 ---
 
+## Priority 0: Content Model Reset
+
+Before adding more volume, make the library easier to read and closer to real interview flow.
+
+### Deliverables
+
+- Add a clear interview progression to every module index: `Basic -> Concept -> Design -> Practical Build -> Real Follow-ups`
+- Keep the current file layout during migration, but explain what each file means in interview terms
+- Add one bounded build drill to every new Concept and Applied question
+- Rewrite question indexes so they show the practical drill or design bridge, not just the title
+
+### Pilot Modules
+
+- Foundations
+- RAG
+
+### Example Build Drill Shapes
+
+- Implement ANN-style similarity ranking over normalized embeddings in Torch
+- Build a minimal LangChain + FAISS RAG pipeline with citations
+- Implement reciprocal rank fusion over dense and BM25 results
+
+### Exit Criteria
+
+- A new reader can tell where to start, what gets deeper, and what they should build
+- Index pages stop looking like flat inventories
+- Questions feel like real interview sequences, not isolated notes
+
+---
+
 ## Priority 1: New Module Batches
 
 These modules have navigation pages but no questions yet.

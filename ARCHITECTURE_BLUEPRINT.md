@@ -158,6 +158,33 @@ AI-Interview-OS/
 | Debugging | 15% | Failure analysis, incidents, anti-patterns, recovery |
 | Architect | 10% | Operating model, governance, platform strategy |
 
+### Interview Consumption Model
+
+The table above describes how content is stored. It is **not** the clearest way for candidates to consume a module.
+
+Every module, index, and batch should surface the following interview motion explicitly:
+
+```text
+Basic -> Concept -> Design -> Practical Build -> Real Follow-ups -> Architect
+```
+
+- **Basic**: the 30–60 second answer that proves the candidate is not bluffing
+- **Concept**: the mechanism, math, or mental model underneath the short answer
+- **Design**: trade-offs, constraints, and system-facing decisions
+- **Practical Build**: a scoped implementation task tied to the topic
+- **Real Follow-ups**: pressure questions an interviewer asks after the first answer
+- **Architect**: operating model, governance, platform strategy, and org-level decisions
+
+During migration, the file layout remains:
+
+| File / Batch Type | Primary Interview Motion |
+|---|---|
+| `concept.md` | Basic + Concept |
+| `applied.md` | Design + Practical Build |
+| `system.md` | Senior design, scale, and system reasoning |
+| `debugging.md` | Real follow-ups when the happy path breaks |
+| Architect questions / batches | Governance, platform boundaries, org-level trade-offs |
+
 ### Cross-Module Differentiation Strategy
 
 | Concept | Module A Angle | Module B Angle |
@@ -254,7 +281,9 @@ Every question must include:
 - Experience Bands, Role Families, Interview Round
 - Prerequisites, Tags, Why This Matters
 - Question, Expected Answer (Short), Deep Answer
-- Follow-up Questions (2–5), Weak Answer Signals / Red Flags
+- Practical Build Drill for all new Concept and Applied questions unless the topic is purely architectural
+- Follow-up Questions (2–5) written like real interviewer pressure, not worksheet prompts
+- Weak Answer Signals / Red Flags
 - Interviewer Signal, Real-World Insight
 
 ### Generation Rules

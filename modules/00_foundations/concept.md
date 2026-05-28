@@ -5,19 +5,40 @@
 
 ---
 
-## Question Index
+## How To Read This File
 
-| ID | Question | Submodule | Difficulty | Band |
-|---|---|---|---|---|
-| [Q-00-C-001](#q-00-c-001) | Why does the dot product measure similarity? | Linear Algebra | ⭐ | Beginner |
-| [Q-00-C-002](#q-00-c-002) | What is the bias-variance tradeoff? | ML Fundamentals | ⭐ | Beginner |
-| [Q-00-C-003](#q-00-c-003) | What is gradient descent and why do we need variants? | Optimization | ⭐ | Beginner |
-| [Q-00-C-004](#q-00-c-004) | What is cross-validation and when should you NOT use it? | ML Fundamentals | ⭐⭐ | Beginner–Mid |
-| [Q-00-C-005](#q-00-c-005) | Difference between L1 and L2 regularization? | ML Fundamentals | ⭐⭐ | Beginner |
-| [Q-00-C-006](#q-00-c-006) | Generative vs. discriminative models? | ML Fundamentals | ⭐ | Beginner |
-| [Q-00-C-007](#q-00-c-007) | What is Bayes' theorem and how does it apply in ML? | Probability & Statistics | ⭐⭐ | Beginner |
-| [Q-00-C-008](#q-00-c-008) | What is a loss function and why do tasks need different ones? | Optimization | ⭐ | Beginner |
-| [Q-00-C-009](#q-00-c-009) | What is the curse of dimensionality? | ML Fundamentals | ⭐⭐ | Early–Mid |
+This file should not feel like a flat glossary. Use every question in interview order:
+
+```text
+Basic answer -> Concept depth -> Design bridge -> Practical build -> Real follow-ups
+```
+
+- **Basic answer**: can you explain the idea in 30-60 seconds without bluffing?
+- **Concept depth**: can you show the mechanism, intuition, or math underneath it?
+- **Design bridge**: can you connect the concept to a real ML, retrieval, or training decision?
+- **Practical build**: can you implement a small version yourself?
+- **Real follow-ups**: can you survive interviewer pressure after your first answer?
+
+## Interview Map
+
+### Stage 1 — Basic Screen
+
+| ID | Core prompt | Design bridge | Practical build |
+|---|---|---|---|
+| [Q-00-C-001](#q-00-c-001) | Why dot product measures similarity | Choose cosine vs dot product in retrieval and attention | Compare ranking before and after L2 normalization in Torch |
+| [Q-00-C-002](#q-00-c-002) | Bias-variance tradeoff | Diagnose underfitting vs overfitting from learning curves | Plot train vs validation error across model complexity |
+| [Q-00-C-003](#q-00-c-003) | Why gradient descent needs SGD and Adam | Pick optimizer and learning-rate policy for training | Train the same toy model with SGD and Adam |
+| [Q-00-C-006](#q-00-c-006) | Generative vs discriminative models | Decide when to use an LLM versus a smaller classifier | Benchmark Naive Bayes vs logistic regression on text |
+| [Q-00-C-008](#q-00-c-008) | Why tasks need different loss functions | Match objective to classification, regression, or retrieval | Compare BCE vs MSE on the same classifier |
+
+### Stage 2 — Concept Depth
+
+| ID | Core prompt | Design bridge | Practical build |
+|---|---|---|---|
+| [Q-00-C-004](#q-00-c-004) | When cross-validation is valid or dangerous | Choose the right evaluation split for time, group, or cost constraints | Build leakage-safe cross-validation in sklearn |
+| [Q-00-C-005](#q-00-c-005) | L1 vs L2 regularization | Pick sparsity vs stable shrinkage based on feature shape | Compare Lasso and Ridge on sparse synthetic data |
+| [Q-00-C-007](#q-00-c-007) | Bayes' theorem in ML | Connect priors, regularization, and calibration | Implement Naive Bayes from explicit counts |
+| [Q-00-C-009](#q-00-c-009) | Curse of dimensionality | Reason about embedding dimension and ANN indexing | Measure distance concentration as dimension grows |
 
 ---
 
@@ -50,11 +71,11 @@ Why does the dot product of two vectors tell us how similar they are? What is th
 
 ---
 
-#### Expected Answer
+#### Basic Answer
 
 The dot product equals `|a||b|cos(θ)`, where θ is the angle between vectors. When vectors point in the same direction (θ≈0), the dot product is large and positive. When orthogonal, it is zero. It fails as a pure similarity measure when vector magnitudes vary — a long vector dotted with a short vector can give a misleading score. Cosine similarity normalizes for this by dividing by magnitudes.
 
-#### Deep Answer
+#### Concept + Design Notes
 
 **Geometric foundation**
 - `a·b = |a||b|cos(θ)` — the projection of one vector onto another, scaled by both magnitudes
@@ -71,7 +92,11 @@ The dot product equals `|a||b|cos(θ)`, where θ is the angle between vectors. W
 
 ---
 
-#### Follow-up Questions
+#### Practical Build Drill
+
+Write a small Torch script that ranks the same embeddings with dot product and cosine similarity before and after L2 normalization. Show one case where raw dot product prefers a larger-magnitude but less relevant vector.
+
+#### Real Interviewer Follow-ups
 
 1. In a vector database, when would you use dot product vs. cosine similarity vs. Euclidean distance?
 2. Why do transformer attention mechanisms use **scaled** dot product (dividing by √d_k)?
@@ -79,17 +104,17 @@ The dot product equals `|a||b|cos(θ)`, where θ is the angle between vectors. W
 
 ---
 
-#### 🚩 Weak Answer Signals
+#### Weak Answer Signals
 
 - *"Dot product just multiplies numbers together"* — no geometric understanding
 - Cannot explain why cosine similarity exists if dot product already works
 - Does not know the cos(θ) relationship
 
-#### 📊 Interviewer Signal
+#### Interviewer Signal
 
 Reveals whether the candidate has mathematical intuition behind embedding operations or just uses library calls. Critical foundation for understanding attention, retrieval, and similarity search.
 
-#### 🏭 Production Insight
+#### Design / Production Bridge
 
 Many retrieval bugs originate from mismatched similarity metrics. A team might train embeddings with cosine loss but index with dot product distance in Pinecone/Qdrant — producing subtly wrong retrieval rankings. Normalizing embeddings at indexing time is a common production pattern specifically to avoid this class of bug.
 
@@ -124,11 +149,11 @@ Explain the bias-variance tradeoff. How does it influence your choice of model c
 
 ---
 
-#### Expected Answer
+#### Basic Answer
 
 Bias is the error from overly simplistic assumptions (underfitting) — the model cannot capture the pattern. Variance is the error from sensitivity to training data fluctuations (overfitting) — the model captures noise. As model complexity increases, bias decreases but variance increases. You detect high bias when both training and validation error are high; high variance when training error is low but validation error is much higher.
 
-#### Deep Answer
+#### Concept + Design Notes
 
 **The decomposition**
 
@@ -157,7 +182,11 @@ Total Error ≈ Bias² + Variance + Irreducible Noise
 
 ---
 
-#### Follow-up Questions
+#### Practical Build Drill
+
+Train polynomial regression models of increasing degree on noisy data. Plot train and validation error, then label the regions where the model is high-bias versus high-variance.
+
+#### Real Interviewer Follow-ups
 
 1. You have 0.95 training accuracy and 0.72 validation accuracy. What do you try first?
 2. How does dropout act as a regularizer and why does it reduce variance?
@@ -166,17 +195,17 @@ Total Error ≈ Bias² + Variance + Irreducible Noise
 
 ---
 
-#### 🚩 Weak Answer Signals
+#### Weak Answer Signals
 
 - Recites the definition but cannot diagnose a model from its learning curves
 - Confuses model bias with dataset bias (systematic data skew)
 - Says "just add more data" without explaining why that reduces variance
 
-#### 📊 Interviewer Signal
+#### Interviewer Signal
 
 Tests whether the candidate can translate a theoretical concept into practical model debugging. A candidate who can read learning curves and diagnose bias vs. variance is operationally useful.
 
-#### 🏭 Production Insight
+#### Design / Production Bridge
 
 High variance is far more dangerous than high bias in production because it creates silent failures — the model appears to work during development but degrades on distributional shift. Teams that only evaluate on held-out sets from the same distribution often miss this until production traffic exposes it.
 
@@ -211,11 +240,11 @@ What is gradient descent? Why do we not use vanilla (batch) gradient descent in 
 
 ---
 
-#### Expected Answer
+#### Basic Answer
 
 Gradient descent iteratively moves parameters in the direction that reduces loss, proportional to the gradient. Vanilla batch GD computes gradients over the entire dataset per step — too slow for large datasets. SGD uses mini-batches for faster, noisier updates. Adam combines momentum (smooths direction) with adaptive learning rates (different rates per parameter), making it robust across architectures and typically converging faster.
 
-#### Deep Answer
+#### Concept + Design Notes
 
 **The update rule**
 
@@ -243,7 +272,11 @@ Gradient descent iteratively moves parameters in the direction that reduces loss
 
 ---
 
-#### Follow-up Questions
+#### Practical Build Drill
+
+Train the same toy classifier with SGD and Adam. Compare convergence curves, final validation accuracy, and what changes when you double the learning rate.
+
+#### Real Interviewer Follow-ups
 
 1. Why does SGD sometimes generalize better than Adam despite slower convergence?
 2. What happens if the learning rate is too high? Too low?
@@ -252,17 +285,17 @@ Gradient descent iteratively moves parameters in the direction that reduces loss
 
 ---
 
-#### 🚩 Weak Answer Signals
+#### Weak Answer Signals
 
 - *"Adam is always better than SGD"* — SGD generalizes better in some settings
 - Cannot explain WHY Adam has per-parameter learning rates
 - Confuses learning rate with step size conceptually
 
-#### 📊 Interviewer Signal
+#### Interviewer Signal
 
 Reveals whether the candidate understands why optimization choices matter or just calls `optimizer = Adam(lr=3e-4)`. Critical for debugging training instability.
 
-#### 🏭 Production Insight
+#### Design / Production Bridge
 
 Most transformer training failures trace to optimization misconfiguration: wrong learning rate, no warmup, incorrect weight decay. The difference between a run that converges and one that diverges is often a 2x change in LR. Teams without optimizer intuition waste significant GPU compute on failed runs.
 
@@ -297,11 +330,11 @@ What is k-fold cross-validation, and in what scenarios should you explicitly avo
 
 ---
 
-#### Expected Answer
+#### Basic Answer
 
 K-fold CV splits data into k partitions, trains on k-1 folds, validates on the held-out fold, and rotates through all k. It gives a more robust performance estimate than a single train/test split. Avoid it when: (1) data has temporal ordering, (2) data has group structure (multiple samples per entity), (3) k full training runs are computationally prohibitive, or (4) preprocessing leaks validation information into training.
 
-#### Deep Answer
+#### Concept + Design Notes
 
 **CV strategy selection**
 
@@ -321,7 +354,11 @@ Data type?
 
 ---
 
-#### Follow-up Questions
+#### Practical Build Drill
+
+Build a leakage-safe sklearn `Pipeline` with scaling inside cross-validation, then repeat the experiment with preprocessing before the split and compare the inflated metric.
+
+#### Real Interviewer Follow-ups
 
 1. You are predicting customer churn. Your dataset has multiple rows per customer over time. What CV strategy?
 2. Why is feature selection before cross-validation a form of data leakage?
@@ -329,17 +366,17 @@ Data type?
 
 ---
 
-#### 🚩 Weak Answer Signals
+#### Weak Answer Signals
 
 - *"Always use 5-fold CV"* — no consideration of data structure
 - Does not mention temporal or group structure as contraindications
 - Preprocesses data before splitting (leakage — very common mistake)
 
-#### 📊 Interviewer Signal
+#### Interviewer Signal
 
 Tests whether the candidate applies evaluation strategies thoughtfully or by rote. The "when not to use it" part distinguishes practitioners who have encountered leakage from those who have only run sklearn examples.
 
-#### 🏭 Production Insight
+#### Design / Production Bridge
 
 Data leakage through improper CV is one of the most common causes of models that "work in development but fail in production." Especially prevalent in time-series domains (finance, ops monitoring) where engineers shuffle temporal data and get inflated metrics.
 
@@ -374,11 +411,11 @@ What is the difference between L1 (Lasso) and L2 (Ridge) regularization? When wo
 
 ---
 
-#### Expected Answer
+#### Basic Answer
 
 L1 adds the sum of absolute weights to the loss, pushing small weights to exactly zero — performing implicit feature selection. L2 adds the sum of squared weights, shrinking all weights uniformly toward zero but never to exactly zero. Use L1 when you expect many irrelevant features. Use L2 when all features contribute but you want to prevent any single one from dominating. Elastic Net combines both.
 
-#### Deep Answer
+#### Concept + Design Notes
 
 **Penalty comparison**
 
@@ -408,7 +445,11 @@ Deep learning / transformers?    → Weight decay (L2 via AdamW)
 
 ---
 
-#### Follow-up Questions
+#### Practical Build Drill
+
+Fit Lasso and Ridge on synthetic sparse data. Compare which coefficients go to zero, how validation error changes, and when Elastic Net is a better compromise.
+
+#### Real Interviewer Follow-ups
 
 1. Why does L1 produce exact zeros while L2 does not? Explain geometrically.
 2. In AdamW, why is weight decay decoupled from the gradient update?
@@ -416,17 +457,17 @@ Deep learning / transformers?    → Weight decay (L2 via AdamW)
 
 ---
 
-#### 🚩 Weak Answer Signals
+#### Weak Answer Signals
 
 - *"L1 and L2 both prevent overfitting"* — correct but explains nothing about the difference
 - Cannot explain why L1 gives sparsity
 - Does not connect to practical use cases (feature selection vs. weight shrinkage)
 
-#### 📊 Interviewer Signal
+#### Interviewer Signal
 
 Tests geometric and practical intuition about regularization. Candidates who understand the sparsity property of L1 demonstrate deeper mathematical grounding.
 
-#### 🏭 Production Insight
+#### Design / Production Bridge
 
 L1 via Lasso is commonly used as an initial feature selection step before training a complex model. This two-stage approach (L1 select → complex model train) is a standard pattern in credit scoring, fraud detection, and ad ranking systems.
 
@@ -461,11 +502,11 @@ What is the fundamental difference between generative and discriminative models?
 
 ---
 
-#### Expected Answer
+#### Basic Answer
 
 Discriminative models learn the decision boundary P(y|x) — they classify directly (logistic regression, SVM, neural classifiers). Generative models learn the joint distribution P(x,y) or P(x) — they model how data is generated (Naive Bayes, GANs, VAEs, LLMs). Discriminative models are better for classification tasks. Generative models are needed when generating new data, handling missing features, or modeling the data distribution itself.
 
-#### Deep Answer
+#### Concept + Design Notes
 
 **Core distinction**
 
@@ -491,7 +532,11 @@ Cost / latency critical at scale? → Fine-tune discriminative classifier
 
 ---
 
-#### Follow-up Questions
+#### Practical Build Drill
+
+Benchmark Naive Bayes versus logistic regression on a small text classification dataset. Compare accuracy, latency, and behavior when you restrict the amount of labeled data.
+
+#### Real Interviewer Follow-ups
 
 1. How is an LLM a generative model if we use it for sentiment classification via prompting?
 2. Why might Naive Bayes outperform logistic regression on small datasets?
@@ -499,17 +544,17 @@ Cost / latency critical at scale? → Fine-tune discriminative classifier
 
 ---
 
-#### 🚩 Weak Answer Signals
+#### Weak Answer Signals
 
 - *"Generative AI means GenAI like ChatGPT"* — confusing the ML concept with a product category
 - Cannot give concrete examples of both types
 - Does not know that LLMs are generative models being used for discriminative tasks
 
-#### 📊 Interviewer Signal
+#### Interviewer Signal
 
 Foundational clarity on model types. Candidates who understand this reason more clearly about when to use LLMs vs. traditional classifiers vs. fine-tuned models.
 
-#### 🏭 Production Insight
+#### Design / Production Bridge
 
 A common production decision: use an LLM for classification, or train a small discriminative classifier? The answer depends on latency, cost per inference, label availability, and accuracy needs. Many teams start with LLM-based classification for speed-to-market, then train discriminative models to reduce cost at scale.
 
@@ -544,13 +589,13 @@ State Bayes' theorem. How is it used in machine learning, and what is the practi
 
 ---
 
-#### Expected Answer
+#### Basic Answer
 
 Bayes' theorem: P(A|B) = P(B|A) × P(A) / P(B).
 
 The prior P(A) is your belief before seeing data. The likelihood P(B|A) is how probable the data is given the hypothesis. The posterior P(A|B) is your updated belief. In ML: Naive Bayes applies this directly for classification. More broadly, Bayesian thinking informs regularization, uncertainty estimation, and calibration.
 
-#### Deep Answer
+#### Concept + Design Notes
 
 **The three components**
 
@@ -572,7 +617,11 @@ The prior P(A) is your belief before seeing data. The likelihood P(B|A) is how p
 
 ---
 
-#### Follow-up Questions
+#### Practical Build Drill
+
+Implement a tiny Naive Bayes classifier from token counts so the prior, likelihood, and posterior are explicit. Use the output to explain where the independence assumption helps and where it breaks.
+
+#### Real Interviewer Follow-ups
 
 1. How is L2 regularization equivalent to placing a Gaussian prior on weights?
 2. Why is Naive Bayes "naive" and when does the independence assumption cause problems?
@@ -580,17 +629,17 @@ The prior P(A) is your belief before seeing data. The likelihood P(B|A) is how p
 
 ---
 
-#### 🚩 Weak Answer Signals
+#### Weak Answer Signals
 
 - Can recite the formula but cannot explain prior/likelihood/posterior intuitively
 - Cannot connect Bayes to regularization or practical ML decisions
 - *"Bayes is only for Naive Bayes"* — misses the broader impact
 
-#### 📊 Interviewer Signal
+#### Interviewer Signal
 
 Tests probabilistic reasoning depth. Candidates who connect Bayes to regularization and calibration have stronger mathematical foundations and reason better about model uncertainty in production.
 
-#### 🏭 Production Insight
+#### Design / Production Bridge
 
 LLM calibration is a real production concern: when a model says "I am 90% sure," downstream systems need that to mean 90% accuracy. Poor calibration causes over-reliance on wrong answers. Temperature scaling and Platt scaling are standard post-processing steps in production classification pipelines.
 
@@ -625,11 +674,11 @@ What is a loss function? Why do classification and regression tasks use differen
 
 ---
 
-#### Expected Answer
+#### Basic Answer
 
 A loss function quantifies the gap between predicted and actual values. Regression uses MSE/MAE because outputs are continuous — MSE penalizes large errors quadratically. Classification uses cross-entropy because outputs are class probabilities — it measures divergence between predicted and true distributions. Using MSE for classification makes gradients vanish when predictions are confident-but-wrong, severely slowing learning.
 
-#### Deep Answer
+#### Concept + Design Notes
 
 **Loss function comparison**
 
@@ -652,7 +701,11 @@ A loss function quantifies the gap between predicted and actual values. Regressi
 
 ---
 
-#### Follow-up Questions
+#### Practical Build Drill
+
+Train a binary classifier twice on the same data: once with MSE and once with binary cross-entropy. Plot loss and gradient behavior for confident-but-wrong predictions.
+
+#### Real Interviewer Follow-ups
 
 1. Why is cross-entropy mathematically connected to maximum likelihood estimation?
 2. What is focal loss and when would you use it?
@@ -661,17 +714,17 @@ A loss function quantifies the gap between predicted and actual values. Regressi
 
 ---
 
-#### 🚩 Weak Answer Signals
+#### Weak Answer Signals
 
 - *"Loss function tells you how wrong the model is"* — too vague
 - Cannot explain WHY cross-entropy works better than MSE for classification
 - Does not know that LLMs use cross-entropy as their training loss
 
-#### 📊 Interviewer Signal
+#### Interviewer Signal
 
 Tests whether the candidate understands training at a level deeper than `model.fit()`. Critical for debugging training failures where loss plateaus or diverges.
 
-#### 🏭 Production Insight
+#### Design / Production Bridge
 
 Choosing the wrong loss function is a subtle, expensive mistake. Teams have spent weeks debugging stalled accuracy only to discover they were using MSE for a classification task in a custom training loop. In systems with custom objectives (e.g., ranking, retrieval), designing the right loss is one of the highest-leverage engineering decisions.
 
@@ -706,11 +759,11 @@ What is the curse of dimensionality? How does it specifically affect nearest-nei
 
 ---
 
-#### Expected Answer
+#### Basic Answer
 
 As dimensions increase, the volume of the space grows exponentially, making data sparse. In high dimensions, the distance between the nearest and farthest neighbors converges — all points become roughly equidistant. This makes nearest-neighbor search less discriminative. For embedding-based retrieval, the "most similar" result may be barely more similar than a random one if the embedding model is poorly designed.
 
-#### Deep Answer
+#### Concept + Design Notes
 
 **The core problem**
 
@@ -739,7 +792,11 @@ As dimensionality d increases:
 
 ---
 
-#### Follow-up Questions
+#### Practical Build Drill
+
+Generate random vectors at 32, 128, 512, and 1536 dimensions in Torch. Measure how the nearest-vs-farthest distance gap shrinks as dimension increases, then connect the result to ANN indexing.
+
+#### Real Interviewer Follow-ups
 
 1. If all points become equidistant in high dimensions, why do embedding-based retrieval systems work at all?
 2. How does HNSW handle the curse of dimensionality?
@@ -747,17 +804,17 @@ As dimensionality d increases:
 
 ---
 
-#### 🚩 Weak Answer Signals
+#### Weak Answer Signals
 
 - *"More dimensions is always better"* — ignores computational and statistical costs
 - Cannot explain why approximate nearest neighbor search exists
 - Confuses dimensionality reduction for visualization with reduction for retrieval
 
-#### 📊 Interviewer Signal
+#### Interviewer Signal
 
 Connects foundational math to production AI systems (vector databases, retrieval). Candidates who understand this reason better about embedding model selection, index configuration, and retrieval quality tuning.
 
-#### 🏭 Production Insight
+#### Design / Production Bridge
 
 Teams choosing embedding models face a direct trade-off between expressiveness and indexing cost. Matryoshka embeddings emerged specifically to let teams dial down dimension at inference time — truncating to 256d or 512d — without retraining the embedding model.
 

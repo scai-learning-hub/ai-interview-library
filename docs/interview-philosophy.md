@@ -121,18 +121,36 @@ What architect answers must demonstrate:
 
 ---
 
+## How To Read A Question
+
+Serious interviews do not stop at a definition. Good prep should move through each question in this order:
+
+```text
+Basic answer -> Concept explanation -> Design trade-off -> Practical build -> Real follow-ups -> Architect
+```
+
+- **Basic answer**: a clean 30–60 second response with no bluffing
+- **Concept explanation**: the mechanism, math, or intuition underneath the short answer
+- **Design trade-off**: where the concept changes an implementation or architecture decision
+- **Practical build**: a small coding or implementation task tied directly to the concept
+- **Real follow-ups**: the pressure questions interviewers ask after the first answer
+
+Repository folders remain `concept`, `applied`, `system`, `debugging`, and `architect`, but users should consume the content through the motion above.
+
+---
+
 ## How Real Interviews Escalate
 
 ```text
-Concept → Applied → System → Debugging → Architect
+Basic → Concept → Design → Practical Build → Real Follow-ups → Architect
 ```
 
-A candidate who fails early levels rarely reaches later ones. A candidate who is strong only on concept answers but weak on system/debugging answers will usually stall at mid-level roles.
+A candidate who fails the early stages rarely reaches later ones. A candidate who is strong only on definitions but weak on design, build, or follow-up pressure will usually stall at mid-level roles.
 
 The escalation is not always linear. Strong interviewers jump:
-- from concept to debugging ("You said X works like Y — what happens when Y breaks?")
-- from applied to architect ("You chose this design — who maintains it?")
-- from system to debugging ("This system hit 2x latency — where do you look first?")
+- from concept to follow-up pressure ("You said X works like Y — where does that break?")
+- from design to build ("Okay, sketch the retrieval or ranking logic.")
+- from build to architect ("Who owns this and how do you keep it safe?")
 
 ---
 

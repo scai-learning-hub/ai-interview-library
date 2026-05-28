@@ -2,6 +2,43 @@
 
 ---
 
+## How To Read This File
+
+Use each question in interview order, not as isolated transformer trivia:
+
+```text
+Basic answer -> Mechanism -> Cost and latency implication -> Practical build -> Real follow-ups
+```
+
+- **Basic answer**: define the concept cleanly in 30-60 seconds
+- **Mechanism**: explain the actual computation or representation behind it
+- **Cost and latency implication**: connect it to serving, memory, or product behavior
+- **Practical build**: implement or measure a small version yourself
+- **Real follow-ups**: survive pressure from an interviewer who wants trade-offs, not definitions
+
+## Interview Map
+
+### Stage 1 — Core Internals
+
+| ID | Core prompt | Engineering bridge | Practical build |
+|---|---|---|---|
+| [Q-03-C-001](#q-03-c-001) | How tokenization affects systems | Cost, context usage, multilingual inflation | Compare token counts across model tokenizers |
+| [Q-03-C-002](#q-03-c-002) | Why attention is quadratic | Long-context serving cost and memory | Measure $O(n^2)$ growth on toy attention |
+| [Q-03-C-003](#q-03-c-003) | RoPE vs ALiBi | Context extension and extrapolation risk | Compare positional schemes on long sequences |
+| [Q-03-C-004](#q-03-c-004) | KV cache economics | Concurrency and long-context serving limits | Estimate KV memory for a target model |
+| [Q-03-C-005](#q-03-c-005) | MHA vs MQA vs GQA | KV cache reduction vs quality | Compare theoretical cache size by attention type |
+
+### Stage 2 — Inference Decisions
+
+| ID | Core prompt | Engineering bridge | Practical build |
+|---|---|---|---|
+| [Q-03-C-006](#q-03-c-006) | Decoding strategies | Output reliability vs diversity | Run greedy vs sampling on one prompt set |
+| [Q-03-C-007](#q-03-c-007) | Speculative decoding | TTFT and tokens/sec improvement | Simulate draft-target acceptance flow |
+| [Q-03-C-008](#q-03-c-008) | Quantization trade-offs | Model fit, throughput, and accuracy risk | Compare memory budget for FP16 vs INT8 vs INT4 |
+| [Q-03-C-009](#q-03-c-009) | Base model selection | License, latency, context, ecosystem | Build a model evaluation scorecard |
+
+---
+
 ## Q-03-C-001: How does tokenization work in LLMs, and why does it matter for engineering decisions?
 
 **Module:** LLM Engineering
@@ -23,13 +60,13 @@ How do modern LLMs tokenize text? What is BPE, and why does tokenization affect 
 
 ---
 
-**Expected Answer (Short)**
+#### Basic Answer
 
 LLMs don't process raw text — they split it into tokens (subword units). BPE (Byte-Pair Encoding) starts with bytes/characters and iteratively merges the most frequent pairs into larger tokens. "unhappiness" might become ["un", "happiness"] or ["un", "happi", "ness"]. It affects: (1) Cost — APIs charge per token; inefficient tokenization = more tokens = higher cost. (2) Context window — fixed token limit means fewer "words" for inefficient tokenizers. (3) Multilingual — English-centric tokenizers split non-English text into many tokens, increasing cost 2-5x.
 
 ---
 
-**Deep Answer**
+#### Concept + Design Notes
 
 - **BPE (Byte-Pair Encoding):**
   - Start with character-level (or byte-level) vocabulary
@@ -54,9 +91,18 @@ LLMs don't process raw text — they split it into tokens (subword units). BPE (
   - Code: spaces/indentation eat tokens (Python whitespace is expensive)
   - Special characters: emojis can be 3-5 tokens each
 
+- **Why this changes architecture decisions:**
+  - API cost estimates should be done in tokens, not characters or words.
+  - Retrieval chunk sizes should be tokenizer-aware because the model window is.
+  - Multilingual traffic can silently break cost assumptions if the tokenizer is English-optimized.
+
 ---
 
-**Follow-up Questions**
+#### Practical Build Drill
+
+Tokenize the same English, Japanese, code, and emoji-heavy inputs with two model tokenizers. Compare total tokens, estimated API cost, and effective context-window usage for each.
+
+#### Real Interviewer Follow-ups
 
 1. How does tokenization affect math ability in LLMs?
 2. What's the difference between BPE and SentencePiece?
@@ -64,7 +110,7 @@ LLMs don't process raw text — they split it into tokens (subword units). BPE (
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Tokenization splits on words and spaces" — wrong
 - No awareness of multilingual implications
@@ -72,9 +118,13 @@ LLMs don't process raw text — they split it into tokens (subword units). BPE (
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Foundational LLM knowledge. The cost and multilingual implications are the key practical insights. Candidates who connect tokenization to engineering decisions (cost estimates, context budgets) demonstrate useful understanding.
+
+#### Design / Production Bridge
+
+Tokenization mistakes hit product cost and UX before they hit model quality. Teams that budget by character count or ignore multilingual token inflation routinely underestimate serving cost and overestimate usable context.
 
 ---
 
@@ -99,13 +149,13 @@ Explain how self-attention works in a transformer. Why does it scale quadratical
 
 ---
 
-**Expected Answer (Short)**
+#### Basic Answer
 
 Self-attention computes a weighted sum of all Value vectors, where weights come from the dot product of Query and Key vectors. For each of n tokens, it attends to all n tokens → $O(n^2)$ attention matrix. For 4K context: 16M operations. For 128K context: 16B operations (1000x more). Practical impact: long-context models need proportionally more GPU memory (for KV cache) and compute, making them significantly more expensive per request.
 
 ---
 
-**Deep Answer**
+#### Concept + Design Notes
 
 - **Mechanism:**
   - Input: sequence of n embeddings X ∈ ℝ^(n×d)
@@ -136,9 +186,18 @@ Self-attention computes a weighted sum of all Value vectors, where weights come 
   - **Sliding window attention:** Only attend to nearby tokens + a few global tokens
   - **Ring attention:** Distribute sequence across GPUs, each processes a segment
 
+- **Operational meaning of quadratic cost:**
+  - A model advertising 128K context is not saying 128K is cheap.
+  - Long prompts hurt TTFT, memory, concurrency, and total dollar cost even before generation starts.
+  - "Supports long context" and "serves long context economically" are different claims.
+
 ---
 
-**Follow-up Questions**
+#### Practical Build Drill
+
+Implement a toy attention benchmark or notebook that measures memory and runtime as sequence length doubles from 1K to 2K to 4K to 8K. Plot the growth and explain why the serving bill rises so quickly.
+
+#### Real Interviewer Follow-ups
 
 1. How does FlashAttention achieve the same result as standard attention with less memory?
 2. What's the trade-off between MHA, GQA, and MQA?
@@ -146,7 +205,7 @@ Self-attention computes a weighted sum of all Value vectors, where weights come 
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Can't explain why it's quadratic
 - "Just use a bigger GPU" to handle long contexts
@@ -154,9 +213,13 @@ Self-attention computes a weighted sum of all Value vectors, where weights come 
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Technical depth on the most critical LLM bottleneck. Understanding the quadratic scaling and modern solutions (FlashAttention, GQA) shows the candidate can reason about compute constraints.
+
+#### Design / Production Bridge
+
+This is the bridge from transformer theory to infrastructure economics. If a candidate cannot explain why long context is expensive, they will mis-size serving clusters and misuse large-context models in production.
 
 ---
 
@@ -181,13 +244,13 @@ Compare RoPE and ALiBi positional encodings. Why is positional encoding critical
 
 ---
 
-**Expected Answer (Short)**
+#### Basic Answer
 
 Positional encoding tells the model where each token is in the sequence. RoPE (Rotary Position Embedding) encodes position by rotating Q and K vectors by an angle proportional to position — enables relative position awareness. ALiBi (Attention with Linear Biases) doesn't modify embeddings; it adds a linear bias to attention scores based on distance between tokens — naturally decays attention with distance. For extrapolation: ALiBi generalizes better to unseen lengths. RoPE can be extended with NTK-aware scaling or YaRN for longer contexts.
 
 ---
 
-**Deep Answer**
+#### Concept + Design Notes
 
 - **Why positional encoding matters:**
   - Self-attention is position-agnostic by default ("bag of tokens")
@@ -219,9 +282,18 @@ Positional encoding tells the model where each token is in the sequence. RoPE (R
 
 - **Production relevance:** If your model was trained on 4K tokens but you need 32K, RoPE with YaRN scaling can extend it, but quality degrades at extreme extensions. Better: choose a model pre-trained at your target length.
 
+- **The real design question is extension risk:**
+  - RoPE gives strong quality at trained lengths and is why most modern open models use it.
+  - ALiBi extrapolates more naturally but the ecosystem converged on RoPE because overall quality and downstream adoption mattered more.
+  - Extending context length after training is always a trade-off between capability claims and actual reliability at the tail.
+
 ---
 
-**Follow-up Questions**
+#### Practical Build Drill
+
+Take one model family that uses RoPE and document what changes when you extend context via scaling rather than choosing a model trained natively at the target length. Write down the likely quality, latency, and memory trade-offs.
+
+#### Real Interviewer Follow-ups
 
 1. Your model was trained on 8K context but you need 64K. What are your options?
 2. How does Llama's RoPE scaling work? What's the quality trade-off?
@@ -229,7 +301,7 @@ Positional encoding tells the model where each token is in the sequence. RoPE (R
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Confuses positional encoding with positional embedding (learned absolute positions)
 - Can't explain relative vs absolute positional encoding
@@ -237,9 +309,13 @@ Positional encoding tells the model where each token is in the sequence. RoPE (R
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Tests deep understanding of transformer architecture. Knowing RoPE vs ALiBi indicates the candidate follows recent architectural developments and understands context length constraints.
+
+#### Design / Production Bridge
+
+Positional encoding is not an academic footnote. It determines whether "we can extend context later" is a real option or an expensive quality regression hidden behind a larger token limit.
 
 ---
 
@@ -264,13 +340,13 @@ Explain what the KV cache is, why it exists, and why it dominates GPU memory dur
 
 ---
 
-**Expected Answer (Short)**
+#### Basic Answer
 
 During autoregressive generation, each new token needs to attend to all previous tokens. Without caching, you'd recompute K and V for all previous tokens at every step (wasteful). The KV cache stores these computed K and V vectors, so each new token only computes its own Q and looks up cached K, V. Problem: KV cache grows linearly with sequence length and batch size, and for large models (70B+ with 80 layers), it can exceed model weight memory. At 128K context on a 70B model, KV cache is ~40GB per request.
 
 ---
 
-**Deep Answer**
+#### Concept + Design Notes
 
 - **Without KV cache (naive):**
   - At step t: compute attention over all t tokens from scratch
@@ -309,9 +385,18 @@ During autoregressive generation, each new token needs to attend to all previous
   - **Sliding window:** Only cache last W tokens → bounded memory
   - **Token eviction:** Evict least-attended tokens from cache
 
+- **The serving implication matters more than the formula:**
+  - Weight memory is shared across requests.
+  - KV cache grows per request, so high concurrency and long context multiply each other.
+  - This is why a model that technically fits on a GPU can still be commercially unusable for your concurrency target.
+
 ---
 
-**Follow-up Questions**
+#### Practical Build Drill
+
+Estimate KV cache usage for one 8B model and one 70B model at 4K, 32K, and 128K context. Then translate the numbers into approximate concurrent-request capacity on a fixed GPU memory budget.
+
+#### Real Interviewer Follow-ups
 
 1. How does PagedAttention solve KV cache memory fragmentation?
 2. If KV cache is the bottleneck, would it be better to use shorter prompts? How much does it save?
@@ -319,7 +404,7 @@ During autoregressive generation, each new token needs to attend to all previous
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Doesn't know KV cache exists
 - "Memory is just the model weights" — ignores KV cache
@@ -327,9 +412,13 @@ During autoregressive generation, each new token needs to attend to all previous
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 System-level LLM understanding. KV cache is the #1 constraint in LLM serving economics. Candidates who can estimate KV cache size and know the mitigation strategies (PagedAttention, GQA) demonstrate practical serving knowledge.
+
+#### Design / Production Bridge
+
+KV cache is where many serving plans break. Teams budget for weights, forget the per-request memory growth, then discover in production that concurrency falls off a cliff as prompt length rises.
 
 ---
 
@@ -354,13 +443,13 @@ What's the difference between MHA, MQA, and GQA? Why did the field move from MHA
 
 ---
 
-**Expected Answer (Short)**
+#### Basic Answer
 
 MHA: separate K, V, Q heads (e.g., 64 each). Full expressiveness but large KV cache. MQA: one shared K, V head across all Q heads. Minimal KV cache but quality drops. GQA: group Q heads to share K, V (e.g., 8 KV groups for 64 Q heads). Best balance — 85-90% of MHA quality, 8x smaller KV cache. The field moved to GQA because KV cache dominates inference cost, and GQA makes long-context serving practical.
 
 ---
 
-**Deep Answer**
+#### Concept + Design Notes
 
 - **Comparison:**
   | Property | MHA | MQA | GQA |
@@ -383,9 +472,17 @@ MHA: separate K, V, Q heads (e.g., 64 each). Full expressiveness but large KV ca
   - If MHA instead: KV cache would be 8x larger → ~320GB at 128K context
   - With GQA: ~40GB at 128K context → feasible on a single node
 
+- **Why the field moved to GQA:**
+  - The industry stopped optimizing only for training-time elegance and started optimizing for inference economics.
+  - GQA is the compromise that preserves most of the quality while making modern serving stacks financially viable.
+
 ---
 
-**Follow-up Questions**
+#### Practical Build Drill
+
+Given a model with 64 attention heads, compute relative KV cache size for MHA, MQA, and GQA with 8 KV groups. Then explain which architecture you would prefer for a long-context serving product and why.
+
+#### Real Interviewer Follow-ups
 
 1. Can you convert an MHA model to GQA post-training? How?
 2. What group size works best? How do you choose?
@@ -393,7 +490,7 @@ MHA: separate K, V, Q heads (e.g., 64 each). Full expressiveness but large KV ca
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Doesn't know MQA or GQA exist
 - Can't explain the KV cache reduction
@@ -401,9 +498,13 @@ MHA: separate K, V, Q heads (e.g., 64 each). Full expressiveness but large KV ca
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Modern LLM architecture knowledge. GQA is the current industry standard. Understanding the WHY (KV cache economics) is more important than the WHAT.
+
+#### Design / Production Bridge
+
+This question exposes whether the candidate thinks like a model user or a system builder. GQA won because deployment economics mattered, not because the field suddenly stopped caring about model quality.
 
 ---
 
@@ -428,13 +529,13 @@ Compare greedy decoding, beam search, and sampling-based decoding. When should y
 
 ---
 
-**Expected Answer (Short)**
+#### Basic Answer
 
 Greedy: always pick highest probability token. Simple, fast, deterministic, but repetitive and misses globally optimal sequences. Beam search: explore top-k paths simultaneously, pick the highest overall probability sequence. Better than greedy for structured output (translation) but still repetitive for creative tasks. Sampling (top-p, top-k, temperature): randomly sample from the distribution. Produces diverse, creative output but less reliable. Use: greedy for deterministic extraction, beam search for translation/summarization, sampling for conversation/creative writing.
 
 ---
 
-**Deep Answer**
+#### Concept + Design Notes
 
 - **Greedy decoding:**
   - At each step: pick argmax P(token|context)
@@ -461,9 +562,18 @@ Greedy: always pick highest probability token. Simple, fast, deterministic, but 
 
 - **Modern LLMs (GPT-4, Claude):** Use sampling by default (temperature, top-p). Beam search is rare for LLMs because it produces boring output. The sampling parameters ARE the quality control mechanism.
 
+- **The important practical point is task matching:**
+  - Extraction, routing, and classification prefer low-variance decoding.
+  - Conversation and brainstorming need controlled diversity.
+  - Many reliability bugs are actually decoding-policy bugs, not prompt bugs.
+
 ---
 
-**Follow-up Questions**
+#### Practical Build Drill
+
+Run the same prompt set through greedy decoding, low-temperature sampling, and high-temperature sampling. Compare determinism, repetition, and usefulness by task type: extraction, coding, and chat.
+
+#### Real Interviewer Follow-ups
 
 1. What is repetition penalty and when should you use it?
 2. Can you combine beam search with sampling? How?
@@ -471,7 +581,7 @@ Greedy: always pick highest probability token. Simple, fast, deterministic, but 
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Beam search is always better than greedy" — not for creative tasks
 - Doesn't understand the trade-off between quality and diversity
@@ -479,9 +589,13 @@ Greedy: always pick highest probability token. Simple, fast, deterministic, but 
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Practical generation knowledge. The key insight is matching decoding strategy to task requirements: deterministic for extraction, creative for conversation.
+
+#### Design / Production Bridge
+
+Teams often treat temperature like a cosmetic knob. In production it is part of the system contract: it changes reproducibility, QA burden, and how much trust you can place in the model’s output behavior.
 
 ---
 
@@ -506,13 +620,13 @@ Explain speculative decoding. How does it speed up LLM inference without changin
 
 ---
 
-**Expected Answer (Short)**
+#### Basic Answer
 
 Speculative decoding uses a small "draft" model to generate N candidate tokens quickly. The large "target" model then verifies all N tokens in a single forward pass (parallel). If they match, you've generated N tokens at the cost of ~1 large model forward pass. If they diverge at position k, accept tokens 1 to k-1 and restart. Key insight: verifying N tokens in parallel is as fast as generating 1 token (GPU parallelism). Typical speedup: 2-3x for text, higher for predictable sequences.
 
 ---
 
-**Deep Answer**
+#### Concept + Design Notes
 
 - **Why it works:**
   - Autoregressive generation: generate 1 token → wait → generate next → wait (sequential)
@@ -556,9 +670,18 @@ Speculative decoding uses a small "draft" model to generate N candidate tokens q
   | Natural language | 60-70% | 1.7-2.3x |
   | Creative writing | 40-50% | 1.3-1.6x |
 
+- **Why acceptance rate is the real product variable:**
+  - Predictable outputs like code or templated enterprise text are easier for a draft model to guess.
+  - Open-ended creative text is harder to predict, so speculative decoding helps less.
+  - This is why speculative decoding is not a universal 3x button even though the mechanism is elegant.
+
 ---
 
-**Follow-up Questions**
+#### Practical Build Drill
+
+Sketch a draft-target inference loop and compute the expected speedup for three hypothetical acceptance rates: 40%, 70%, and 90%. Then explain which product workloads are likely to hit each regime.
+
+#### Real Interviewer Follow-ups
 
 1. Why is the speedup higher for code generation than creative writing?
 2. How does speculative decoding interact with KV cache management?
@@ -566,7 +689,7 @@ Speculative decoding uses a small "draft" model to generate N candidate tokens q
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "It approximates the output" — wrong, it's lossless
 - Doesn't understand why verification of N tokens is parallel (batch processing on GPU)
@@ -574,9 +697,13 @@ Speculative decoding uses a small "draft" model to generate N candidate tokens q
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Advanced inference engineering. Understanding speculative decoding shows the candidate knows cutting-edge LLM serving techniques. The key insight: verification is parallel due to GPU architecture.
+
+#### Design / Production Bridge
+
+Speculative decoding matters because it turns GPU underutilization into speed. The strong answer is not just the algorithm, but where it helps enough to justify orchestration complexity.
 
 ---
 
@@ -601,13 +728,13 @@ What is quantization in the context of LLMs? Compare INT8, INT4, and FP8 quantiz
 
 ---
 
-**Expected Answer (Short)**
+#### Basic Answer
 
 Quantization converts model weights (and sometimes activations) from high precision (FP32/FP16) to lower precision (INT8, INT4, FP8). This reduces memory by 2-4x and can increase throughput. INT8: halves FP16 memory, minimal quality loss. INT4 (GPTQ, AWQ): quarters memory, enables 70B on single GPU, 1-3% quality degradation. FP8: hardware-native on H100, near-FP16 quality with 2x memory savings. Trade-off: lower precision = smaller memory = some quality degradation.
 
 ---
 
-**Deep Answer**
+#### Concept + Design Notes
 
 - **Types:**
   | Format | Bits | Memory (70B model) | Quality Loss | Hardware |
@@ -639,9 +766,18 @@ Quantization converts model weights (and sometimes activations) from high precis
     Yes → GGUF Q4_K_M or Q5_K_M
   ```
 
+- **The deeper deployment question is not "can it fit?" but "what quality risk can you afford?"**
+  - Chat and summarization tolerate more compression than extraction, math, or tool use.
+  - Hardware-native FP8 is very different operationally from software-emulated INT4.
+  - Quantization choice is part of product quality policy, not only infra cost control.
+
 ---
 
-**Follow-up Questions**
+#### Practical Build Drill
+
+Create a deployment scorecard for one target GPU type and compare whether an 8B, 13B, and 70B model fit in FP16, FP8, INT8, and INT4. Include estimated memory, expected quality risk, and where each configuration is acceptable.
+
+#### Real Interviewer Follow-ups
 
 1. How does quantization affect fine-tuning? Can you fine-tune a quantized model?
 2. What's the difference between weight quantization and activation quantization?
@@ -649,7 +785,7 @@ Quantization converts model weights (and sometimes activations) from high precis
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Quantization just makes things smaller" — no explanation of how
 - Can't explain the quality trade-off
@@ -657,9 +793,13 @@ Quantization converts model weights (and sometimes activations) from high precis
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Practical deployment knowledge. Quantization is essential for cost-effective LLM deployment. Candidates who can recommend the right quantization level for a given use case and hardware constraint demonstrate deployment experience.
+
+#### Design / Production Bridge
+
+Quantization is where model quality, hardware limits, and unit economics collide. Good candidates understand that a cheaper model configuration is only a win if the failure modes stay acceptable for the task.
 
 ---
 
@@ -684,13 +824,13 @@ You're starting a new LLM project. What factors do you consider when selecting t
 
 ---
 
-**Expected Answer (Short)**
+#### Basic Answer
 
 Key factors: (1) Task fit — does the model excel at your specific task type? (2) Size vs. capability — smallest model that meets quality requirements. (3) License — open weights vs. API, commercial use allowed? (4) Context window — matches your input length requirements. (5) Language support — trained on your target languages? (6) Ecosystem — fine-tuning support, quantized versions available, community adoption. (7) Serving cost — inference cost at your expected volume. (8) Privacy — can data go to external API?
 
 ---
 
-**Deep Answer**
+#### Concept + Design Notes
 
 - **Selection framework:**
   | Factor | Questions to Ask |
@@ -723,9 +863,22 @@ Key factors: (1) Task fit — does the model excel at your specific task type? (
   - Ignoring license terms (caught after building the product)
   - Not testing serving feasibility before building on the model
 
+- **The real selection process is a constraint trade-off, not a benchmark lookup:**
+  - Quality target
+  - Serving budget
+  - Context requirement
+  - Privacy and deployment constraints
+  - Fine-tuning and tooling ecosystem
+  - License and commercial risk
+  The strongest answer usually recommends the smallest model that passes the real evaluation set, not the most impressive benchmark name.
+
 ---
 
-**Follow-up Questions**
+#### Practical Build Drill
+
+Build a simple model-selection scorecard with weighted criteria: task quality, context length, latency, deployment cost, license, multilingual support, and fine-tuning support. Use it to compare three candidate models for one concrete product.
+
+#### Real Interviewer Follow-ups
 
 1. How do you handle the case where no single model meets all your criteria?
 2. What's your process for evaluating a model you've never used before?
@@ -733,7 +886,7 @@ Key factors: (1) Task fit — does the model excel at your specific task type? (
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Use GPT-4 for everything" — no analysis
 - Doesn't consider license implications
@@ -742,6 +895,10 @@ Key factors: (1) Task fit — does the model excel at your specific task type? (
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Practical judgment. The candidate should demonstrate a structured selection process that balances multiple constraints. The key insight: the best model is the smallest one that meets your quality requirements, not the largest available. 
+
+#### Design / Production Bridge
+
+Base model selection is one of the highest-leverage product decisions in LLM engineering. A weak choice bleeds cost and latency for months; a disciplined choice shortens iteration time and makes the rest of the stack simpler.

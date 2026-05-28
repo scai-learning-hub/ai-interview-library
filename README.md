@@ -141,6 +141,12 @@ graph TD
 
 Questions are organized by module and level in the `modules/` directory:
 
+```text
+Basic -> Concept -> Design -> Practical Build -> Real Follow-ups -> Architect
+```
+
+The table below shows where content is stored. The flow above shows how candidates should actually prepare for interviews.
+
 | Level | What It Tests | Share |
 |-------|--------------|-------|
 | **Concept** | First principles, clean definitions, mental models | 20% |

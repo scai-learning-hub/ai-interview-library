@@ -2,6 +2,33 @@
 
 ---
 
+## How To Read This File
+
+Debugging-level LLM interviews are about disciplined isolation under production pressure, not clever speculation.
+
+```text
+Symptom -> isolate stage -> inspect evidence -> test hypothesis -> repair -> prevent recurrence
+```
+
+- **Symptom**: what users, alerts, or operators actually observe
+- **Isolate stage**: serving, routing, prompt layer, structured output, tool calling, cache, GPU memory, or scheduler
+- **Inspect evidence**: request traces, finish reasons, token counts, startup logs, queue metrics, memory stats
+- **Test hypothesis**: disconfirm the fastest likely cause first
+- **Repair**: fix the immediate failure without hiding the root cause
+- **Prevent recurrence**: add validation, alerting, rollout checks, or regression tests
+
+## Debugging Map
+
+| ID | Primary symptom | Stage most likely at fault | What strong answers include |
+|---|---|---|---|
+| [Q-03-D-001](#q-03-d-001) | 1% JSON failures crash downstream | Output contract and parser layer | Failure categorization, finish reason checks, repair path |
+| [Q-03-D-002](#q-03-d-002) | Throughput drops after model update | Serving config and KV allocation | Config diff, startup logs, context-length reasoning |
+| [Q-03-D-003](#q-03-d-003) | Tool calls hallucinate names or params | Tool execution boundary | Name validation, param validation, permission checks |
+| [Q-03-D-004](#q-03-d-004) | GPU memory grows until OOM | KV lifecycle, allocator, or preprocessing leak | Allocated vs reserved memory, metrics, long-run test |
+| [Q-03-D-005](#q-03-d-005) | p99 latency explodes while p50 is fine | Queueing, long prefill, long generations, or preemption | Latency decomposition and targeted mitigation |
+
+---
+
 ## Q-03-D-001: Your LLM generates valid JSON 99% of the time but the 1% failures are causing downstream service crashes. Diagnose and fix.
 
 **Module:** LLM Engineering
@@ -23,13 +50,13 @@ Your LLM extraction pipeline produces valid JSON 99% of the time. The 1% failure
 
 ---
 
-**Expected Answer (Short)**
+#### Debugging Answer
 
 Categorize the 1% failures: (1) Invalid JSON syntax (unclosed brackets, trailing commas). (2) Valid JSON but wrong schema (missing required fields, wrong types). (3) JSON embedded in markdown (```json...```). (4) Extra text before/after JSON. (5) Truncated output (max_tokens hit mid-JSON). Diagnosis: collect failure samples, categorize, fix the top cause. Most likely: max_tokens truncation (outputs vary in length, sometimes truncated mid-JSON) or markdown wrapping.
 
 ---
 
-**Deep Answer**
+#### Diagnostic + Repair Notes
 
 - **Step 1: Categorize failures (sample 100 failures):**
   ```
@@ -120,7 +147,11 @@ Categorize the 1% failures: (1) Invalid JSON syntax (unclosed brackets, trailing
 
 ---
 
-**Follow-up Questions**
+#### Scoped Debug Drill
+
+Collect 100 failing samples, bucket them by failure type, check `finish_reason`, and harden the parsing layer so downstream services receive either valid typed data or an explicit recoverable error instead of a crash.
+
+#### Real Interviewer Follow-ups
 
 1. After applying all fixes, you're at 99.95%. The remaining 0.05% are true model errors. How do you handle them?
 2. Should you switch to constrained generation (Outlines) instead of post-processing? Trade-offs?
@@ -128,7 +159,7 @@ Categorize the 1% failures: (1) Invalid JSON syntax (unclosed brackets, trailing
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Tell the model to only output JSON" — the prompt already says that
 - Doesn't check finish_reason for truncation
@@ -137,9 +168,13 @@ Categorize the 1% failures: (1) Invalid JSON syntax (unclosed brackets, trailing
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Defensive programming for LLM systems. The 99% → 99.9% jump requires systematic failure categorization and layered fixes. This is a core skill for production LLM engineers.
+
+#### Failure / Production Bridge
+
+This is the difference between a fragile demo and a production interface contract. The model can be imperfect; the surrounding system cannot be allowed to turn a malformed payload into a customer-facing outage.
 
 ---
 
@@ -164,13 +199,13 @@ You updated from Llama 3 70B to Llama 3.1 70B on your vLLM cluster. Same GPUs (4
 
 ---
 
-**Expected Answer (Short)**
+#### Debugging Answer
 
 Investigate model architecture changes: (1) Vocabulary size — Llama 3.1 may have larger vocab → larger embedding table → less GPU memory for KV cache → fewer concurrent requests → lower throughput. (2) Context window — Llama 3.1 supports 128K (vs 8K default for Llama 3). If max_model_len auto-detected to 128K, KV cache allocation per request is much larger → fewer concurrent slots. (3) Check GQA configuration changes (number of KV heads). (4) Different tokenization → same text produces more/fewer tokens, changing effective throughput.
 
 ---
 
-**Deep Answer**
+#### Diagnostic + Repair Notes
 
 - **Most likely cause: max_model_len auto-detection.**
   ```
@@ -219,7 +254,11 @@ Investigate model architecture changes: (1) Vocabulary size — Llama 3.1 may ha
 
 ---
 
-**Follow-up Questions**
+#### Scoped Debug Drill
+
+Diff the old and new model configs, inspect vLLM startup logs for KV block allocation, rerun the benchmark with explicit `max-model-len`, and confirm whether throughput recovers before changing anything else.
+
+#### Real Interviewer Follow-ups
 
 1. You need 128K context for some requests but 8K for most. How do you configure this?
 2. After fixing max_model_len, throughput is back to 450 tok/s (not 500). Where's the remaining 10%?
@@ -227,7 +266,7 @@ Investigate model architecture changes: (1) Vocabulary size — Llama 3.1 may ha
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Rollback to the old model" — doesn't diagnose
 - Doesn't know about max_model_len and its effect on KV cache allocation
@@ -236,9 +275,13 @@ Investigate model architecture changes: (1) Vocabulary size — Llama 3.1 may ha
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Deep LLM serving knowledge. Understanding how max_model_len affects KV cache allocation and throughput shows the candidate has operated LLM serving infrastructure. This is a real production issue many teams encounter.
+
+#### Failure / Production Bridge
+
+Model upgrades are not safe just because the parameter count stayed the same. Context length, tokenizer behavior, and KV allocation can silently change serving economics even when the hardware did not.
 
 ---
 
@@ -263,13 +306,13 @@ Your LLM agent has 15 available tools. Users report it sometimes calls `search_i
 
 ---
 
-**Expected Answer (Short)**
+#### Debugging Answer
 
 Two distinct problems: (1) Non-existent tool names: Model is generating tool names from its training rather than from the provided tool list. Fix: validate tool name against allowed list before execution, use constrained generation to limit tool names, simplify tool names to be more distinct. (2) Hallucinated parameters: Model invents plausible but wrong parameter values. Fix: validate all parameters before execution (especially IDs — check against database), require user confirmation for destructive actions, add parameter descriptions with examples in tool definitions.
 
 ---
 
-**Deep Answer**
+#### Diagnostic + Repair Notes
 
 - **Problem 1: Non-existent tool names**
   ```python
@@ -346,7 +389,11 @@ Two distinct problems: (1) Non-existent tool names: Model is generating tool nam
 
 ---
 
-**Follow-up Questions**
+#### Scoped Debug Drill
+
+Add a validation layer that rejects unknown tool names, checks every argument against schema and live system state, and requires confirmation for destructive actions. Then run a test set containing wrong tool names, fake IDs, and malicious parameter combinations.
+
+#### Real Interviewer Follow-ups
 
 1. The model keeps retrying the wrong tool name even after error feedback. How do you break the loop?
 2. How do you test tool calling reliability? What does the test matrix look like?
@@ -354,7 +401,7 @@ Two distinct problems: (1) Non-existent tool names: Model is generating tool nam
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "The model should know the correct tool names" — it doesn't always
 - Executes tool calls without validation
@@ -363,9 +410,13 @@ Two distinct problems: (1) Non-existent tool names: Model is generating tool nam
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Safety-first tool calling. The candidate should never trust LLM-generated tool calls without validation. Both tool name validation and parameter validation are required. Confirmation for destructive actions shows security awareness.
+
+#### Failure / Production Bridge
+
+Tool-calling failures are more dangerous than text hallucinations because they can trigger real side effects. Strong answers move the trust boundary to the execution layer, not the model output.
 
 ---
 
@@ -390,13 +441,13 @@ Your vLLM server starts at 65GB GPU memory usage on an 80GB H100. Memory grows ~
 
 ---
 
-**Expected Answer (Short)**
+#### Debugging Answer
 
 Possible causes: (1) KV cache fragmentation — PagedAttention should prevent this but bugs exist. (2) KV cache not being freed for completed requests — check request cleanup. (3) CUDA memory fragmentation — allocated tensors aren't contiguous, unusable gaps grow. (4) Growing metadata/state outside KV cache (request queues, response buffers). (5) External: memory leaked in pre/post-processing code (e.g., accumulating tensors without detaching). Diagnosis: monitor `nvidia-smi`, check vLLM metrics for block utilization, profile with `torch.cuda.memory_stats()`.
 
 ---
 
-**Deep Answer**
+#### Diagnostic + Repair Notes
 
 - **Diagnosis step 1: Identify the memory type:**
   ```bash
@@ -456,7 +507,11 @@ Possible causes: (1) KV cache fragmentation — PagedAttention should prevent th
 
 ---
 
-**Follow-up Questions**
+#### Scoped Debug Drill
+
+Separate real leaks from fragmentation by comparing allocated and reserved GPU memory, inspect vLLM block metrics during a long soak test, and trace any preprocessing tensors that remain referenced after request completion.
+
+#### Real Interviewer Follow-ups
 
 1. The leak only happens under high concurrency. Low concurrency is fine. Why?
 2. `torch.cuda.empty_cache()` doesn't fix it. What does this tell you?
@@ -464,7 +519,7 @@ Possible causes: (1) KV cache fragmentation — PagedAttention should prevent th
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Restart the server when it crashes" — not a fix
 - Doesn't differentiate between allocated and reserved GPU memory
@@ -473,9 +528,13 @@ Possible causes: (1) KV cache fragmentation — PagedAttention should prevent th
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 GPU-level debugging. Memory leaks in LLM serving require understanding CUDA memory management, KV cache lifecycle, and tensor reference counting. This is deep infrastructure knowledge.
+
+#### Failure / Production Bridge
+
+GPU memory incidents often look like random instability until the system has been under load for hours. Good engineers prove whether the problem is leak, fragmentation, or lifecycle cleanup before prescribing restarts.
 
 ---
 
@@ -500,13 +559,13 @@ Your LLM serving cluster has stable p50 latency (200ms) but the p99 is 15 second
 
 ---
 
-**Expected Answer (Short)**
+#### Debugging Answer
 
 LLM-specific tail latency causes: (1) Output length variance — some requests generate 2000 tokens while most generate 100. (2) Input length variance — long prompts have slower prefill/TTFT. (3) Queue waiting — requests arrive in bursts, some wait in queue during busy periods. (4) Cache cold starts — prefix cache miss for rare prompt patterns. (5) GPU contention — memory pressure causes swapping or batch size reduction. (6) Preemption — vLLM preempts (pauses) running requests to handle new ones.
 
 ---
 
-**Deep Answer**
+#### Diagnostic + Repair Notes
 
 - **Step 1: Decompose latency components:**
   ```
@@ -558,7 +617,11 @@ LLM-specific tail latency causes: (1) Output length variance — some requests g
 
 ---
 
-**Follow-up Questions**
+#### Scoped Debug Drill
+
+Break total latency into queue time, TTFT, generation time, and post-processing for both p50 and p99 requests. Then separate short and long prompts so you can tell whether the tail is driven by queueing, long prefills, long outputs, or scheduler preemption.
+
+#### Real Interviewer Follow-ups
 
 1. Would adding more GPUs reduce p99 latency? Why or why not?
 2. How do you set different SLAs for different request types (interactive vs batch)?
@@ -566,7 +629,7 @@ LLM-specific tail latency causes: (1) Output length variance — some requests g
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Add more GPUs" without diagnosing the cause
 - Doesn't decompose latency into components
@@ -576,6 +639,10 @@ LLM-specific tail latency causes: (1) Output length variance — some requests g
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Tail latency analysis is a hallmark of production engineering expertise. Decomposing into queue/TTFT/generation/post-processing and fixing each shows systematic debugging ability. Understanding preemption as an LLM-specific cause is advanced.
+
+#### Failure / Production Bridge
+
+P99 latency is where user trust breaks first. The strong answer is not "add more GPUs" but a clean decomposition of where the tail is formed and which control surface actually reduces it.

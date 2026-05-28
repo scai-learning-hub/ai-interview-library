@@ -8,6 +8,14 @@ How to navigate the AI Interview OS question library. This index covers the sche
 
 Each module has its own directory under `docs/question-library/`. Questions are released in numbered batches (batch-01, batch-02, etc.) as the library grows. Every question follows the same strict schema so questions are machine-readable and consistently structured.
 
+### Read A Batch In Interview Order
+
+```text
+Basic -> Concept -> Design -> Practical Build -> Real Follow-ups -> Architect
+```
+
+The batch tables below show where content lives. The flow above shows how to study it without getting lost in indexing.
+
 ### Question Schema (Summary)
 
 Every question includes:
@@ -25,7 +33,8 @@ Every question includes:
 | Why This Matters | Why interviewers ask this |
 | Expected Answer | Short 2–5 line answer |
 | Deep Answer | Full technical answer with trade-offs and reasoning |
-| Follow-up Questions | 2–5 follow-ups an interviewer might chain |
+| Practical Build Drill | One bounded implementation task tied to the concept |
+| Follow-up Questions | 2–5 real interviewer follow-ups an interviewer might chain |
 | Weak Answer Signals | Red flags and shallow patterns to avoid |
 | Interviewer Signal | What this question reveals about the candidate |
 | Real-World Insight | Production, deployment, or operational connection |

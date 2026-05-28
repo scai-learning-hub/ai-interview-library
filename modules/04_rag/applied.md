@@ -2,6 +2,37 @@
 
 ---
 
+## How To Read This File
+
+Applied RAG questions are where interviews stop being theory and start sounding like actual engineering work:
+
+```text
+Design choice -> Build scope -> Constraints -> Failure handling -> Real follow-ups
+```
+
+- **Design choice**: what architecture or retrieval pattern you would choose
+- **Build scope**: the smallest useful implementation you can actually ship or demo
+- **Constraints**: latency, access control, freshness, and cost
+- **Failure handling**: what breaks and how you contain it
+- **Real follow-ups**: how an interviewer pressures the design after the happy path
+
+## Implementation Map
+
+| ID | Core problem | Bounded build scope | Pressure point |
+|---|---|---|---|
+| [Q-04-A-001](#q-04-a-001) | End-to-end RAG pipeline | LangChain + FAISS/BM25 + RRF + citations | Quality vs latency |
+| [Q-04-A-002](#q-04-a-002) | Query transformation | Add HyDE or multi-query retrieval and measure impact | Extra LLM calls and cost |
+| [Q-04-A-003](#q-04-a-003) | Index freshness | Build incremental re-indexing with versioning/tombstones | Stale answers after document updates |
+| [Q-04-A-004](#q-04-a-004) | Metadata filters and ACLs | Enforce tenant/source filters before retrieval | Security leaks through retrieval |
+| [Q-04-A-005](#q-04-a-005) | Multi-modal RAG | Extract tables/images and retrieve them with text | Parsing complexity |
+| [Q-04-A-006](#q-04-a-006) | Structured data RAG | Route to SQL/API tools instead of only vector search | Hallucinated joins or tool misuse |
+| [Q-04-A-007](#q-04-a-007) | Citation and attribution | Keep answer spans tied to retrieved source chunks | Fake citations |
+| [Q-04-A-008](#q-04-a-008) | Low-latency RAG | Profile and cut each stage under a strict SLA | Recall loss from aggressive shortcuts |
+| [Q-04-A-009](#q-04-a-009) | RAG evaluation dataset | Build labeled queries, expected docs, and answer checks | Evaluation drift |
+| [Q-04-A-010](#q-04-a-010) | Conversational RAG | Maintain history, rewrite queries, and bound context growth | Retrieval drift across turns |
+
+---
+
 ## Q-04-A-001: Implement a production RAG pipeline with hybrid search, reranking, and answer grounding.
 
 **Module:** RAG
@@ -23,13 +54,13 @@ Implement a production RAG pipeline that includes: document ingestion with chunk
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Pipeline stages: (1) Ingestion: chunk documents with overlap, embed, store in vector DB with metadata and BM25 index. (2) Retrieval: run vector search + BM25 in parallel, fuse results with RRF. (3) Reranking: cross-encoder scores top-50 fused results, take top-5. (4) Generation: inject top-5 into prompt with document IDs, instruct LLM to cite sources.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 class ProductionRAGPipeline:
@@ -112,16 +143,49 @@ Answer:"""
         return self.llm.generate(prompt)
 ```
 
-- **Production additions:**
-  - Input validation and sanitization before retrieval
-  - Relevance threshold: skip generation if no retrieval scores exceed 0.5
-  - Answer verification: check that citations match real source IDs
-  - Streaming: stream LLM response with citation resolution at the end
-  - Logging: log query, retrieved docs, answer, latency for evaluation
+- **A serious pipeline has four explicit contracts:**
+    | Stage | Contract | What usually breaks |
+    |------|----------|---------------------|
+    | Ingestion | Correct chunking, metadata, document versioning | Duplicate chunks, stale content, missing ACL metadata |
+    | Retrieval | High-recall candidate generation under latency budget | Wrong metric, no filters, weak hybrid fusion |
+    | Ranking | Most relevant evidence moves to the top | Reranker too slow, too few candidates, no hard negatives |
+    | Generation | Answer stays inside evidence and cites correctly | Context ignored, fake citations, overconfident abstention failure |
+
+- **What makes this "production" instead of demo code:**
+    - Input validation and sanitization before retrieval.
+    - Relevance threshold or abstention policy when no chunk clears a minimum confidence bar.
+    - Stable document and chunk IDs so citations survive reranking and rendering.
+    - Answer verification: cited IDs must exist in the retrieval set and map back to source snippets.
+    - Logging query, rewrite, filters, retrieved IDs, rerank scores, final prompt context, latency, and answer.
+
+- **A practical latency budget should be explicit:**
+    ```
+    query understanding / rewrite   20-80 ms
+    dense + sparse retrieval        20-100 ms
+    reranking                       80-250 ms
+    generation                      300-1200 ms
+    total                           product-specific SLA
+    ```
+    If the candidate cannot explain where the time goes, they do not really own the design.
+
+- **Key design choices and why they matter:**
+    - **Chunk IDs vs document IDs:** citations should usually point to chunk-level evidence, but the UI may render document-level links plus a snippet.
+    - **Top-k into generator:** more chunks do not always help; overstuffing context often hurts grounding.
+    - **Hybrid before rerank:** sparse recall plus dense recall is usually the cheapest quality lift before adding a reranker.
+    - **Prompt contract:** "use only provided context" is weak by itself unless paired with abstention and citation verification.
+
+- **Failure containment:**
+    - If retrieval confidence is low, fall back to "I do not have enough evidence" rather than generating.
+    - If citations fail validation, either regenerate once or return answer plus warning without fabricated citations.
+    - If reranker times out, degrade gracefully to fused retrieval instead of failing the entire request.
 
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Implement a minimal version over a 20-document corpus: dense retrieval with FAISS, sparse retrieval with BM25, RRF fusion, top-3 reranking, and inline citations. Keep it local first, then explain how you would harden it for production.
+
+#### Real Interviewer Follow-ups
 
 1. How do you handle a query where the answer requires information from multiple documents?
 2. What's the latency budget breakdown across the pipeline stages?
@@ -129,7 +193,7 @@ Answer:"""
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Pipeline without reranking (basic vector search only)
 - No citation mechanism
@@ -138,9 +202,13 @@ Answer:"""
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 End-to-end RAG implementation. The candidate should demonstrate a complete pipeline with proper retrieval stages and production concerns (error handling, logging, citation verification).
+
+#### Design / Production Bridge
+
+Real teams do not ship "vector DB plus prompt" and call it done. The hard part is owning the contracts between ingestion, retrieval, ranking, and generation so you can explain why a bad answer happened and how to prevent it without guessing.
 
 ---
 
@@ -165,13 +233,13 @@ Your RAG system has good documents but retrieves wrong ones for 30% of queries. 
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Query transformation techniques: (1) HyDE (Hypothetical Document Embedding): generate a hypothetical answer, embed THAT instead of the query — closer to document space than question space. (2) Multi-query: generate 3-5 diverse query reformulations, retrieve for each, merge results. (3) Step-back: for complex queries, generate a more general query first. (4) Sub-question decomposition: break complex query into sub-queries, retrieve for each. Each technique addresses a different retrieval failure type.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 - **HyDE (Hypothetical Document Embedding):**
   ```python
@@ -229,9 +297,41 @@ Query transformation techniques: (1) HyDE (Hypothetical Document Embedding): gen
   | Step-back | Complex/specific queries | +500ms (1 LLM call) |
   | Sub-questions | Multi-part questions | +1-3s (1 LLM call + N searches) |
 
+- **Do not apply transformation blindly; route by query class:**
+    ```
+    Exact ID / error code / SKU           -> usually no HyDE, prefer sparse or hybrid
+    Short vague semantic question         -> HyDE or multi-query
+    Multi-hop / compare-and-contrast ask  -> sub-question decomposition
+    Overly specific but narrow ask        -> step-back + original query together
+    ```
+    Query rewriting adds cost and can distort user intent. A strong system gates these techniques behind heuristics or a classifier.
+
+- **Evaluation should be sliced, not averaged:**
+    - Identifier queries
+    - Conceptual semantic queries
+    - Multi-hop questions
+    - Long-tail domain terms
+    - Ambiguous user wording
+    A technique that improves average Recall@5 can still degrade exact-match queries badly.
+
+- **Failure modes to call out explicitly:**
+    - HyDE can hallucinate a framing that drifts the search away from the user's true intent.
+    - Multi-query can inflate near-duplicate results unless you deduplicate and diversify.
+    - Sub-question decomposition can over-fragment simple questions and add needless latency.
+    - Step-back queries can become too generic and surface tutorial content instead of answer-bearing chunks.
+
+- **Practical operating pattern:**
+    - Keep the original query in the retrieval set even when you rewrite it.
+    - Log rewritten queries next to the original.
+    - Treat retrieval rewrites as an experimentable module with offline eval gates.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Add one query-transformation technique behind a feature flag, preferably HyDE or multi-query retrieval, and compare Recall@5 plus latency on a labeled query set.
+
+#### Real Interviewer Follow-ups
 
 1. HyDE generates a wrong hypothetical answer. Does this hurt retrieval?
 2. How do you evaluate whether query expansion actually improves results?
@@ -239,7 +339,7 @@ Query transformation techniques: (1) HyDE (Hypothetical Document Embedding): gen
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Tell users to write better queries" — not a solution
 - Doesn't know about HyDE or query expansion
@@ -247,9 +347,13 @@ Query transformation techniques: (1) HyDE (Hypothetical Document Embedding): gen
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Advanced RAG engineering. Query transformation is one of the most impactful improvements and shows the candidate goes beyond basic vector search.
+
+#### Design / Production Bridge
+
+Query transformation is high leverage precisely because user queries are often the weakest part of the pipeline. The mature answer is not "use HyDE" but "classify the failure, route the query, and prove the gain with slice-based evaluation."
 
 ---
 
@@ -274,13 +378,13 @@ Your RAG knowledge base has 100K documents. 500 documents are added/modified dai
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Incremental update pipeline: (1) Change detection: track document fingerprints (hash of content), detect which docs changed. (2) Delta processing: only re-chunk and re-embed changed documents. (3) Vector DB operations: delete old chunks for changed docs, insert new chunks. (4) Consistency: ensure search returns updated content within minutes of change. Implementation: CDC (change data capture) from source → delta ingestion pipeline → vector DB upsert.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 class IncrementalIndexer:
@@ -346,9 +450,37 @@ class IncrementalIndexer:
   | Hourly batch | <1 hour | Medium |
   | Daily batch | <24 hours | Lowest |
 
+- **Freshness is not only about speed; it is about consistency:**
+    - You need a rule for when a new document version becomes visible to search.
+    - If old and new chunks coexist, users can receive contradictory evidence from the same source.
+    - Safer patterns are versioned indexes, tombstones, or blue/green swaps for large updates.
+
+- **Recommended consistency patterns:**
+    | Pattern | Strength | Weakness |
+    |--------|----------|----------|
+    | In-place upsert/delete | Simple | Can expose mixed versions during updates |
+    | Versioned chunk visibility | Strong correctness | More metadata and query logic |
+    | Blue/green index swap | Clean cutover | More storage and operational ceremony |
+    | Tombstones + async compaction | Handles deletes well | Query path must honor tombstones |
+
+- **Embedding model upgrades are a separate migration problem:**
+    - Changing chunk content is not the same as changing the embedding model.
+    - Mixed embedding spaces inside one index usually break similarity search.
+    - For embedding migrations, create a shadow index, backfill, compare offline metrics, then cut traffic over deliberately.
+
+- **Operational controls worth mentioning:**
+    - Track document source version, chunk version, embedding model version, and indexing job ID.
+    - Make indexing idempotent so retries do not duplicate chunks.
+    - Keep a rollback path to the last known-good index snapshot.
+    - Alert on indexing lag, delete backlog, and source-sync failures.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Build a delta indexer that hashes source documents, tombstones old chunks, and upserts only modified chunks. Add one rollback path so a bad index update can be reverted safely.
+
+#### Real Interviewer Follow-ups
 
 1. During index update, users might get inconsistent results (some old, some new chunks). How do you ensure consistency?
 2. Your embedding model is updated. Do you need to re-embed all 100K documents?
@@ -356,7 +488,7 @@ class IncrementalIndexer:
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Reindex everything daily" — doesn't scale
 - No change detection (re-embeds everything)
@@ -365,9 +497,13 @@ class IncrementalIndexer:
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Operational RAG maturity. Index freshness is a real production concern. The candidate should describe incremental updates with change detection and consistency guarantees.
+
+#### Design / Production Bridge
+
+Freshness failures are brutal because the answer can look perfectly grounded while still being wrong. If the index lifecycle is weak, the model becomes a clean interface over stale data.
 
 ---
 
@@ -392,13 +528,13 @@ Your RAG system serves 5 departments, each with confidential documents. How do y
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Pre-retrieval filtering: add access control metadata to every chunk (department, access_level, groups). At query time, filter the search space to only include chunks the user is authorized to see. Implementation: vector DB metadata filter applied BEFORE semantic search. Never do post-retrieval filtering (user might infer existence of documents from empty results after filtering). Sync ACLs from source systems to vector DB metadata.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 class SecureRAGPipeline:
@@ -455,9 +591,38 @@ class SecureRAGPipeline:
   | Data leakage via LLM | Don't include unauthorized context in prompt |
   | Prompt injection accessing other docs | Metadata filter is enforced at DB level |
 
+- **The key security principle is filter-before-retrieval:**
+    ```
+    authorize user -> derive allowed scope -> search only inside allowed scope -> verify again
+    ```
+    Post-retrieval filtering is not just inefficient; it leaks existence, relevance, and sometimes ranking information.
+
+- **Access control gets harder at finer granularity:**
+    | Scope | Typical approach | Hard part |
+    |------|------------------|-----------|
+    | Document-level ACL | Chunk inherits document metadata | Straightforward |
+    | Section-level ACL | Chunk carries section permissions | Source parsing must preserve boundaries |
+    | Row/cell-level ACL | Route to structured query tools instead of plain chunk retrieval | Very easy to leak without exact enforcement |
+
+- **Enterprise concerns a strong answer should include:**
+    - Tenant isolation across indexes or namespaces.
+    - Audit trail of who queried what and which sources were exposed.
+    - Fast revocation when a user's access changes.
+    - Prevention of cached unauthorized answers being replayed to the wrong user.
+
+- **Defense-in-depth means more than one check:**
+    - DB-level metadata filtering to constrain candidate set.
+    - Application-level authorization verification before prompt assembly.
+    - Response logging for audit and incident investigation.
+    - Cache keys that include auth scope, not just query text.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Implement metadata filters for department and access level before retrieval. Add one test that proves an unauthorized chunk never reaches the prompt context.
+
+#### Real Interviewer Follow-ups
 
 1. A document's permissions change frequently. How does this affect your indexing strategy?
 2. How do you handle "need-to-know" access where some paragraphs within a document are restricted?
@@ -465,7 +630,7 @@ class SecureRAGPipeline:
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Post-retrieval filtering only (retrieves everything, then filters — leaks info)
 - No metadata in the vector database
@@ -474,9 +639,13 @@ class SecureRAGPipeline:
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Security awareness in RAG. Access control is critical in enterprise RAG. Pre-retrieval filtering with defense-in-depth shows the candidate understands security at the data layer.
+
+#### Design / Production Bridge
+
+Enterprise RAG is a security product as much as an AI product. If retrieval boundaries are weak, the system becomes a very efficient confidential-document discovery tool for the wrong user.
 
 ---
 
@@ -501,13 +670,13 @@ Your RAG system processes technical manuals that contain text, tables, diagrams,
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Multi-modal ingestion strategy: (1) Tables: extract as structured text (markdown tables), embed separately with "Table:" prefix. (2) Images/diagrams: generate text descriptions using vision LLM (GPT-4V, Claude Vision), embed the description. (3) Charts: extract data values + generate narrative summary, embed the summary. (4) Store original media as metadata alongside text chunks for display. At retrieval, the text embeddings find relevant content; at generation, the original media can be passed to a multi-modal LLM.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 class MultiModalIngestion:
@@ -567,9 +736,39 @@ class MultiModalIngestion:
   - If using a multi-modal LLM (GPT-4V, Claude Vision): pass original images alongside text context
   - If using text-only LLM: rely on the text descriptions generated during ingestion
 
+- **The hard part is representation loss:**
+    - A table is not just text; it has row, column, and aggregation semantics.
+    - A diagram is not just an image; it often encodes flow, hierarchy, or spatial relationships.
+    - A screenshot may contain UI state, error text, and contextual cues at once.
+    Converting everything to plain narrative text is useful, but it also throws away structure unless you preserve metadata or the original artifact.
+
+- **A practical multimodal ingestion strategy usually has two outputs per artifact:**
+    | Output | Purpose |
+    |--------|---------|
+    | Searchable textual representation | Retrieval and ranking |
+    | Original artifact reference | Rendering, verification, multimodal generation |
+
+- **Table-specific guidance:**
+    - Preserve header names and row labels explicitly.
+    - Large tables often need chunking by logical sections, not raw token windows.
+    - For analytical questions, a text summary alone is weak; preserve machine-readable structure if possible.
+
+- **Vision output quality is domain-sensitive:**
+    - Generic image descriptions are often too shallow for architecture diagrams, circuit diagrams, medical imagery, or dashboards.
+    - Good systems use domain prompts, example-guided descriptions, or task-specific extractors before embedding.
+
+- **Evaluation should be modality-aware:**
+    - Can the system retrieve the correct table/image when the answer is not in prose?
+    - Does the answer preserve numeric accuracy from tables?
+    - Are cited artifacts actually the ones supporting the answer?
+
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Process one mixed document containing text, a table, and an image. Convert the non-text elements into retrievable descriptions while preserving source metadata for display in the final answer.
+
+#### Real Interviewer Follow-ups
 
 1. The vision LLM generates poor descriptions for your domain-specific diagrams. How do you improve this?
 2. How do you evaluate multi-modal RAG quality?
@@ -577,7 +776,7 @@ class MultiModalIngestion:
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Skip images and tables" — misses critical content
 - No vision LLM for image understanding
@@ -585,9 +784,13 @@ class MultiModalIngestion:
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Production RAG completeness. Multi-modal handling separates good RAG systems from great ones. Using vision LLMs for diagram descriptions shows awareness of the full document intelligence pipeline.
+
+#### Design / Production Bridge
+
+Multimodal RAG fails when teams flatten every artifact into vague text. The deeper answer is to preserve both a searchable representation and the original modality so retrieval stays useful and the final answer stays verifiable.
 
 ---
 
@@ -612,13 +815,13 @@ Your company's data is in a SQL database (not documents). How do you build a nat
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Text-to-SQL RAG: (1) Store schema description (table names, column descriptions, relationships) as RAG context. (2) User asks natural language question → retrieve relevant table schemas → LLM generates SQL query. (3) Execute SQL safely (read-only, parameterized) → return results. (4) LLM formats results into natural language answer. Key challenges: SQL injection prevention, handling ambiguous queries, validating generated SQL.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 class TextToSQLRAG:
@@ -689,9 +892,43 @@ Provide a clear, natural language answer based on these results.
   - User question → LLM generates Cypher/SPARQL → execute on graph DB → format results
   - Better for "What are all products related to customer X's past orders?"
 
+- **This is really a routing problem, not just a retrieval problem:**
+    ```
+    natural-language question
+            -> classify intent
+                    -> document retrieval?
+                    -> SQL / API / graph tool?
+                    -> combined retrieval + tool call?
+    ```
+    Many bad systems force structured questions through document retrieval when they should be routed to a live query path.
+
+- **Schema retrieval is the equivalent of chunk retrieval:**
+    - You are retrieving the minimal schema, table relationships, and business definitions needed to write correct SQL.
+    - Over-retrieving schema hurts generation just like over-retrieving text chunks hurts normal RAG.
+
+- **Safety controls should be layered:**
+    | Control | Why it matters |
+    |--------|----------------|
+    | Read-only credentials | Prevent destructive queries |
+    | SQL allowlist / parser validation | Blocks unsafe or irrelevant statements |
+    | Row limits and timeouts | Prevent runaway cost and latency |
+    | Human review for risky domains | Adds guardrails for finance, healthcare, ops |
+
+- **Failure modes worth naming:**
+    - Correct SQL against the wrong table.
+    - Syntactically valid SQL with incorrect join logic.
+    - Ambiguous business definitions like "revenue" or "active user."
+    - Hallucinated columns because the schema retrieval step missed the relevant table.
+
+- **Best practice:** make the system show the generated query, the tables used, or a user-friendly explanation of how the answer was derived. Structured-data answers need provenance just as much as document RAG answers do.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Retrieve relevant schema descriptions, generate read-only SQL, validate it, and answer one natural-language question without embedding raw table rows as documents.
+
+#### Real Interviewer Follow-ups
 
 1. The LLM generates valid SQL but it returns wrong results. How do you debug this?
 2. How do you handle ambiguous column names across tables?
@@ -699,7 +936,7 @@ Provide a clear, natural language answer based on these results.
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Passes user input directly into SQL (SQL injection risk)
 - No SQL validation before execution
@@ -708,9 +945,13 @@ Provide a clear, natural language answer based on these results.
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 SQL injection awareness is critical. The candidate must validate generated SQL and use read-only connections. Understanding schema-as-context shows practical text-to-SQL knowledge.
+
+#### Design / Production Bridge
+
+Structured-data RAG is where weak retrieval thinking gets exposed. The strong answer recognizes that documents, schemas, tools, and live state are different knowledge surfaces and should not all be forced through the same retrieval path.
 
 ---
 
@@ -735,13 +976,13 @@ Implement a citation system where the RAG response includes inline citations lin
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Implementation: (1) Number each retrieved document in the prompt ([1], [2], [3]...). (2) Instruct LLM to cite using [N] format inline. (3) Post-process: extract citation markers, map to actual document IDs. (4) Verify: check that cited sources were actually in the context (no hallucinated citations). (5) Render: show citations as clickable links to source documents.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 def generate_with_citations(query, retrieved_docs, llm):
@@ -790,9 +1031,34 @@ Answer:"""
     }
 ```
 
+- **Good citation systems operate at claim granularity, not only answer granularity:**
+    - The answer should make it possible to map an individual factual statement back to the supporting chunk.
+    - Document-level citations alone are often too coarse for long policies or manuals.
+
+- **There are three different citation-quality problems:**
+    | Problem | Symptom | Fix |
+    |--------|---------|-----|
+    | Fake citation | Source ID was never retrieved | Validate IDs strictly |
+    | Weak citation | Source exists but does not support claim | Run support verification or snippet alignment |
+    | Coarse citation | Source is too broad to be useful | Preserve chunk/page/snippet references |
+
+- **Rendering matters for trust:**
+    - Show snippet text, source title, page/section, and a deep link where possible.
+    - Separate multiple sources when one answer is synthesized from several chunks.
+    - If verification fails, degrade gracefully instead of showing fabricated provenance.
+
+- **Compliance and product use cases:**
+    - Customer support: lets agents verify the KB source quickly.
+    - Legal / policy: supports audits and exception handling.
+    - Internal copilots: reduces blind trust in generated answers.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Return numbered citations linked to retrieved chunks, validate cited IDs against the actual retrieval set, and strip hallucinated citations before rendering the final answer.
+
+#### Real Interviewer Follow-ups
 
 1. The LLM adds citation [4] but only 3 sources were provided. How do you handle this?
 2. How do you verify that the cited source actually supports the claim?
@@ -800,7 +1066,7 @@ Answer:"""
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - No citation verification (allows hallucinated sources)
 - "The LLM will cite correctly" — it doesn't always
@@ -808,9 +1074,13 @@ Answer:"""
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Trustworthy AI output. Citation verification is where engineering meets responsible AI. The candidate should validate citations against actual sources.
+
+#### Design / Production Bridge
+
+Citations are not a cosmetic UI feature. They are the contract that turns "the model says so" into something a user, auditor, or support engineer can actually inspect.
 
 ---
 
@@ -835,13 +1105,13 @@ Your RAG system currently has 1.5s end-to-end latency. Product requires 500ms. W
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Latency breakdown and optimization: (1) Embedding (50ms → 10ms): use smaller/faster embedding model, batch encode, pre-compute frequent queries. (2) Vector search (10ms → 5ms): optimize index, use in-memory HNSW, reduce top_k. (3) Reranking (300ms → 0ms): remove reranker or use lightweight scorer, or do async reranking for next request. (4) LLM generation (1100ms → 400ms): use smaller model (8B instead of 70B), fewer context chunks, streaming. (5) Caching: cache frequent query results (semantic cache), cache embeddings for common terms.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 - **Latency budget analysis:**
   ```
@@ -876,9 +1146,37 @@ Latency breakdown and optimization: (1) Embedding (50ms → 10ms): use smaller/f
         └── Cache response (async, 0ms added)
   ```
 
+- **Optimize for p95 and p99, not only mean latency:**
+    - Retrieval systems often look fine on average and still fail UX due to tail spikes.
+    - Common tail causes: cold caches, overloaded rerankers, remote embedding APIs, large prompt packs, and noisy neighbors in shared inference.
+
+- **Latency optimization always has a quality cost surface:**
+    | Optimization | Typical gain | Common risk |
+    |-------------|--------------|-------------|
+    | Smaller embedding model | Faster query encoding | Lower retrieval recall |
+    | Lower top-k | Less ranking and prompt cost | Missed evidence |
+    | Remove reranker | Large latency win | Lower precision |
+    | Smaller generator | Faster decode | Worse synthesis and grounding |
+    | Caching | Huge speedups on repeats | Stale or over-general cached answers |
+
+- **Dynamic policies often outperform static ones:**
+    - Easy/FAQ-like queries can skip reranking.
+    - High-confidence cache hits can bypass generation.
+    - Hard multi-hop queries may justify extra latency.
+    This is usually better than forcing every request through the same slow path.
+
+- **A good answer should mention concurrency and deployment shape:**
+    - Co-locating reranker and retriever can reduce network hops.
+    - Remote embedding APIs may dominate latency more than vector search itself.
+    - Batchable stages and asynchronous prefetch can matter more than micro-optimizing ANN parameters.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Measure latency per stage, then remove or replace one expensive stage such as reranking while tracking the quality loss on a small evaluation set.
+
+#### Real Interviewer Follow-ups
 
 1. Removing the reranker hurts quality by 15%. Is the latency improvement worth it?
 2. How do you decide between a faster model (lower latency, lower quality) and a slower model?
@@ -886,7 +1184,7 @@ Latency breakdown and optimization: (1) Embedding (50ms → 10ms): use smaller/f
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Use a faster GPU" — doesn't address the architecture
 - Doesn't analyze latency per component
@@ -895,9 +1193,13 @@ Latency breakdown and optimization: (1) Embedding (50ms → 10ms): use smaller/f
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Performance engineering mindset. The candidate should break down latency by component and optimize each systematically, understanding the quality vs latency trade-off at each step.
+
+#### Design / Production Bridge
+
+Fast RAG is not about one trick. It is about deciding which stages deserve latency, which can be gated, and where quality loss is acceptable for the product surface you are serving.
 
 ---
 
@@ -922,13 +1224,13 @@ You're launching a new RAG application. How do you build the initial evaluation 
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Building eval dataset: (1) Seed from real user questions (support tickets, search logs). (2) For each question, human annotates: expected answer, relevant document(s), required chunks. (3) Include edge cases: out-of-scope questions, multi-document answers, ambiguous queries. (4) Size: 200+ examples for initial, grow to 500+ over time. Continuous improvement: run eval suite on every change (prompt, model, config), track metrics over time, add every production failure as new eval case.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 # Eval dataset structure
@@ -981,9 +1283,45 @@ def evaluate_rag(pipeline, eval_dataset):
   Week 8: Switched embedding model, recall 0.88; eval set now 300 examples
   ```
 
+- **A useful eval set is intentionally diverse, not merely large:**
+    | Slice | Why it belongs |
+    |------|----------------|
+    | High-frequency common asks | Protects core UX |
+    | Long-tail domain questions | Exposes vocabulary and retrieval weaknesses |
+    | No-answer queries | Tests abstention behavior |
+    | Multi-document questions | Tests synthesis and context packing |
+    | Adversarial / ambiguous queries | Tests robustness |
+
+- **Where examples should come from:**
+    - Real support tickets, search logs, docs feedback, analyst queries, incident reviews.
+    - Synthetic QA generation can help bootstrap, but it should not dominate the dataset because it often mirrors the source document too cleanly.
+
+- **Regression workflow should be explicit:**
+    ```
+    change retrieval/prompt/model
+            -> run offline eval
+            -> compare per-slice deltas
+            -> inspect regressions manually
+            -> decide ship / hold / shadow test
+    ```
+
+- **Production feedback loop:**
+    - Every serious failure becomes a new eval case.
+    - Repeated near-misses often reveal missing slices rather than one-off bugs.
+    - Evaluation ownership should be part of the product lifecycle, not a one-time setup task.
+
+- **Scoring nuance:**
+    - Some questions have multiple acceptable answers.
+    - Some require partial credit for retrieval or groundedness.
+    - Pure exact-match answer grading is often too brittle for RAG systems.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Create 25 labeled questions with relevant chunk IDs and reference answers, then run the evaluation automatically after any retrieval, prompt, or model change.
+
+#### Real Interviewer Follow-ups
 
 1. How do you handle evaluation for questions with no correct answer in the knowledge base?
 2. How do you automate eval dataset creation (LLM-generated QA pairs)?
@@ -991,7 +1329,7 @@ def evaluate_rag(pipeline, eval_dataset):
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - "Test manually with a few examples" — not systematic
 - No ground truth annotation
@@ -999,9 +1337,13 @@ def evaluate_rag(pipeline, eval_dataset):
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Evaluation-driven development. The candidate should describe a flywheel where production failures feed back into the eval dataset, enabling continuous improvement.
+
+#### Design / Production Bridge
+
+RAG teams that do not maintain an eval set end up arguing from anecdotes. The stronger answer treats evaluation as the control system for retrieval, prompting, ranking, and rollout decisions.
 
 ---
 
@@ -1026,13 +1368,13 @@ In a multi-turn conversation, the user asks "What's their revenue?" after previo
 
 ---
 
-**Expected Answer (Short)**
+#### Design Answer
 
 Query reformulation using conversation context: (1) Before retrieval, use LLM to reformulate the query by resolving references: "What's their revenue?" → "What is Apple's revenue?" (2) Use the reformulated query (not the raw query) for retrieval. (3) Include conversation summary in the system prompt for generation. Implementation: lightweight LLM call to decontextualize the query before retrieval.
 
 ---
 
-**Deep Answer**
+#### Implementation Notes
 
 ```python
 class ConversationalRAG:
@@ -1084,9 +1426,48 @@ Standalone question:""")
 
 - **Cost consideration:** The reformulation adds one LLM call per turn. Use a small/fast model (8B or GPT-3.5-turbo) for reformulation — it doesn't need to be the same model as generation.
 
+- **Conversational RAG has three separate state problems:**
+    | State type | Purpose | Failure if mishandled |
+    |-----------|---------|-----------------------|
+    | Dialogue state | Resolve pronouns and references | Query becomes ambiguous |
+    | Retrieval state | Keep or discard prior evidence | Old evidence pollutes new turns |
+    | Memory / summary state | Preserve long-running context compactly | Context window grows uncontrollably |
+
+- **Query reformulation is necessary, but not always sufficient:**
+    - For follow-up questions, decontextualization is usually the first fix.
+    - For topic drift, you may need to explicitly drop prior retrieval state.
+    - For long conversations, summarization or structured memory becomes necessary before retrieval quality collapses.
+
+- **Useful design decisions to surface:**
+    - How many prior turns influence reformulation?
+    - Should prior retrieved chunks be reused or always refreshed?
+    - When do you summarize history versus keeping raw turns?
+    - How do you detect that the user has changed topic entirely?
+
+- **Common production failure modes:**
+    - Reformulation injects wrong entities from earlier turns.
+    - The system over-carries stale retrieved documents into unrelated follow-ups.
+    - Long histories blow the token budget and bury the current intent.
+    - The answer reflects conversation memory, but retrieval was based on a weaker or mismatched query.
+
+- **Practical pattern:**
+    ```
+    new user turn
+            -> detect whether it is standalone or referential
+            -> reformulate if needed
+            -> retrieve fresh evidence
+            -> optionally merge with still-relevant prior evidence
+            -> update conversation summary / memory
+    ```
+    The key principle is that retrieval should stay grounded in the current turn, not blindly inherit all previous context.
+
 ---
 
-**Follow-up Questions**
+#### Scoped Build
+
+Add query reformulation for follow-up questions and compare retrieval quality with and without decontextualization across a short multi-turn conversation set.
+
+#### Real Interviewer Follow-ups
 
 1. The reformulation sometimes adds incorrect context. How do you handle this?
 2. How do you manage the growing conversation history in terms of token budget?
@@ -1094,7 +1475,7 @@ Standalone question:""")
 
 ---
 
-**Common Weak Answers / Red Flags**
+#### Weak Answer Signals
 
 - Uses raw user message for retrieval (ignores context)
 - "Just pass the full conversation history to the embedding model" — too long, poor embedding quality
@@ -1102,6 +1483,10 @@ Standalone question:""")
 
 ---
 
-**Interviewer Evaluation Signal**
+#### Interviewer Signal
 
 Multi-turn engineering. Query reformulation is the key technique for conversational RAG. Candidates who describe this pattern show they've built real conversational systems.
+
+#### Design / Production Bridge
+
+Single-turn RAG answers questions. Conversational RAG has to manage state. The deeper answer is about deciding what to remember, what to retrieve again, and when prior context has become a liability.

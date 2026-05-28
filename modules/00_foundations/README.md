@@ -6,14 +6,24 @@
 **Prerequisite modules:** None
 **Unlocks:** All other modules
 
-## Levels
+## How To Use This Module
 
-| Level | File | Focus | Questions |
+Read Foundations in interview order, not as a flat theory chapter:
+
+```text
+Basic screen -> Concept depth -> Design bridge -> Practical build -> Real follow-ups
+```
+
+## File Map
+
+| File | Primary interview use | Focus | Questions |
 |-------|------|-------|-----------|
-| Concept | [concept.md](concept.md) | Definitions, first principles, mathematical intuitions | ~7 |
-| Applied | [applied.md](applied.md) | Choosing techniques, practical reasoning | ~14 |
-| System | [system.md](system.md) | How foundational decisions affect scale | ~8 |
-| Debugging | [debugging.md](debugging.md) | Training failures traced to data/math issues | ~5 |
+| [concept.md](concept.md) | Basic screen + core concepts | Definitions, first principles, mathematical intuitions, and build-drill hooks | ~7 |
+| [applied.md](applied.md) | Design + practical build | Choosing techniques, practical reasoning, and scoped implementation tasks | ~14 |
+| [system.md](system.md) | Design at scale | How foundational decisions affect scale, reliability, and performance | ~8 |
+| [debugging.md](debugging.md) | Real follow-ups when things break | Training failures traced to data/math issues and recovery logic | ~5 |
+
+If you are early-career, finish `concept.md` first and actually do the build drills. If you are mid-level or above, move quickly from `concept.md` into `applied.md` and `system.md` because interviewers will.
 
 ## Key Topics
 
